@@ -1,0 +1,165 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1024" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>Silk Road</title>
+
+    <meta name="description" content="impress.js is a presentation tool based on the power of CSS3 transforms and transitions in modern browsers and inspired by the idea behind prezi.com." />
+    <meta name="author" content="Bartek Szopka" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
+
+
+    <link href="css/impress-demo.css" rel="stylesheet" />
+
+    <link rel="shortcut icon" href="favicon.png" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+</head>
+
+
+<body class="impress-not-supported">
+
+
+<div class="fallback-message">
+    <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
+    <p>For the best experience please use the latest <b>Chrome</b>, <b>Safari</b> or <b>Firefox</b> browser.</p>
+</div>
+
+
+<div id="impress">
+
+    <div id="map" class="step slide" data-x="4200" data-y='1500' data-z='1500'>
+        <div class="63471 lg_image object_1">
+          <img src="images/bed-curtain.png" alt="Bed Curtain with wildlife embroidery" />
+        </div>
+        <div class="1944 lg_image object_2">
+          <img src="images/dutch-portrait.png" alt="Portrait of a young Dutch girl holding a japanese fan" />
+        </div>
+        <div class="119343 lg_image object_3">
+          <img src="images/indian-textile-panel.png" alt="indian textile panel with floral pattern" />
+        </div>
+        <div class="1322 lg_image object_4">
+          <img src="images/greek-amphora.png" alt="Greek Amphora" />
+        </div>
+        <div class="63471 sm_image object_5">
+          <img src="images/potosi.png" alt="Bed Curtain with wildlife embroidery" />
+        </div>
+        <div class="63471 sm_image object_6">
+          <img src="images/morosina.png" alt="Bed Curtain with wildlife embroidery" />
+        </div>
+    </div>
+
+    <div id="bed_curtain" class="step slide" data-x="4900" data-y='1500' data-z='100'>
+      <div class="63471 zoom_image">
+        <img src="images/bed-curtain.png" alt="Bed Curtain with wildlife embroidery" />
+        <div class="embriodery tag tag_1">
+          <p>
+            Embroidery
+          </p>
+        </div>
+        <div class="red tag tag_2">
+          <p>
+            Red
+          </p>
+        </div>
+        <div class="wildlife tag tag_3">
+          <p>
+            Wildlife
+          </p>
+        </div>
+        <div class="info">
+          <i class="material-icons">info outline</i>
+        </div>
+      </div>
+    </div>
+
+    <div id="similar" class="step slide" data-x="5200" data-y='3500' data-z='1500'>
+      <div class="63471 med_image object_red1">
+        <img src="images/bed-curtain.png" alt="Bed Curtain with wildlife embroidery" />
+        <div class="embriodery tag tag_red1">
+          <p>
+            Embroidery
+          </p>
+        </div>
+        <div class="red tag tag_red2">
+          <p>
+            Red
+          </p>
+        </div>
+        <div class="wildlife tag tag_red3">
+          <p>
+            Wildlife
+          </p>
+        </div>
+        <div class="info_small">
+          <i class="material-icons">info outline</i>
+        </div>
+      </div>
+
+        <div class="119343 med_image object_red2">
+          <img src="images/indian-textile-panel.png" alt="indian textile panel with floral pattern" />
+          <div class="embriodery tag tag_red1">
+            <p>
+              Woven
+            </p>
+          </div>
+          <div class="red tag tag_red2">
+            <p>
+              Red
+            </p>
+          </div>
+          <div class="wildlife tag tag_red3">
+            <p>
+              Floral
+            </p>
+          </div>
+          <div class="info_small">
+            <i class="material-icons">info outline</i>
+          </div>
+        </div>
+        <div class="63471 med_image object_red3">
+          <img src="images/morosina.png" alt="Bed Curtain with wildlife embroidery" />
+          <div class="embriodery tag tag_red1">
+            <p>
+              Painting
+            </p>
+          </div>
+          <div class="red tag tag_red2">
+            <p>
+              Red
+            </p>
+          </div>
+          <div class="wildlife tag tag_red3">
+            <p>
+              Portrait
+            </p>
+          </div>
+          <div class="info_small">
+            <i class="material-icons">info outline</i>
+          </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="hint">
+    <p>Use a spacebar or arrow keys to navigate</p>
+</div>
+<script>
+if ("ontouchstart" in document.documentElement) {
+    document.querySelector(".hint").innerHTML = "<p>Tap on the left or right to navigate</p>";
+}
+</script>
+
+
+<script src="js/impress.js"></script>
+<script>impress().init();</script>
+
+
+
+</body>
+</html>

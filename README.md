@@ -132,3 +132,4 @@ Also note that iOS supports `classList` and `dataset` APIs starting with version
 requires polyfills to work.
 
 Copyright 2011-2016 Bartek Szopka - Released under the MIT [License](LICENSE)
+# IMLS_Maps project beginning prototype

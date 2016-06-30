@@ -85,13 +85,7 @@ body {
     font-family: 'PT Sans', sans-serif;
     min-height: 740px;
 
-    background: rgb(215, 215, 215);
-    background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 500, from(rgb(240, 240, 240)), to(rgb(190, 190, 190)));
-    background: -webkit-radial-gradient(rgb(240, 240, 240), rgb(190, 190, 190));
-    background:    -moz-radial-gradient(rgb(240, 240, 240), rgb(190, 190, 190));
-    background:     -ms-radial-gradient(rgb(240, 240, 240), rgb(190, 190, 190));
-    background:      -o-radial-gradient(rgb(240, 240, 240), rgb(190, 190, 190));
-    background:         radial-gradient(rgb(240, 240, 240), rgb(190, 190, 190));
+
 }
 
 /*
@@ -108,7 +102,6 @@ a {
     text-decoration: none;
     padding: 0 0.1em;
     background: rgba(255,255,255,0.5);
-    text-shadow: -1px -1px 2px rgba(100,100,100,0.9);
     border-radius: 0.2em;
 
     -webkit-transition: 0.5s;
@@ -121,7 +114,6 @@ a {
 a:hover,
 a:focus {
     background: rgba(255,255,255,1);
-    text-shadow: -1px -1px 2px rgba(100,100,100,0.5);
 }
 
 /*
@@ -209,17 +201,13 @@ a:focus {
 .slide {
     display: block;
 
-    width: 900px;
+    width: 1024px;
     height: 700px;
     padding: 40px 60px;
 
     background-color: white;
-    border: 1px solid rgba(0, 0, 0, .3);
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
 
     color: rgb(102, 102, 102);
-    text-shadow: 0 2px 2px rgba(0, 0, 0, .1);
 
     font-family: 'Open Sans', Arial, sans-serif;
     font-size: 30px;
@@ -701,3 +689,148 @@ a:focus {
     Thanks for reading. I hope you enjoyed it at least as much as I enjoyed writing it
     for you.
 */
+
+.lg_image {
+  width: 250px;
+  height: 250px;
+  display: inline-block;
+}
+.lg_image img  {
+  width: 100%;
+}
+.sm_image {
+  width: 100px;
+  height: 100px;
+  display: inline-block;
+}
+.sm_image img  {
+  width: 100%;
+}
+.med_image {
+  width: 150px;
+  height: 150px;
+  display: inline-block;
+}
+.med_image img  {
+  width: 100%;
+}
+.object_1 {
+  position:fixed;
+  top: 50px;
+  left: 100px;
+}
+.object_2 {
+  position:fixed;
+  top: 450px;
+  left: 150px;
+}
+.object_3 {
+  position:fixed;
+  top: 350px;
+  left: 460px;
+}
+.object_4 {
+  position:fixed;
+  top: 30px;
+  left: 740px;
+}
+.object_5 {
+  position:fixed;
+  top: 500px;
+  left: 770px;
+}
+.object_6 {
+  position:fixed;
+  top: 90px;
+  left: 540px;
+}
+.zoom_image {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  display: inline-block;
+}
+.zoom_image img {
+  width: 100%;
+}
+.info  {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px 25px;
+  position: absolute;
+  top: 400px;
+  left: 130px;
+  text-align: center;
+    }
+.material-icons {
+  font-size: 1.5em;
+  color: white;
+}
+.tag  {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px 25px;
+  background: #232323;
+}
+.tag p {
+  padding-left: 55px;
+}
+.tag_1 {
+    position: absolute;
+    top: 20px;
+    left: 450px;
+}
+.tag_2 {
+    position: absolute;
+    top: 80px;
+    left: 500px;
+}
+.tag_3 {
+    position: absolute;
+    top: 150px;
+    left: 530px;
+}
+.object_red1 {
+  position: absolute;
+  top: 150px;
+  left: 50px;
+}
+.object_red2 {
+  position: absolute;
+  top: 50px;
+  left: 530px;
+}
+.object_red3 {
+  position: absolute;
+  top: 500px;
+  left: 480px;
+}
+.tag_red1 {
+    position: absolute;
+    top: 0px;
+    left: 120px;
+    opacity: .5;
+}
+.tag_red2 {
+    position: absolute;
+    top: 60px;
+    left: 130px;
+}
+.tag_red3 {
+    position: absolute;
+    top: 120px;
+    left: 105px;
+    opacity: .5;
+}
+.info_small  {
+  width: 30px;
+  height: 30px;
+  border-radius: 15px 15px;
+  position: absolute;
+  top: 100px;
+  left: 30px;
+  text-align: center;
+    }
+.info_small .material-icons {
+    font-size: 1em;
+}
