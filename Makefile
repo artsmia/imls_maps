@@ -9,3 +9,26 @@ redis:
 		| perl -pe 's/([^ ]+) ([^ ]+) ([^ ]+)/\2 \1 \3/'; \
 	done | tail -n+2); \
 	redis-cli geoadd all $$arguments
+
+artworks:
+	@csvgrep -c2,3,5 --regex '^$$' -i map-locations.csv  \
+	| csvgrep -c12 --regex '^$$' -i \
+	| csvcut -c12,13,14 \
+	| csvjson \
+	| jq -c 'map({ \
+		id: .["Object ID"], \
+		coords: (.["Map Coordinates"] | split(", ") | reverse), \
+		location: (.Location | gsub("\"|[|]"; ""; "g")), \
+		related: {label:"", ids: []}, \
+		next: {label:"", ids: []} \
+	})[]' \
+	| while read json; do \
+		file=objects/$$(jq -r '.id' <<<$$json).md; \
+		if [[ -f $$file ]]; then \
+			existingContent=$$(pandoc --to markdown $$file); \
+		else \
+			existingContent=''; \
+		fi; \
+		echo "$$(json2yaml <<<$$json)\n---\n$$existingContent" \
+		> $$file; \
+	done
