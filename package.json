@@ -1,0 +1,24 @@
+{
+  "name": "imls_maps",
+  "version": "0.0.1",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "serve": "node src/server.js",
+    "build": "node src/index.js > objects.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/artsmia/imls_maps.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/artsmia/imls_maps/issues"
+  },
+  "homepage": "https://github.com/artsmia/imls_maps#readme",
+  "dependencies": {
+    "glob-fs": "0.1.6",
+    "markdown-to-json-with-content": "0.0.3"
+  }
+}
