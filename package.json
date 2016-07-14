@@ -19,6 +19,8 @@
   "homepage": "https://github.com/artsmia/imls_maps#readme",
   "dependencies": {
     "glob-fs": "0.1.6",
-    "markdown-to-json-with-content": "0.0.3"
+    "markdown-to-json-with-content": "0.0.3",
+    "remark": "5.0.1",
+    "remark-html": "5.0.0"
   }
 }

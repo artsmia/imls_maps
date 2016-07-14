@@ -1,3 +1,6 @@
+var remark = require('remark')
+var remarkHtml = require('remark-html')
+
 var map = L.map('map')
 
 var layer = Tangram.leafletLayer({
@@ -25,9 +28,29 @@ function loadMappedArtworks(callback) {
   xhr('objects.json', callback)
 }
 
+function imageUrl(id) {
+  return "http://"+id%7+".api.artsmia.org/"+id+".jpg"
+}
+
 function buildCenteredRoundImage(art) {
-  var id = art.id
-  return "<span style='background-image: url(http://"+id%7+".api.artsmia.org/"+id+".jpg);'></span>"
+  var id = art.meta.id
+  var hasContent = art.__content.trim().length > 2
+
+  return "<span " +
+  "style='background-image: url("+imageUrl(id)+");'" +
+  (hasContent ? "class='hasContent'" : "") +
+  "></span>"
+}
+
+function buildPopup(art) {
+  var meta = art.meta
+  var processedContent = remark().use(remarkHtml).process(art.__content)
+
+  return '<div>' +
+    '<h2>'+meta.title+'</h2>' +
+    '<img src="'+imageUrl(meta.id)+'"/>' +
+    '<div>'+processedContent+'</div>' +
+  '</div>'
 }
 
 loadMappedArtworks(function(json) {
@@ -45,7 +68,7 @@ loadMappedArtworks(function(json) {
       var icon = json.image !== 'valid' ?
         L.Icon.Default() :
         L.divIcon({
-          html: buildCenteredRoundImage(json),
+          html: buildCenteredRoundImage(art),
         })
 
       if(art.coords && art.coords.length > 0) {
@@ -55,6 +78,7 @@ loadMappedArtworks(function(json) {
         })
 
         marker.addTo(map)
+        marker.bindPopup(buildPopup(art))
       }
     })
   })
