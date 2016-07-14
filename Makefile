@@ -32,3 +32,8 @@ artworks:
 		echo "$$(json2yaml <<<$$json)\n---\n$$existingContent" \
 		> $$file; \
 	done
+
+server = dx
+deploy:
+	sed "s/__VECTOR_TILES_KEY__/$$mapzenVectorTilesKey/" scene.yaml | sponge scene.yaml
+	rsync -avz index.html bundle.js objects.json scene.yaml $(server):/apps/cdn/imls-maps/
