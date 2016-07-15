@@ -1,5 +1,5 @@
 map-locations.csv:
-	curl -o map-locations.csv 'https://docs.google.com/spreadsheets/d/1eWfVC9ubBSEKIiBE3c4yv4hlE3OQe1A36TxwM4tDNAQ/export?format=csv'
+	curl --silent -o map-locations.csv 'https://docs.google.com/spreadsheets/d/15uiHw8kkK09mMRPfYizYzE0ZpUK4bx3BYcNVHPr0ZfQ/export?format=csv'
 
 redis:
 	@redis-cli del all
@@ -10,7 +10,7 @@ redis:
 	done | tail -n+2); \
 	redis-cli geoadd all $$arguments
 
-artworks:
+artworks: map-locations.csv
 	@csvgrep -c2,3,5 --regex '^$$' -i map-locations.csv  \
 	| csvgrep -c12 --regex '^$$' -i \
 	| csvcut -c12,13,14 \
