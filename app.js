@@ -2,6 +2,7 @@ var remark = require('remark')
 var remarkHtml = require('remark-html')
 
 var map = L.map('map')
+var markers = {}
 
 var layer = Tangram.leafletLayer({
   scene: 'scene.yaml',
@@ -42,14 +43,28 @@ function buildCenteredRoundImage(art) {
   "></span>"
 }
 
+function changePopup(id) {
+  var marker = api.markers[id]
+  marker ? marker.openPopup() : console.info('link to object ', id)
+}
+
 function buildPopup(art) {
   var meta = art.meta
   var processedContent = remark().use(remarkHtml).process(art.__content)
+  var associatedObjects = [art.related, art.next].map(function(group) {
+    return '<div class="more">' +
+      '<h3>'+group.label+'</h3>' +
+      group.ids.map(function(id) {
+        return '<img onclick="api.changePopup('+id+')" src="'+imageUrl(id)+'"/>'
+      }).join('\n') +
+    '</div>'
+  })
 
   return '<div>' +
     '<h2>'+meta.title+'</h2>' +
     '<img src="'+imageUrl(meta.id)+'"/>' +
     '<div>'+processedContent+'</div>' +
+    associatedObjects +
   '</div>'
 }
 
@@ -78,8 +93,17 @@ loadMappedArtworks(function(json) {
         })
 
         marker.addTo(map)
-        marker.bindPopup(buildPopup(art))
+        marker.bindPopup(buildPopup(art), {
+          maxWidth: '700',
+        })
+        markers[art.meta.id] = marker
       }
     })
   })
 })
+
+window.api = {
+  map: map,
+  markers: markers,
+  changePopup: changePopup,
+}
