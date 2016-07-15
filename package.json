@@ -8,7 +8,7 @@
     "watch": "watchify app.js -o bundle.js -dv",
     "serveJson": "node src/server.js",
     "start": "npm run watch & npm run serve",
-    "setup": "make map-locations.csv; npm run build",
+    "setup": "make artworks; npm run build",
     "build": "node src/index.js > objects.json"
   },
   "repository": {
@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "http-server": "0.9.0",
+    "markdown-to-json": "0.4.2",
     "watchify": "3.7.0"
   }
 }
