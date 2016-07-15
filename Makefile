@@ -1,3 +1,5 @@
+SHELL := bash
+
 map-locations.csv:
 	curl --silent -o map-locations.csv 'https://docs.google.com/spreadsheets/d/15uiHw8kkK09mMRPfYizYzE0ZpUK4bx3BYcNVHPr0ZfQ/export?format=csv'
 
@@ -10,6 +12,9 @@ redis:
 	done | tail -n+2); \
 	redis-cli geoadd all $$arguments
 
+# gem install json2yaml
+# brew install pandoc jq
+# npm install markdown-to-json
 artworks: map-locations.csv
 	@csvgrep -c2,3,5 --regex '^$$' -i map-locations.csv  \
 	| csvgrep -c12 --regex '^$$' -i \
@@ -24,12 +29,18 @@ artworks: map-locations.csv
 	})[]' \
 	| while read json; do \
 		file=objects/$$(jq -r '.id' <<<$$json).md; \
+		echo $$file; \
 		if [[ -f $$file ]]; then \
-			existingContent=$$(pandoc --to markdown $$file); \
+			existingContent=$$(pandoc --no-wrap --to markdown $$file); \
 		else \
 			existingContent=''; \
 		fi; \
-		echo "$$(json2yaml <<<$$json)\n---\n$$existingContent" \
+		mergedMeta=$$(jq -s 'add' \
+			<(echo $$json) \
+			<(m2j $$file | jq '.[] | del(.basename, .preview, .location, .coords, .id)') \
+		| json2yaml); \
+		echo -e "$$mergedMeta\n---\n\n$$existingContent" \
+		| cat -s \
 		> $$file; \
 	done
 
