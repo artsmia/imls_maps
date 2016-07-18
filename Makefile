@@ -16,16 +16,18 @@ redis:
 # brew install pandoc jq
 # npm install markdown-to-json
 artworks: map-locations.csv
-	@csvgrep -c2,3,5 --regex '^$$' -i map-locations.csv  \
+	@csvgrep -c2,3,4,5,6,7,8,9 --regex '^$$' -i map-locations.csv  \
 	| csvgrep -c12 --regex '^$$' -i \
-	| csvcut -c12,13,14 \
+	| csvgrep -c13 --regex '^$$' -i \
+	| csvcut -c2,3,4,5,6,7,8,9,12,13,14 \
 	| csvjson \
 	| jq -c 'map({ \
 		id: .["Object ID"], \
 		coords: (.["Map Coordinates"] | split(", ") | reverse), \
 		location: (.Location | gsub("\"|[|]"; ""; "g")), \
 		related: {label:"", ids: []}, \
-		next: {label:"", ids: []} \
+		next: {label:"", ids: []}, \
+		threads: (. | to_entries | map(select(.value == "1")) | map(.key)) \
 	})[]' \
 	| while read json; do \
 		file=objects/$$(jq -r '.id' <<<$$json).md; \
@@ -37,7 +39,7 @@ artworks: map-locations.csv
 		fi; \
 		mergedMeta=$$(jq -s 'add' \
 			<(echo $$json) \
-			<(m2j $$file | jq '.[] | del(.basename, .preview, .location, .coords, .id)') \
+			<(m2j $$file | jq '.[] | del(.basename, .preview, .location, .coords, .id, .threads)') \
 		| json2yaml); \
 		echo -e "$$mergedMeta\n---\n\n$$existingContent" \
 		| cat -s \

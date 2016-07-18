@@ -68,7 +68,33 @@ function buildPopup(art) {
   '</div>'
 }
 
+function buildLayerGroups(json) {
+  var threads = new Set(
+    Object.keys(json)
+    .filter(function(id) { return !!json[id].coords })
+    .map(function(id) { return json[id].threads })
+    .reduce(function(a, b) { return a.concat(b) }) // flatten
+    .filter(function(v) { return !!v })
+  )
+
+  return Array.from(threads)
+  .reduce(function(groups, thread) {
+    console.info(groups, thread)
+    groups[thread] = L.layerGroup()
+    return groups
+  }, {})
+}
+
+var layerGroups = {
+  'All': L.layerGroup(),
+}
+
+layerGroups['All'].addTo(map)
+
 loadMappedArtworks(function(json) {
+  layerGroups = Object.assign(layerGroups, buildLayerGroups(json))
+  L.control.layers(layerGroups).addTo(map)
+
   // put leaflet markers on the map for each artwork
   // TODO: load metadata in one go and zip it with map content (/ids/<ids.join(',')> instead of /id/<id>)
   Object.keys(json).map(function(key) {
@@ -92,11 +118,19 @@ loadMappedArtworks(function(json) {
           icon: icon,
         })
 
-        marker.addTo(map)
         marker.bindPopup(buildPopup(art), {
           maxWidth: '700',
         })
         markers[art.meta.id] = marker
+
+        layerGroups['All'].addLayer(marker)
+        if(art.threads) {
+          art.threads.forEach(function(thread) {
+            var group = layerGroups[thread] || L.layerGroup()
+            group.addLayer(marker)
+            if(!layerGroups[thread]) { layerGroups[thread] = group }
+          })
+        }
       }
     })
   })
@@ -106,4 +140,5 @@ window.api = {
   map: map,
   markers: markers,
   changePopup: changePopup,
+  layerGroups: layerGroups,
 }
