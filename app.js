@@ -136,6 +136,11 @@ loadMappedArtworks(function(json) {
   })
 })
 
+map.on('baselayerchange', function(e) {
+  var bounds = L.geoJson(e.layer.toGeoJSON()).getBounds()
+  map.fitBounds(bounds.pad(0.5))
+})
+
 window.api = {
   map: map,
   markers: markers,
