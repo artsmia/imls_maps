@@ -137,8 +137,9 @@ loadMappedArtworks(function(json) {
 })
 
 map.on('baselayerchange', function(e) {
-  var bounds = L.geoJson(e.layer.toGeoJSON()).getBounds()
-  map.fitBounds(bounds.pad(0.5))
+  var bounds = L.geoJson(e.layer.toGeoJSON()).getBounds().pad(0.5)
+  var nextMove = map._getBoundsCenterZoom(bounds, {});
+  map.flyTo(nextMove.center, nextMove.zoom)
 })
 
 window.api = {
