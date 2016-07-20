@@ -79,7 +79,6 @@ function buildLayerGroups(json) {
 
   return Array.from(threads)
   .reduce(function(groups, thread) {
-    console.info(groups, thread)
     groups[thread] = L.layerGroup()
     return groups
   }, {})
@@ -96,18 +95,22 @@ loadMappedArtworks(function(json) {
   L.control.layers(layerGroups).addTo(map)
 
   // put leaflet markers on the map for each artwork
-  // TODO: load metadata in one go and zip it with map content (/ids/<ids.join(',')> instead of /id/<id>)
-  Object.keys(json).map(function(key) {
-    var art = json[key]
-    var id = art.basename
-    xhr('http://search.artsmia.org/id/'+id, function(json) {
-      art.meta = json
-      var w = json.image_width
-      var h = json.image_height
+  var objectIds = Object.keys(json)
+  xhr('http://search.artsmia.org/ids/'+objectIds.join(','), function(artJson) {
+    var artworks = artJson.hits.hits.forEach(function(artworkMeta) {
+      var id = artworkMeta._id
+      json[id].meta = artworkMeta._source
+    })
+
+    objectIds.map(function(key) {
+      var art = json[key]
+      var id = art.basename
+      var w = art.meta.image_width
+      var h = art.meta.image_height
       var r = w/h
 
-      var icon = json.image !== 'valid' ?
-        L.Icon.Default() :
+      var icon = art.meta.image !== 'valid' ?
+        L.divIcon({html: '<span class="noImage"></span>'}) :
         L.divIcon({
           html: buildCenteredRoundImage(art),
         })
