@@ -12,6 +12,7 @@
         margin: 0px;
         border: 0px;
         padding: 0px;
+        font-size: 60%;
       }
 
       #map {
@@ -41,9 +42,21 @@
       }
 
       .leaflet-popup-content img {
-        max-width: 100%;
+        max-width: 15em;
+        max-height: 15em;
       }
 
+      div.more {
+        float: left;
+      }
+      div.more + div.more {
+        float: right;
+      }
+      div.more + hr {
+        display: block;
+        visibility: hidden;
+        clear: both;
+      }
       div.more img {
         max-width: 7em;
       }

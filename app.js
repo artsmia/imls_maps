@@ -58,7 +58,7 @@ function buildPopup(art) {
         return '<img onclick="api.changePopup('+id+')" src="'+imageUrl(id)+'"/>'
       }).join('\n') +
     '</div>'
-  })
+  }) + '<hr />'
 
   return '<div>' +
     '<h2>'+meta.title+'</h2>' +
