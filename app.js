@@ -59,7 +59,7 @@ function buildPopup(art) {
         return '<img onclick="api.changePopup('+id+')" src="'+imageUrl(id)+'"/>'
       }).join('\n') +
     '</div>'
-  }) + '<hr />'
+  }).join('\n') + '<hr />'
 
   return '<div>' +
     '<h2>'+meta.title+'</h2>' +
@@ -139,11 +139,21 @@ loadMappedArtworks(function(json) {
         }
       }
     })
+
+    var globalMaxBounds = getPaddedBoundsFromLayer(layerGroups['All'], 0.25)
+    var nextMove = map._getBoundsCenterZoom(globalMaxBounds)
+    map.flyTo(nextMove.center, nextMove.zoom)
   })
 })
 
+function getPaddedBoundsFromLayer(layer, pad) {
+  return L.geoJson(layer.toGeoJSON())
+  .getBounds()
+  .pad(pad)
+}
+
 map.on('baselayerchange', function(e) {
-  var bounds = L.geoJson(e.layer.toGeoJSON()).getBounds().pad(0.5)
+  var bounds = getPaddedBoundsFromLayer(e.layer, 0.25)
   var nextMove = map._getBoundsCenterZoom(bounds, {});
   map.flyTo(nextMove.center, nextMove.zoom)
 })
