@@ -69,6 +69,10 @@ function buildPopup(art) {
   '</div>'
 }
 
+var useMarkerClusters = true
+if(useMarkerClusters) map.setMaxZoom(16)
+var buildMarkerGroup = useMarkerClusters ? L.markerClusterGroup : L.layerGroup
+
 function buildLayerGroups(json) {
   var threads = new Set(
     Object.keys(json)
@@ -80,13 +84,13 @@ function buildLayerGroups(json) {
 
   return Array.from(threads)
   .reduce(function(groups, thread) {
-    groups[thread] = L.layerGroup()
+    groups[thread] = buildMarkerGroup()
     return groups
   }, {})
 }
 
 var layerGroups = {
-  'All': L.layerGroup(),
+  'All': buildMarkerGroup(),
 }
 
 layerGroups['All'].addTo(map)
@@ -132,7 +136,7 @@ loadMappedArtworks(function(json) {
         layerGroups['All'].addLayer(marker)
         if(art.threads) {
           art.threads.forEach(function(thread) {
-            var group = layerGroups[thread] || L.layerGroup()
+            var group = layerGroups[thread] || buildMarkerGroup()
             group.addLayer(marker)
             if(!layerGroups[thread]) { layerGroups[thread] = group }
           })
