@@ -1,7 +1,8 @@
 var remark = require('remark')
 var remarkHtml = require('remark-html')
 
-var map = L.map('map')
+var map = L.map('map', {zoomControl: false})
+L.control.zoom({position: 'bottomleft'}).addTo(map)
 var markers = {}
 
 var layer = Tangram.leafletLayer({
@@ -92,7 +93,9 @@ layerGroups['All'].addTo(map)
 
 loadMappedArtworks(function(json) {
   layerGroups = Object.assign(layerGroups, buildLayerGroups(json))
-  L.control.layers(layerGroups).addTo(map)
+  L.control.layers(layerGroups)
+  .setPosition('bottomright')
+  .addTo(map)
 
   // put leaflet markers on the map for each artwork
   var objectIds = Object.keys(json)
