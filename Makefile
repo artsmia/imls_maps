@@ -46,7 +46,8 @@ artworks: map-locations.csv
 		> $$file; \
 	done
 
-server = dx
+server = $$deployServer
+location = $$deployLocation
 deploy:
 	sed "s/__VECTOR_TILES_KEY__/$$mapzenVectorTilesKey/" scene.yaml | sponge scene.yaml
-	rsync -avz index.html bundle.js objects.json scene.yaml $(server):/apps/cdn/imls-maps/
+	rsync -avz index.html bundle.js objects.json scene.yaml $(server):$(location)
