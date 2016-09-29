@@ -1,8 +1,10 @@
 SHELL := bash
 
+# Pull objects from a custom google doc built by the Maps team
 map-locations.csv:
 	curl --silent -o map-locations.csv 'https://docs.google.com/spreadsheets/d/15uiHw8kkK09mMRPfYizYzE0ZpUK4bx3BYcNVHPr0ZfQ/export?format=csv'
 
+# Add locations to redis - not currently used
 redis:
 	@redis-cli del all
 	@arguments=$$(csvcut -c13,12 map-locations.csv | grep -v '^,' | grep -v '20.103334' | while read line; do \
@@ -12,6 +14,10 @@ redis:
 	done | tail -n+2); \
 	redis-cli geoadd all $$arguments
 
+# Convert the spreadsheet of artworks, info and coordinates
+# to a set of markdown files in `objects/`, named by object id
+#
+# Requires:
 # gem install json2yaml
 # brew install pandoc jq
 # npm install markdown-to-json
@@ -45,6 +51,12 @@ artworks: map-locations.csv
 		| cat -s \
 		> $$file; \
 	done
+
+build:
+	browserify app.js -o bundle.js --debug
+
+watch:
+	watchify app.js -o bundle.js --debug
 
 server = $$deployServer
 location = $$deployLocation
