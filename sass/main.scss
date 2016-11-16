@@ -1,0 +1,179 @@
+@import "reset.scss";
+@import "brand-colors.scss";
+@import "mia-font.scss";
+
+$MiaGroteskBold: 'MiaGrotesk-Bold', sans-serif;
+$MiaGroteskBoldItalic: 'MiaGrotesk-BoldItalic', sans-serif;
+$MiaGroteskItalic: 'MiaGrotesk-Italic', sans-serif;
+$MiaGroteskLight: 'MiaGrotesk-Light', sans-serif;
+$MiaGroteskLightItalic: 'MiaGrotesk-LightItalic', sans-serif;
+$MiaGroteskRegular: 'MiaGrotesk-Regular', sans-serif;
+$MiaGroteskBlack: 'MiaGrotesk-Black', sans-serif;
+$MiaGroteskRlackItalic: 'MiaGrotesk-BlackItalic', sans-serif;
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+body{
+    font-family: $MiaGroteskLight;
+    font-weight: 400;
+    color:$primary;
+    margin: 0;
+    line-height:1em;
+    font-size:1em;
+}
+.map_wrapper {
+  width: 70%;
+  height: 79%;
+  position: absolute;
+  top:14em;
+  left: 0;
+}
+#map_tint {
+  width: 70%;
+  height: 79%;
+  position: absolute;
+  top:14em;
+  left: 0;
+  z-index: 10000;
+}
+#map {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left:0;
+  top: 0;
+}
+.sidebar {
+  height: 100%;
+  position: absolute;
+  right:0;
+  top: 14em;
+  width: 30%;
+}
+.header {
+  min-height: 14em;
+  background: $primary;
+  z-index: 1000;
+  position: relative;
+}
+.left_header {
+  color: white;
+  width: 70%;
+  float:left;
+  padding: 3em;
+}
+.left_header h1 {
+  font-family: $MiaGroteskLight;
+  font-size: 3.5em;
+  line-height: 1.2em;
+}
+.left_header h1 span {
+  font-family: $MiaGroteskBlack;
+}
+.right_header {
+  color: white;
+  width: 30%;
+  float:right;
+  position: relative;
+}
+.right_header .arrow {
+  color: white;
+  width: 40%;
+  float:left;
+  position: relative;
+  padding-top: 2em;
+}
+.arrow .material-icons {
+  font-size: 11em;
+  font-weight: 900;
+}
+.right_header .instruction {
+  color: white;
+  width: 60%;
+  float:right;
+  position: relative;
+  padding-top: 3em;
+}
+.right_header h2 {
+  font-family: $MiaGroteskLight;
+  font-size: 2.5em;
+  line-height: 1.2em;
+}
+.right_header h2 span {
+  font-family: $MiaGroteskBlack;
+}
+.leaflet-div-icon {
+  background: none !important;
+  border: none !important;
+}
+.leaflet-div-icon span {
+  width: 66px;
+  height: 66px;
+  display: block;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 100px;
+  background-position: 50%;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+}
+span.hasContent {
+  border: 3px solid rgba(222, 111, 35, 0.9);
+}
+.leaflet-popup-content img {
+  max-width: 15em;
+  max-height: 15em;
+}
+div.more {
+  float: left;
+}
+div.more + div.more {
+  float: right;
+}
+div.more + hr {
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+div.more img {
+  max-width: 7em;
+}
+div.theme {
+  padding: 2.5em 3em;
+  border-top: 1px solid $primary;
+  border-bottom: 1px solid $primary;
+  cursor: pointer;
+}
+div.theme h3 {
+  font-family: $MiaGroteskBlack;
+  font-size:1.5em;
+}
+div.silk_road {
+  border-left: 2em solid $silkroad;
+}
+div.cochineal {
+  border-left: 2em solid $cochineal;
+}
+div.blue_white {
+  border-left: 2em solid $bluewhite;
+}
+div.buddhism {
+  border-left: 2em solid $buddhism;
+}
+div.macaws {
+  border-left: 2em solid $macaw;
+}
+div.triangle_trade {
+  border-left: 2em solid $triangle;
+}
+div.china_trade {
+  border-left: 2em solid $china;
+}
+div.islam {
+  border-left: 2em solid $islam;
+}

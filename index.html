@@ -6,69 +6,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Mia Map Prototype</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0-rc.2/leaflet.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    <link rel="stylesheet" href="sass/main.css" />
 
-    <style>
-      body {
-        margin: 0px;
-        border: 0px;
-        padding: 0px;
-        font-size: 60%;
-      }
-
-      #map {
-        height: 100%;
-        width: 100%;
-        position: absolute;
-      }
-
-      .leaflet-div-icon {
-        background: none !important;
-        border: none !important;
-      }
-
-      .leaflet-div-icon span {
-        width: 66px;
-        height: 66px;
-        display: block;
-        background-size: cover;
-        background-repeat: no-repeat;
-        border-radius: 100px;
-        background-position: 50%;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
-      }
-
-      span.hasContent {
-        border: 3px solid rgba(222, 111, 35, 0.9);
-      }
-
-      .leaflet-popup-content img {
-        max-width: 15em;
-        max-height: 15em;
-      }
-
-      div.more {
-        float: left;
-      }
-      div.more + div.more {
-        float: right;
-      }
-      div.more + hr {
-        display: block;
-        visibility: hidden;
-        clear: both;
-      }
-      div.more img {
-        max-width: 7em;
-      }
-    </style>
   </head>
 
   <body>
-    <div id="map"></div>
-
+    <div class="header">
+      <div class="left_header">
+        <h1><span>Explore</span> Mia's Global Collection <br>through World History</h1>
+      </div>
+      <div class="right_header">
+        <div class="arrow">
+          <i class="material-icons">arrow_downward</i>
+        </div>
+        <div class="instruction">
+          <h2><span>Select</span> a topic below to begin your journey.</h2>
+        </div>
+      </div>
+    </div>
+    <div class="map_wrapper">
+      <div id="map"></div>
+    </div>
+    <div class="sidebar">
+      <div class="theme silk_road" onclick="ui.colorOverlay">
+        <h3>Silk Road</h3>
+      </div>
+      <div class="theme cochineal" onclick="ui.colorOverlay">
+        <h3>Cochineal</h3>
+      </div>
+      <div class="theme blue_white" onclick="ui.colorOverlay">
+        <h3>Blue and White</h3>
+      </div>
+      <div class="theme buddhism" onclick="ui.colorOverlay">
+        <h3>Buddhism</h3>
+      </div>
+      <div class="theme macaws" onclick="ui.colorOverlay(api.layerGroups['Macaws'])">
+        <h3>Macaws</h3>
+      </div>
+      <div class="theme triangle_trade" onclick="ui.colorOverlay">
+        <h3>Triangle Trade</h3>
+      </div>
+      <div class="theme china_trade" onclick="ui.colorOverlay">
+        <h3>China Trade</h3>
+      </div>
+      <div class="theme islam" onclick="ui.colorOverlay">
+        <h3>Islam</h3>
+      </div>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0-rc.2/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-hash/0.2.1/leaflet-hash.min.js"></script>
     <script src="https://mapzen.com/tangram/0.8/tangram.min.js"></script>
     <script src="bundle.js"></script>
+
   </body>
 </html>
