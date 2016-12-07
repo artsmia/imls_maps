@@ -162,25 +162,25 @@ loadMappedArtworks(function(json) {
           var thread = recentMatchingThread || firstThread
           console.info('picked', thread, 'from threads', art.threads)
 
-          document.querySelector("#object").innerHTML = '<div>' +
-          '<div class="thread_header" style="background-color: '+api.threadColors[thread]+' !important"><h2>'+thread+'</h2>' +
-          '<div class="close" onclick="api.uiActions.closeObject()"><i class="material-icons">clear</i></div>' +
-          '</div>' +
-          '<div class="object_sidebar">' +
-            '<div class="image_wrapper"><img src="'+imageUrl(art.meta.id)+'"/></div>' +
-            '<div class="object_content">'+
-              '<h2>'+art.meta.title+', <span class="dated">'+art.meta.dated+'</span></h2>' +
-              '<p>'+art.meta.artist+'</p>'+
-              '<p>'+art.meta.medium+'</p>'+
-              '<p>Located in '+art.meta.room+'</p>'+
-              '<div class="narrative"><p>'+art.__content+'</p></div>'+
-            '</div>'+
-            '<hr style="clear: both" /><ul class="threads">' + art.threads.map(thread => {
+          document.querySelector("#object").innerHTML = `<div>
+          <div class="thread_header" style="background-color: ${api.threadColors[thread]} !important"><h2>${thread}</h2>
+          <div class="close" onclick="api.uiActions.closeObject()"><i class="material-icons">clear</i></div>
+          </div>
+          <div class="object_sidebar">
+            <div class="image_wrapper"><img src="${imageUrl(art.meta.id)}"/></div>
+            <div class="object_content">
+              <h2>${art.meta.title}, <span class="dated">${art.meta.dated}</span></h2>
+              <p>${art.meta.artist}</p>
+              <p>${art.meta.medium}</p>
+              <p>Located in ${art.meta.room}</p>
+              <div class="narrative"><p>${art.__content}</p></div>
+            </div>
+            <hr style="clear: both" /><ul class="threads">${art.threads.map(thread => {
               return `<li style="background: ${api.threadColors[thread]}" onclick="api.uiActions.groupSelected('${thread}')">${thread}</li>`
-            }).join('') + '</ul>' +
-          '</div>' +
-          '</div>'
-            }
+            }).join('')}</ul>
+          </div>
+          </div>`
+        }
           function leftHeaderOpen(){
             document.querySelector("#header .left_header").innerHTML = '<div>' +
             '<div class="next">' +
