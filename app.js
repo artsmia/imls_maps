@@ -156,8 +156,11 @@ loadMappedArtworks(function(json) {
           leftHeaderOpen();
           rightHeaderOpen();
           map.flyTo(e.latlng, 8);
+
+          var firstThread = art.threads[0]
+
           document.querySelector("#object").innerHTML = '<div>' +
-          '<div class="thread_header"><h2>Silk Road</h2>' +
+          '<div class="thread_header" style="background-color: '+api.threadColors[firstThread]+' !important"><h2>'+firstThread+'</h2>' +
           '<div class="close" onclick="api.uiActions.closeObject()"><i class="material-icons">clear</i></div>' +
           '</div>' +
           '<div class="object_sidebar">' +
@@ -220,18 +223,8 @@ map.on('baselayerchange', function(e) {
 
 var uiActions = {
     groupSelected: function (thread) {
-
       var group = layerGroups[thread] || L.layerGroup()
-
-      var SilkRoad = "#ffff00";
-      var Cochineal =  "#ff3145";
-      var BlueWhite =  "#007aff";
-      var Buddhism = "#00ff01";
-      var TriTrade = "#00ffff";
-      var ChinaTrade = "#ffb400";
-      var Islam = "#7956b4";
-      var color = eval(thread.replace( / |&|-/g, ""));
-
+      var color = api.threadColors[thread]
       api.colorTintLayer.setStyle({color: color})
 
       //layerGroups[thread].addTo(map)
@@ -273,4 +266,13 @@ window.api = {
   layerGroups: layerGroups,
   uiActions: uiActions,
   colorTintLayer: colorTintLayer,
+  threadColors: {
+    'Silk Road': "#ffff00",
+    'Cochineal':  "#ff3145",
+    'Blue & White':  "#007aff",
+    'Buddhism': "#00ff01",
+    'Tri-Trade': "#00ffff",
+    'China Trade': "#ffb400",
+    'Islam': "#7956b4",
+  },
 }
