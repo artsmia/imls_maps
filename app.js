@@ -158,9 +158,12 @@ loadMappedArtworks(function(json) {
           map.flyTo(e.latlng, 8);
 
           var firstThread = art.threads[0]
+          var recentMatchingThread = art.threads.find(t => t == api.lastActiveThread)
+          var thread = recentMatchingThread || firstThread
+          console.info('picked', thread, 'from threads', art.threads)
 
           document.querySelector("#object").innerHTML = '<div>' +
-          '<div class="thread_header" style="background-color: '+api.threadColors[firstThread]+' !important"><h2>'+firstThread+'</h2>' +
+          '<div class="thread_header" style="background-color: '+api.threadColors[thread]+' !important"><h2>'+thread+'</h2>' +
           '<div class="close" onclick="api.uiActions.closeObject()"><i class="material-icons">clear</i></div>' +
           '</div>' +
           '<div class="object_sidebar">' +
@@ -223,6 +226,7 @@ map.on('baselayerchange', function(e) {
 
 var uiActions = {
     groupSelected: function (thread) {
+      api.lastActiveThread = thread
       var group = layerGroups[thread] || L.layerGroup()
       var color = api.threadColors[thread]
       api.colorTintLayer.setStyle({color: color})
@@ -275,4 +279,5 @@ window.api = {
     'China Trade': "#ffb400",
     'Islam': "#7956b4",
   },
+  lastActiveThread: false,
 }
