@@ -9,10 +9,12 @@ var layer = Tangram.leafletLayer({
   scene: 'scene_terrain.yaml',
   attribution: '<a href="https://mapzen.com/tangram" target="_blank">Tangram</a> | &copy; OSM contributors | <a href="https://mapzen.com/" target="_blank">Mapzen</a>'
 })
-
 layer.addTo(map)
 
 map.setView([44.95833, -93.27434], 2)
+
+var colorTintLayer = new L.rectangle([[85, -180],[-85, 180]], {color: 'transparent'})
+map.addLayer(colorTintLayer)
 
 var hash = new L.Hash(map)
 
@@ -229,17 +231,15 @@ var uiActions = {
       var ChinaTrade = "#ffb400";
       var Islam = "#7956b4";
       var color = eval(thread.replace( / |&|-/g, ""));
-      var color_tint = new L.rectangle([[85, -180],[-85, 180]], {color: color})
-      map.removeLayer(color_tint)
+
+      api.colorTintLayer.setStyle({color: color})
 
       //layerGroups[thread].addTo(map)
       Object.keys(layerGroups).map(function(layer){
         if (layer == thread){
           map.addLayer(group)
-          map.addLayer(color_tint);
         } else {
           map.removeLayer(layerGroups[layer])
-
         }
       })
   },
@@ -272,4 +272,5 @@ window.api = {
   changePopup: changePopup,
   layerGroups: layerGroups,
   uiActions: uiActions,
+  colorTintLayer: colorTintLayer,
 }
