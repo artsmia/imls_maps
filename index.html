@@ -13,7 +13,7 @@
   </head>
 
   <body>
-    <div class="header">
+    <div id="header" class="header">
       <div class="left_header">
         <h1><span>Explore</span> Mia's Global Collection <br>through World History</h1>
       </div>
@@ -26,32 +26,31 @@
         </div>
       </div>
     </div>
+    <div id="object">
+    </div>
     <div class="map_wrapper">
       <div id="map"></div>
     </div>
     <div class="sidebar">
-      <div class="theme silk_road" onclick="ui.colorOverlay">
+      <div class="theme silk_road" onclick="api.uiActions.groupSelected('Silk Road');">
         <h3>Silk Road</h3>
       </div>
-      <div class="theme cochineal" onclick="ui.colorOverlay">
+      <div class="theme cochineal" onclick="api.uiActions.groupSelected('Cochineal');">
         <h3>Cochineal</h3>
       </div>
-      <div class="theme blue_white" onclick="ui.colorOverlay">
+      <div class="theme blue_white" onclick="api.uiActions.groupSelected('Blue & White');">
         <h3>Blue and White</h3>
       </div>
-      <div class="theme buddhism" onclick="ui.colorOverlay">
+      <div class="theme buddhism" onclick="api.uiActions.groupSelected('Buddhism');">
         <h3>Buddhism</h3>
       </div>
-      <div class="theme macaws" onclick="ui.colorOverlay(api.layerGroups['Macaws'])">
-        <h3>Macaws</h3>
-      </div>
-      <div class="theme triangle_trade" onclick="ui.colorOverlay">
+      <div class="theme triangle_trade" onclick="api.uiActions.groupSelected('Tri-Trade');">
         <h3>Triangle Trade</h3>
       </div>
-      <div class="theme china_trade" onclick="ui.colorOverlay">
+      <div class="theme china_trade" onclick="api.uiActions.groupSelected('China Trade');">
         <h3>China Trade</h3>
       </div>
-      <div class="theme islam" onclick="ui.colorOverlay">
+      <div class="theme islam" onclick="api.uiActions.groupSelected('Islam');">
         <h3>Islam</h3>
       </div>
     </div>
@@ -59,6 +58,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-hash/0.2.1/leaflet-hash.min.js"></script>
     <script src="https://mapzen.com/tangram/0.8/tangram.min.js"></script>
     <script src="bundle.js"></script>
-
+    <script type="text/javascript">
+      function changeLayerGroup(group){
+        console.log(group);
+        var mapOverlay = document.querySelector(".map_tint");
+        mapOverlay.className =(group);
+      }
+    </script>
   </body>
 </html>

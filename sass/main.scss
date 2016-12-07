@@ -34,13 +34,14 @@ body{
   top:14em;
   left: 0;
 }
-#map_tint {
-  width: 70%;
-  height: 79%;
+#object > div {
+  height: 100%;
+  width: 50%;
   position: absolute;
-  top:14em;
-  left: 0;
-  z-index: 10000;
+  top: 0;
+  right:0;
+  background: #ffffff;
+  z-index:1001;
 }
 #map {
   height: 100%;
@@ -176,4 +177,58 @@ div.china_trade {
 }
 div.islam {
   border-left: 2em solid $islam;
+}
+.object_sidebar {
+  padding: 1em;
+}
+.thread_header {
+  width: 100%;
+  height: 5em;
+  background: $silkroad;
+  color:$primary;
+  padding: 1em;
+  position: relative;
+}
+.object_content{
+  width: 49%;
+  float:right;
+  margin-left:1%;
+  border-top: 4px solid $primary;
+  padding-top: 7px;
+}
+.image_wrapper {
+  width:49%;
+  float: left;
+  margin-right:1%;
+}
+.image_wrapper img {
+  width: 100%;
+}
+.object_content h2, .thread_header h2{
+    font-family: $MiaGroteskBlack;
+    font-size:2em;
+    color: $primary;
+    line-height: 1.5em;
+}
+.object_content p{
+    font-size:1em;
+    line-height:1.1em;
+    margin-top: .5em;
+    padding:0;
+    margin-bottom: 0;
+}
+span.dated{
+  font-family: $MiaGroteskRegular;
+}
+.narrative p {
+  font-size:1em;
+  line-height:1.1em;
+  margin-top: .5em;
+  padding:0;
+  margin-bottom: 0;
+}
+.close{
+  position: absolute;
+  right: 1em;
+  top: 1em;
 }
