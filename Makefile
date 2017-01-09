@@ -54,12 +54,15 @@ artworks: map-locations.csv
 
 build:
 	browserify app.js -o bundle.js --debug
+	sassc -lm sass/main.scss sass/main.css
 
 watch:
-	watchify app.js -o bundle.js --debug
+	watchify app.js -o bundle.js --debug &
+	rewatch sass/* -c 'sassc -lm sass/main.scss sass/main.css' &
 
 server = $$deployServer
 location = $$deployLocation
 deploy:
 	sed "s/__VECTOR_TILES_KEY__/$$mapzenVectorTilesKey/" scene.yaml | sponge scene.yaml
-	rsync -avz index.html bundle.js objects.json scene.yaml $(server):$(location)
+	scp index.html bundle.js objects.json scene.yaml scene_terrain.yaml $(server):$(location)
+	scp sass/main.css $(server):$(location)/sass/
