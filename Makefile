@@ -2,7 +2,7 @@ SHELL := bash
 
 # Pull objects from a custom google doc built by the Maps team
 map-locations.csv:
-	curl --silent -o map-locations.csv 'https://docs.google.com/spreadsheets/d/15uiHw8kkK09mMRPfYizYzE0ZpUK4bx3BYcNVHPr0ZfQ/export?format=csv'
+	curl --silent -o map-locations.csv 'https://docs.google.com/spreadsheets/d/16_696FhwbifLh7jGycKBEwQkdIGgzZZ2VzqilXzriv0/export?format=csv'
 
 # Add locations to redis - not currently used
 redis:
@@ -22,35 +22,36 @@ redis:
 # brew install pandoc jq
 # npm install markdown-to-json
 artworks: map-locations.csv
-	@csvgrep -c2,3,4,5,6,7,8,9 --regex '^$$' -i map-locations.csv  \
-	| csvgrep -c12 --regex '^$$' -i \
-	| csvgrep -c13 --regex '^$$' -i \
-	| csvcut -c2,3,4,5,6,7,8,9,12,13,14 \
+	@tail -n+2 map-locations.csv \
+  | csvgrep -c2,3,4,5,6,7,8 --regex '^$$' -i \
+	| csvgrep -c17,18,19 --regex '^$$' -i \
+	| csvgrep -c11 --regex '^$$' -i \
+	| csvcut -c2,3,4,5,6,7,8,11,17,18,19 \
 	| csvjson \
 	| jq -c 'map({ \
-		id: .["Object ID"], \
+		id: .["Primary Object ID"], \
 		coords: (.["Map Coordinates"] | split(", ") | reverse), \
-		location: (.Location | gsub("\"|[|]"; ""; "g")), \
-		related: {label:"", ids: []}, \
-		next: {label:"", ids: []}, \
-		threads: (. | to_entries | map(select(.value == "1")) | map(.key)) \
+		threads: (. | to_entries | map(select(.value == true)) | map(.key)) \
 	})[]' \
 	| while read json; do \
 		file=objects/$$(jq -r '.id' <<<$$json).md; \
 		echo $$file; \
 		if [[ -f $$file ]]; then \
-			existingContent=$$(pandoc --no-wrap --to markdown $$file); \
+			existingContent=$$(pandoc --wrap=none --to markdown $$file); \
 		else \
 			existingContent=''; \
 		fi; \
 		mergedMeta=$$(jq -s 'add' \
 			<(echo $$json) \
-			<(m2j $$file | jq '.[] | del(.basename, .preview, .location, .coords, .id, .threads)') \
+			<(m2j $$file | jq '.[] | del(.basename, .preview, .coords, .id, .threads)') \
 		| json2yaml); \
 		echo -e "$$mergedMeta\n---\n\n$$existingContent" \
 		| cat -s \
 		> $$file; \
-	done
+  done
+
+objects.json:
+	m2j objects/* | jq -c '.' > objects.json
 
 build:
 	browserify app.js -o bundle.js --debug
