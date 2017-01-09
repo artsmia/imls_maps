@@ -278,7 +278,7 @@ window.api = {
     'Cochineal':  "#ff3145",
     'Blue & White':  "#007aff",
     'Buddhism': "#00ff01",
-    'Tri-Trade': "#00ffff",
+    'Triangle Trade': "#00ffff",
     'China Trade': "#ffb400",
     'Islam': "#7956b4",
   },
