@@ -67,3 +67,11 @@ deploy:
 	sed "s/__VECTOR_TILES_KEY__/$$mapzenVectorTilesKey/" scene.yaml | sponge scene.yaml
 	scp index.html bundle.js objects.json scene.yaml scene_terrain.yaml $(server):$(location)
 	scp sass/main.css $(server):$(location)/sass/
+
+install:
+	which csvgrep || pip install csvkit
+	which json2yaml || gem install json2yaml
+	which m2j || npm install -g markdown-to-json
+	which pandoc || brew install pandoc
+	which jq || brew install jq
+	which watchify || npm i -g watchify
