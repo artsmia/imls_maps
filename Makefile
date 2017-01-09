@@ -51,7 +51,7 @@ artworks: map-locations.csv
   done
 
 objects.json:
-	m2j objects/* | jq -c '.' > objects.json
+	m2j objects/*.md | jq -c '.' > objects.json
 
 build:
 	browserify app.js -o bundle.js --debug
