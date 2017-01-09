@@ -38,7 +38,7 @@ function imageUrl(id) {
 
 function buildCenteredRoundImage(art) {
   var id = art.meta.id
-  var hasContent = art.__content.trim().length > 2
+  var hasContent = art.__content && art.__content.trim().length > 2
 
   return "<span " +
   "style='background-image: url("+imageUrl(id)+");'" +
@@ -278,7 +278,7 @@ window.api = {
     'Cochineal':  "#ff3145",
     'Blue & White':  "#007aff",
     'Buddhism': "#00ff01",
-    'Tri-Trade': "#00ffff",
+    'Triangle Trade': "#00ffff",
     'China Trade': "#ffb400",
     'Islam': "#7956b4",
   },
