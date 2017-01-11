@@ -36,7 +36,7 @@ body{
 }
 #object > div {
   height: 100%;
-  width: 50%;
+  width: 60%;
   position: absolute;
   top: 0;
   right:0;
@@ -115,14 +115,19 @@ body{
   border: none !important;
 }
 .leaflet-div-icon span {
+  width: 20px;
+  height: 20px;
+  display: block;
+  border-radius: 20px;
+}
+.leaflet-div-icon span.large_marker {
   width: 66px;
   height: 66px;
   display: block;
-  background-size: cover;
-  background-repeat: no-repeat;
   border-radius: 100px;
-  background-position: 50%;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 span.hasContent {
   border: 3px solid rgba(222, 111, 35, 0.9);
@@ -191,27 +196,35 @@ div.chinoiserie {
   position: relative;
 }
 .object_content{
-  width: 49%;
+  width: 46%;
   float:right;
-  margin-left:1%;
+  margin:0 3% 0 1%;
   border-top: 4px solid $primary;
   padding-top: 7px;
 }
 .image_wrapper {
-  width:49%;
+  width:46%;
   float: left;
-  margin-right:1%;
+  margin:0 1% 0 3%;
 }
 .image_wrapper img {
   width: 100%;
 }
-.object_content h2, .thread_header h2{
+ .thread_header h2{
     font-family: $MiaGroteskBlack;
     font-size:2em;
     color: $primary;
     line-height: 1.5em;
 }
-.object_content p{
+.object_sidebar h2{
+  font-family: $MiaGroteskBold;
+  font-size:1.5em;
+  line-height:1.1em;
+  margin-top: .5em;
+  padding:0;
+  margin-bottom: 0;
+}
+.image_wrapper p{
     font-size:1em;
     line-height:1.1em;
     margin-top: .5em;
@@ -222,16 +235,29 @@ span.dated{
   font-family: $MiaGroteskRegular;
 }
 .narrative p {
-  font-size:1em;
-  line-height:1.1em;
+  font-size:1.2em;
+  line-height:1.3em;
   margin-top: .5em;
   padding:0;
   margin-bottom: 0;
 }
 .close{
   position: absolute;
+  right: 2em;
+  bottom: 2em;
+}
+.close .material-icons, .next .material-icons, .prev .material-icons {
+  font-size: 3em;
+}
+.next{
+  position: absolute;
   right: 1em;
-  top: 1em;
+  top: 80%;
+}
+.prev{
+  position: absolute;
+  left: 1em;
+  top: 80%;
 }
 
 ul.threads {

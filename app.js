@@ -6,15 +6,12 @@ L.control.zoom({position: 'topright'}).addTo(map)
 var markers = {}
 
 var layer = Tangram.leafletLayer({
-  scene: 'scene_terrain.yaml',
+  scene: 'scene.yaml',
   attribution: '<a href="https://mapzen.com/tangram" target="_blank">Tangram</a> | &copy; OSM contributors | <a href="https://mapzen.com/" target="_blank">Mapzen</a>'
 })
 layer.addTo(map)
 
 map.setView([44.95833, -93.27434], 2)
-
-var colorTintLayer = new L.rectangle([[85, -180],[-85, 180]], {color: 'transparent'})
-map.addLayer(colorTintLayer)
 
 var hash = new L.Hash(map)
 
@@ -41,9 +38,16 @@ function buildCenteredRoundImage(art) {
   var hasContent = art.__content && art.__content.trim().length > 2
 
   return "<span " +
+  "class='large_marker' " +
   "style='background-image: url("+imageUrl(id)+");'" +
   (hasContent ? "class='hasContent'" : "") +
   "></span>"
+}
+function buildColoredDotMarker(art) {
+  var id = art.meta.id
+  //var hasContent = art.__content && art.__content.trim().length > 2
+  var dot_color = api.threadColors[art.threads[0]]
+  return "<span style='background-color: "+dot_color+";'></span>"
 }
 
 function changePopup(id) {
@@ -138,24 +142,27 @@ loadMappedArtworks(function(json) {
       var h = art.meta.image_height
       var r = w/h
 
-      var icon = art.meta.image !== 'valid' ?
-        L.divIcon({html: '<span class="noImage"></span>'}) :
+      var dot =
         L.divIcon({
-          html: buildCenteredRoundImage(art),
+          html: buildColoredDotMarker(art),
         })
+        var icon =
+          L.divIcon({
+            html: buildCenteredRoundImage(art),
+          })
 
       if(art.coords && art.coords.length > 0) {
         var marker = L.marker(art.coords.reverse(), {
           title: art.meta.title,
-          icon: icon,
+          icon: dot,
         })
-
         marker.on('click', objectDetail);
         function objectDetail(e) {
+          marker.setIcon(icon);
           console.log(art);
           leftHeaderOpen();
-          rightHeaderOpen();
-          map.flyTo(e.latlng, 8);
+          //rightHeaderOpen();
+          map.flyTo(e.latlng, 7);
 
           var firstThread = art.threads[0]
           var recentMatchingThread = art.threads.find(t => t == api.lastActiveThread)
@@ -164,29 +171,26 @@ loadMappedArtworks(function(json) {
 
           document.querySelector("#object").innerHTML = `<div>
           <div class="thread_header" style="background-color: ${api.threadColors[thread]} !important"><h2>${thread}</h2>
-          <div class="close" onclick="api.uiActions.closeObject()"><i class="material-icons">clear</i></div>
           </div>
+          <div class="close" onclick="api.uiActions.closeObject()"><i class="material-icons">home</i></div>
+          <div class="next" onclick="api.uiActions.nextObject()"><i class="material-icons">arrow_forward</i></div>
+          <div class="prev" onclick="api.uiActions.prevObject()"><i class="material-icons">arrow_back</i></div>
           <div class="object_sidebar">
-            <div class="image_wrapper"><img src="${imageUrl(art.meta.id)}"/></div>
-            <div class="object_content">
+            <div class="image_wrapper"><img src="${imageUrl(art.meta.id)}"/>
               <h2>${art.meta.title}, <span class="dated">${art.meta.dated}</span></h2>
               <p>${art.meta.artist}</p>
               <p>${art.meta.medium}</p>
-              <p>Located in ${art.meta.room}</p>
+              <p><i class="material-icons">room</i> Located in ${art.meta.room}</p>
+            </div>
+            <div class="object_content">
+              <h2>Headline Placeholder</h2>
               <div class="narrative"><p>${art.__content}</p></div>
             </div>
-            <hr style="clear: both" /><ul class="threads">${art.threads.map(thread => {
-              return `<li style="background: ${api.threadColors[thread]}" onclick="api.uiActions.groupSelected('${thread}')">${thread}</li>`
-            }).join('')}</ul>
           </div>
           </div>`
         }
           function leftHeaderOpen(){
-            document.querySelector("#header .left_header").innerHTML = '<div>' +
-            '<div class="next">' +
-            '<h2>Explore More...</h2>' +
-              '</div>' +
-            '</div>'
+            document.querySelector("#header .left_header").innerHTML = ''
           }
           function rightHeaderOpen(){
             document.querySelector("#header .right_header").innerHTML = '<div>' +
@@ -212,6 +216,7 @@ loadMappedArtworks(function(json) {
     var nextMove = map._getBoundsCenterZoom(globalMaxBounds)
     map.flyTo(nextMove.center, nextMove.zoom)
   })
+
 })
 
 function getPaddedBoundsFromLayer(layer, pad) {
@@ -232,7 +237,6 @@ var uiActions = {
       api.lastActiveThread = thread
       var group = layerGroups[thread] || L.layerGroup()
       var color = api.threadColors[thread]
-      api.colorTintLayer.setStyle({color: color})
 
       //layerGroups[thread].addTo(map)
       Object.keys(layerGroups).map(function(layer){
@@ -272,7 +276,6 @@ window.api = {
   changePopup: changePopup,
   layerGroups: layerGroups,
   uiActions: uiActions,
-  colorTintLayer: colorTintLayer,
   threadColors: {
     'Silk Road': "#ffff00",
     'Cochineal':  "#ff3145",
