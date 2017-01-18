@@ -31,7 +31,8 @@ artworks: map-locations.csv
 	| jq -c 'map({ \
 		id: .["Primary Object ID"], \
 		coords: (.["Map Coordinates"] | split(", ") | reverse), \
-		threads: (. | to_entries | map(select(.value == true)) | map(.key)) \
+		threads: (. | to_entries | del(.[7,8,9,10]) | map(select(.value != null)) | map(.key)), \
+		content: (. | to_entries | del(.[7,8,9,10]) | map(select(.value != null and .value != true and .value != "1")) | from_entries ) \
 	})[]' \
 	| while read json; do \
 		file=objects/$$(jq -r '.id' <<<$$json).md; \
@@ -41,14 +42,18 @@ artworks: map-locations.csv
 		else \
 			existingContent=''; \
 		fi; \
+		newContent=$$(jq -r '.content | to_entries | map("## \(.key)\n\n\(.value)") | join("\n\n")' <<<$$json); \
 		mergedMeta=$$(jq -s 'add' \
-			<(echo $$json) \
+			<(jq 'del(.content)' <<<$$json) \
 			<(m2j $$file | jq '.[] | del(.basename, .preview, .coords, .id, .threads)') \
 		| json2yaml); \
 		echo -e "$$mergedMeta\n---\n\n$$existingContent" \
 		| cat -s \
 		> $$file; \
-  done
+		echo -e "$$json" | jq -r '.content | to_entries | map("## \(.key)\n\n\(.value)") | join("\n\n")' >> $$file; \
+  done; \
+	perl -pi -e 's/\\n/\n/g' objects/*.md
+	remark objects/*.md -o
 
 objects.json:
 	m2j objects/*.md | jq -c '.' > objects.json
@@ -64,14 +69,13 @@ watch:
 server = $$deployServer
 location = $$deployLocation
 deploy:
-	sed "s/__VECTOR_TILES_KEY__/$$mapzenVectorTilesKey/" scene.yaml | sponge scene.yaml
 	scp index.html bundle.js objects.json scene.yaml scene_terrain.yaml $(server):$(location)
-	scp sass/main.css $(server):$(location)/sass/
+	scp sass/main.css $(server):$(location)/sass
 
 install:
 	which csvgrep || pip install csvkit
 	which json2yaml || gem install json2yaml
-	which m2j || npm install -g markdown-to-json
+	which m2j || npm install -g markdown-to-json-with-content
 	which pandoc || brew install pandoc
 	which jq || brew install jq
 	which watchify || npm i -g watchify
