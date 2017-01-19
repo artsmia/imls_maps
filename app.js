@@ -62,7 +62,23 @@ function changePopup(id) {
   var marker = api.markers[id]
   marker ? marker.openPopup() : console.info('link to object ', id)
 }
+
+function leftHeaderOpen(){
+  document.querySelector("#header .left_header").innerHTML = ''
+}
+function rightHeaderOpen(){
+  document.querySelector("#header .right_header").innerHTML = '<div>' +
+    '<div class="next">' +
+    '<h2>Enter Content here</h2>' +
+    '</div>' +
+    '</div>'
+}
+
 function changeDisplay(art){
+  art.marker.setIcon(art.icon);
+  leftHeaderOpen();
+  api.map.panToOffset(art.marker._latlng, [-200, 0]);
+
   var firstThread = art.threads[0]
   var recentMatchingThread = art.threads.find(t => t == api.lastActiveThread)
   var thread = recentMatchingThread || firstThread
@@ -92,7 +108,6 @@ function changeDisplay(art){
     </div>
   </div>
   </div>`
-
 }
 
 function buildArtDetail(art) {
@@ -207,27 +222,13 @@ loadMappedArtworks(function(json) {
           title: art.meta.title,
           icon: dot,
         })
+        art.marker = marker
+        art.icon = icon
         marker.on('click', objectDetail);
         function objectDetail(e) {
-          marker.setIcon(icon);
-          console.log(art);
-          leftHeaderOpen();
-          //rightHeaderOpen();
-          map.flyTo(e.latlng, 6);
-          changeDisplay(art)
+          changeDisplay(art, icon)
         }
 
-
-          function leftHeaderOpen(){
-            document.querySelector("#header .left_header").innerHTML = ''
-          }
-          function rightHeaderOpen(){
-            document.querySelector("#header .right_header").innerHTML = '<div>' +
-            '<div class="next">' +
-            '<h2>Enter Content here</h2>' +
-              '</div>' +
-            '</div>'
-          }
 
         markers[art.meta.id] = marker
 
@@ -325,3 +326,11 @@ window.api = {
   changeDisplay: changeDisplay,
   activeThreads,
 }
+
+L.Map.prototype.panToOffset = function (latlng, offset, options) {
+  var x = this.latLngToContainerPoint(latlng).x - offset[0]
+  var y = this.latLngToContainerPoint(latlng).y - offset[1]
+  var point = this.containerPointToLatLng([x, y])
+  return this.setView(point, this._zoom, { pan: options })
+}
+
