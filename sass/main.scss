@@ -129,6 +129,15 @@ body{
   background-size: cover;
   background-position: center;
 }
+span.large_marker {
+  width: 100px;
+  height: 100px;
+  display: block;
+  border-radius: 100px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
 span.hasContent {
   border: 3px solid rgba(222, 111, 35, 0.9);
 }
@@ -208,7 +217,7 @@ div.chinoiserie {
   margin:0 1% 0 3%;
 }
 .image_wrapper img {
-  width: 100%;
+  max-width: 100%;
 }
  .thread_header h2{
     font-family: $MiaGroteskBlack;
@@ -252,12 +261,13 @@ span.dated{
 .next{
   position: absolute;
   right: 1em;
-  top: 80%;
+  top: 70%;
+  text-align: right;
 }
 .prev{
   position: absolute;
   left: 1em;
-  top: 80%;
+  top: 70%;
 }
 
 ul.threads {

@@ -54,6 +54,35 @@ function changePopup(id) {
   var marker = api.markers[id]
   marker ? marker.openPopup() : console.info('link to object ', id)
 }
+function changeDisplay(art){
+  var firstThread = art.threads[0]
+  var recentMatchingThread = art.threads.find(t => t == api.lastActiveThread)
+  var thread = recentMatchingThread || firstThread
+  console.info('picked', thread, 'from threads', art.threads)
+
+  document.querySelector("#object").innerHTML = `<div>
+  <div class="thread_header" style="background-color: ${api.threadColors[thread]} !important"><h2>${thread}</h2>
+  </div>
+  <div class="close" onclick="api.uiActions.closeObject()"><i class="material-icons">home</i></div>
+  <div class="next" onclick="(function(){api.changeDisplay(api.object_json[${art.next.ids[0]}])})()"><span class="large_marker" style="background-image: url('${imageUrl(art.next.ids[0])}');"></span><i class="material-icons">arrow_forward</i>
+</div>
+  <div class="prev" onclick="(function(){api.changeDisplay(api.object_json[${art.next.ids[1]}])})()"><span class="large_marker" style="background-image: url('${imageUrl(art.next.ids[1])}');"></span><i class="material-icons">arrow_back</i>
+  </div>
+  <div class="object_sidebar">
+    <div class="image_wrapper"><img src="${imageUrl(art.meta.id)}"/>
+      <h2>${art.meta.title}, <span class="dated">${art.meta.dated}</span></h2>
+      <p>${art.meta.artist}</p>
+      <p>${art.meta.medium}</p>
+      <p><i class="material-icons">room</i> Located in ${art.meta.room}</p>
+    </div>
+    <div class="object_content">
+      <h2>${art.__heading}</h2>
+      <div class="narrative"><p>${art.__content}</p></div>
+    </div>
+  </div>
+  </div>`
+
+}
 
 function buildArtDetail(art) {
   var meta = art.meta
@@ -122,6 +151,7 @@ var layerGroups = {
 layerGroups['All'].addTo(map)
 
 loadMappedArtworks(function(json) {
+  api.object_json = json
   layerGroups = Object.assign(layerGroups, buildLayerGroups(json))
   L.control.layers(layerGroups)
   .setPosition('bottomright')
@@ -141,7 +171,6 @@ loadMappedArtworks(function(json) {
       var w = art.meta.image_width
       var h = art.meta.image_height
       var r = w/h
-
       var dot =
         L.divIcon({
           html: buildColoredDotMarker(art),
@@ -162,33 +191,11 @@ loadMappedArtworks(function(json) {
           console.log(art);
           leftHeaderOpen();
           //rightHeaderOpen();
-          map.flyTo(e.latlng, 7);
-
-          var firstThread = art.threads[0]
-          var recentMatchingThread = art.threads.find(t => t == api.lastActiveThread)
-          var thread = recentMatchingThread || firstThread
-          console.info('picked', thread, 'from threads', art.threads)
-
-          document.querySelector("#object").innerHTML = `<div>
-          <div class="thread_header" style="background-color: ${api.threadColors[thread]} !important"><h2>${thread}</h2>
-          </div>
-          <div class="close" onclick="api.uiActions.closeObject()"><i class="material-icons">home</i></div>
-          <div class="next" onclick="api.uiActions.nextObject()"><i class="material-icons">arrow_forward</i></div>
-          <div class="prev" onclick="api.uiActions.prevObject()"><i class="material-icons">arrow_back</i></div>
-          <div class="object_sidebar">
-            <div class="image_wrapper"><img src="${imageUrl(art.meta.id)}"/>
-              <h2>${art.meta.title}, <span class="dated">${art.meta.dated}</span></h2>
-              <p>${art.meta.artist}</p>
-              <p>${art.meta.medium}</p>
-              <p><i class="material-icons">room</i> Located in ${art.meta.room}</p>
-            </div>
-            <div class="object_content">
-              <h2>Headline Placeholder</h2>
-              <div class="narrative"><p>${art.__content}</p></div>
-            </div>
-          </div>
-          </div>`
+          map.flyTo(e.latlng, 6);
+          changeDisplay(art)
         }
+
+
           function leftHeaderOpen(){
             document.querySelector("#header .left_header").innerHTML = ''
           }
@@ -199,6 +206,7 @@ loadMappedArtworks(function(json) {
               '</div>' +
             '</div>'
           }
+
         markers[art.meta.id] = marker
 
         layerGroups['All'].addLayer(marker)
@@ -286,4 +294,5 @@ window.api = {
     'Islam': "#7956b4",
   },
   lastActiveThread: false,
+  changeDisplay: changeDisplay,
 }
