@@ -1,5 +1,12 @@
 var remark = require('remark')
 var remarkHtml = require('remark-html')
+var allThreads = require('./threads.json')
+Object.keys(allThreads).map(key => {
+  var thread = allThreads[key]
+  allThreads[key].facts = thread.__content.split('\n').filter(fact => fact !== "")
+  thread.title = thread.thread[0]
+})
+var activeThreads = ['silk-road', 'cochineal', 'blue-white'].map(t => allThreads[t])
 
 var map = L.map('map', {zoomControl: false, minZoom: 2})
 L.control.zoom({position: 'topright'}).addTo(map)
@@ -44,9 +51,10 @@ function buildCenteredRoundImage(art) {
   "></span>"
 }
 function buildColoredDotMarker(art) {
-  var id = art.meta.id
+  // var id = art.meta.id
   //var hasContent = art.__content && art.__content.trim().length > 2
-  var dot_color = api.threadColors[art.threads[0]]
+  var thread = art.threads ? art.threads[0] : art.thread[0]
+  var dot_color = api.threadColors[thread]
   return "<span style='background-color: "+dot_color+";'></span>"
 }
 
@@ -59,6 +67,9 @@ function changeDisplay(art){
   var recentMatchingThread = art.threads.find(t => t == api.lastActiveThread)
   var thread = recentMatchingThread || firstThread
   console.info('picked', thread, 'from threads', art.threads)
+
+  var threadInfo = api.activeThreads.find(t => t.title == thread)
+  if(threadInfo) uiActions.updateQuickFacts(threadInfo)
 
   document.querySelector("#object").innerHTML = `<div>
   <div class="thread_header" style="background-color: ${api.threadColors[thread]} !important"><h2>${thread}</h2>
@@ -137,6 +148,16 @@ function buildLayerGroups(json) {
     .filter(function(v) { return !!v })
   )
 
+  activeThreads.map(thread => {
+    var marker = L.marker(thread.coords, {
+      title: thread.thread[0],
+      icon: L.divIcon({html: buildColoredDotMarker(thread)})
+    })
+    marker.on('click', L.bind(uiActions.groupSelected, null, thread.title));
+    thread.marker = marker
+    layerGroups['Home'].addLayer(marker)
+  })
+
   return Array.from(threads)
   .reduce(function(groups, thread) {
     groups[thread] = L.layerGroup()
@@ -146,9 +167,10 @@ function buildLayerGroups(json) {
 
 var layerGroups = {
   'All': L.layerGroup(),
+  'Home': L.layerGroup(),
 }
 
-layerGroups['All'].addTo(map)
+layerGroups['Home'].addTo(map)
 
 loadMappedArtworks(function(json) {
   api.object_json = json
@@ -242,11 +264,14 @@ map.on('baselayerchange', function(e) {
 
 var uiActions = {
     groupSelected: function (thread) {
+      console.info('groupSelected', thread)
       api.lastActiveThread = thread
       var group = layerGroups[thread] || L.layerGroup()
       var color = api.threadColors[thread]
 
-      //layerGroups[thread].addTo(map)
+      var threadInfo = api.activeThreads.find(t => t.title == thread)
+      if(threadInfo) uiActions.updateQuickFacts(threadInfo)
+
       Object.keys(layerGroups).map(function(layer){
         if (layer == thread){
           map.addLayer(group)
@@ -274,8 +299,11 @@ var uiActions = {
       '</div>'
     }
 
+  },
+  updateQuickFacts: function (thread) {
+    var randomFact = thread.facts[Math.floor(Math.random()*thread.facts.length)]
+    document.querySelector('.left_header').innerHTML = `<p class="factoid">${randomFact}</p>`
   }
-
 }
 
 window.api = {
@@ -295,4 +323,5 @@ window.api = {
   },
   lastActiveThread: false,
   changeDisplay: changeDisplay,
+  activeThreads,
 }

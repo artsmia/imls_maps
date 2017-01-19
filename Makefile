@@ -56,7 +56,10 @@ artworks: map-locations.csv
 	remark objects/*.md -o
 
 objects.json:
-	m2j objects/*.md | jq -c '.' > objects.json
+	m2j objects/*.md | jq -c '.[]' > objects.json
+
+threads.json:
+	m2j *.md | jq -c '.[]' > threads.json
 
 build:
 	browserify app.js -o bundle.js --debug
