@@ -1,8 +1,9 @@
 SHELL := bash
 
 # Pull objects from a custom google doc built by the Maps team
+url = https://docs.google.com/spreadsheets/d/16_696FhwbifLh7jGycKBEwQkdIGgzZZ2VzqilXzriv0/export?format=csv
 map-locations.csv:
-	curl --silent -o map-locations.csv 'https://docs.google.com/spreadsheets/d/16_696FhwbifLh7jGycKBEwQkdIGgzZZ2VzqilXzriv0/export?format=csv'
+	curl --silent -o map-locations.csv $(url)
 
 # Add locations to redis - not currently used
 redis:
@@ -28,13 +29,13 @@ artworks: map-locations.csv
 	| csvgrep -c11 --regex '^$$' -i \
 	| csvcut -c2,3,4,5,6,7,8,11,17,18,19 \
 	| csvjson \
-	| jq -c 'map({ \
+	| jq -c -r 'map({ \
 		id: .["Primary Object ID"], \
 		coords: (.["Map Coordinates"] | split(", ") | reverse), \
 		threads: (. | to_entries | del(.[7,8,9,10]) | map(select(.value != null)) | map(.key)), \
 		content: (. | to_entries | del(.[7,8,9,10]) | map(select(.value != null and .value != true and .value != "1")) | from_entries ) \
 	})[]' \
-	| while read json; do \
+	| while read -r json; do \
 		file=objects/$$(jq -r '.id' <<<$$json).md; \
 		echo $$file; \
 		if [[ -f $$file ]]; then \
@@ -42,17 +43,18 @@ artworks: map-locations.csv
 		else \
 			existingContent=''; \
 		fi; \
-		newContent=$$(jq -r '.content | to_entries | map("## \(.key)\n\n\(.value)") | join("\n\n")' <<<$$json); \
+		newContent=$$(jq -r -c ' \
+		  .content \
+			| to_entries \
+			| map("## \(.key)\n\n ### \(.value)") \
+			| join("\n\n---\n\n") \
+		' <<<$$json); \
 		mergedMeta=$$(jq -s 'add' \
 			<(jq 'del(.content)' <<<$$json) \
-			<(m2j $$file | jq '.[] | del(.basename, .preview, .coords, .id, .threads)') \
+			<(m2j $$file | jq '.[0] | to_entries[0].value | del(.basename, .preview, .coords, .id, .threads, .__content)') \
 		| json2yaml); \
-		echo -e "$$mergedMeta\n---\n\n$$existingContent" \
-		| cat -s \
-		> $$file; \
-		echo -e "$$json" | jq -r '.content | to_entries | map("## \(.key)\n\n\(.value)") | join("\n\n")' >> $$file; \
-  done; \
-	perl -pi -e 's/\\n/\n/g' objects/*.md
+		echo -e "$$mergedMeta\n---\n\n$$newContent" > $$file; \
+  done;
 	remark objects/*.md -o
 
 objects.json:
