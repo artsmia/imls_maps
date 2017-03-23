@@ -6,7 +6,11 @@ Object.keys(allThreads).map(key => {
   allThreads[key].facts = thread.__content.split('\n').filter(fact => fact !== "")
   thread.title = thread.thread[0]
 })
-var activeThreads = ['silk-road', 'cochineal', 'blue-white'].map(t => allThreads[t])
+var activeThreads = [
+  'silk-road',
+  'red-dye-from-mexico',
+  'blue-white',
+].map(t => allThreads[t]).filter(t => !!t)
 
 var map = L.map('map', {zoomControl: false, minZoom: 2})
 L.control.zoom({position: 'topright'}).addTo(map)
@@ -314,13 +318,14 @@ window.api = {
   layerGroups: layerGroups,
   uiActions: uiActions,
   threadColors: {
-    'Silk Road': "#ffff00",
-    'Cochineal':  "#ff3145",
-    'Blue & White':  "#007aff",
+    'The Silk Road': "#ffff00",
+    'Red dye from Mexico':  "#ff3145",
+    'Blue & White Ceramics':  "#007aff",
     'Buddhism': "#00ff01",
-    'Triangle Trade': "#00ffff",
+    'The Triangle Trade': "#00ffff",
     'China Trade': "#ffb400",
     'Islam': "#7956b4",
+    'Asian Design in Europe': "#7956b4",
   },
   lastActiveThread: false,
   changeDisplay: changeDisplay,

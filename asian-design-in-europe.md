@@ -1,6 +1,6 @@
 ---
 thread:
-- Chinoiserie
+- Asian Design in Europe
 coords:
 - 49.456014
 - 10.031008

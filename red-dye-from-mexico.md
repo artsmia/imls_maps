@@ -1,6 +1,6 @@
 ---
 thread:
-- Cochineal
+- Red dye from Mexico
 coords:
 - 17.007972
 - -96.562172

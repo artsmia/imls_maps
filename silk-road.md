@@ -1,6 +1,6 @@
 ---
 thread:
-- Silk Road
+- The Silk Road
 coords:
 - 34.613335
 - 101.337506

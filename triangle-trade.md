@@ -1,6 +1,6 @@
 ---
 thread:
-- Triangle Trade
+- The Triangle Trade
 coords:
 - 42.355305
 - -71.053155
