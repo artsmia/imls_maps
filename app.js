@@ -269,6 +269,13 @@ loadMappedArtworks(function(json) {
     var globalMaxBounds = getPaddedBoundsFromLayer(layerGroups['All'], 0.25)
     var nextMove = map._getBoundsCenterZoom(globalMaxBounds)
     map.flyTo(nextMove.center, nextMove.zoom)
+    activeThreads.map(function(thread) {
+      var layer = api.layerGroups[thread.title]
+      L.polyline(
+        Object.values(layer._layers).map(dot => [dot._latlng.lat, dot._latlng.lng]),
+        {dashArray: [3, 10], color: api.threadColors[thread.title]}
+      ).addTo(layer)
+    })
   })
 
 })
