@@ -36,6 +36,7 @@ artworks: map-locations.csv
 		relateds: ([.["Secondary Object ID"], .["Third Object ID"]] | del(.[] | nulls) | del(.[] | select(. == "#ERROR!"))), \
 		content: (. | to_entries | del(.[7,8,9,10]) | map(select(.value != null and .value != true and .value != "1")) | from_entries ) \
 	})[]' \
+	| tee map-locations.json \
 	| while read -r json; do \
 		file=objects/$$(jq -r '.id' <<<$$json).md; \
 		echo $$file; \
@@ -69,8 +70,8 @@ build:
 	sassc -lm sass/main.scss sass/main.css
 
 watch:
-	watchify app.js -o bundle.js --debug &
 	rewatch sass/* -c 'sassc -lm sass/main.scss sass/main.css' &
+	watchify app.js -o bundle.js --debug
 
 server = $$deployServer
 location = $$deployLocation
