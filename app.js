@@ -278,6 +278,7 @@ loadMappedArtworks(function(json) {
         })
         art.marker = marker
         art.icon = icon
+        art.marker.setIcon(art.icon);
         marker.on('click', objectDetail);
         function objectDetail(e) {
           changeDisplay(art, icon)
