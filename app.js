@@ -91,14 +91,28 @@ function changeDisplay(art){
   var threadInfo = api.activeThreads.find(t => t.title == thread)
   if(threadInfo) uiActions.updateQuickFacts(threadInfo)
 
+  var siblingArtIds = threadInfo.artIds
+  var thisIndex = siblingArtIds.indexOf(art.id)
+  var nextId = siblingArtIds[(thisIndex+1)%(siblingArtIds.length)]
+  var prevId = siblingArtIds[Math.max(0, (thisIndex-1)%(siblingArtIds.length))]
+
+  if(art.__content.trim() == "") {
+    return api.changeDisplay(api.object_json[nextId])
+  }
+
+  var _content = art.__content.trim().split("\n\n")
+  var needle = _content.findIndex(string => string.indexOf(thread) > -1)
+  var heading = _content[needle+1].replace(/###* /, '')
+  var content = _content.splice(needle+2).join("\n\n")
+  if(_content.findIndex(string => string.indexOf('* * *') > -1)) content = content.split('* * *')[0]
+  if(needle == -1) heading += ' [CONTENT NEEDED FOR THIS THREAD?]'
+
   document.querySelector("#object").innerHTML = `<div>
   <div class="thread_header" style="background-color: ${api.threadColors[thread]} !important"><h2>${thread}</h2>
   </div>
   <div class="close" onclick="api.uiActions.closeObject()"><i class="material-icons">home</i></div>
-  <div class="next" onclick="(function(){api.changeDisplay(api.object_json[${art.next.ids[0]}])})()"><span class="large_marker" style="background-image: url('${imageUrl(art.next.ids[0])}');"></span><i class="material-icons">arrow_forward</i>
-</div>
-  <div class="prev" onclick="(function(){api.changeDisplay(api.object_json[${art.next.ids[1]}])})()"><span class="large_marker" style="background-image: url('${imageUrl(art.next.ids[1])}');"></span><i class="material-icons">arrow_back</i>
-  </div>
+  <div class="next" onclick="(function(){api.changeDisplay(api.object_json[${nextId}])})()"><span class="large_marker" style="background-image: url('${imageUrl(nextId)}');"></span><i class="material-icons">arrow_forward</i></div>
+  <div class="prev" onclick="(function(){api.changeDisplay(api.object_json[${prevId}])})()"><span class="large_marker" style="background-image: url('${imageUrl(prevId)}');"></span><i class="material-icons">arrow_back</i></div>
   <div class="object_sidebar">
     <div class="image_wrapper"><img src="${imageUrl(art.meta.id)}"/>
       <h2>${art.meta.title}, <span class="dated">${art.meta.dated}</span></h2>
@@ -107,8 +121,8 @@ function changeDisplay(art){
       <p><i class="material-icons">room</i> Located in ${art.meta.room}</p>
     </div>
     <div class="object_content">
-      <h2>${art.__heading}</h2>
-      <div class="narrative"><p>${art.__content}</p></div>
+      <h2>${heading}</h2>
+      <div class="narrative"><p>${content}</p></div>
     </div>
   </div>
   </div>`
@@ -242,6 +256,11 @@ loadMappedArtworks(function(json) {
             var group = layerGroups[thread] || L.layerGroup()
             group.addLayer(marker)
             if(!layerGroups[thread]) { layerGroups[thread] = group }
+            var threadInfo = api.activeThreads.find(t => t.title == thread)
+            if(threadInfo) {
+              threadInfo.artIds = threadInfo.artIds || []
+              threadInfo.artIds.push(art.id)
+            }
           })
         }
       }
