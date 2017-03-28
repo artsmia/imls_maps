@@ -114,7 +114,8 @@ function changeDisplay(art){
   document.querySelector("#object").innerHTML = `<div>
   <div class="thread_header" style="background-color: ${api.threadColors[thread]} !important"><h2>${thread}</h2>
   </div>
-  <div class="close" onclick="api.uiActions.closeObject()"><i class="material-icons">home</i></div>
+  <div class="close" onclick="api.uiActions.closeObject()"><i class="material-icons">close</i></div>
+  <div class="home" onclick="api.uiActions.closeObject(true)"><i class="material-icons">home</i></div>
   <div class="next" onclick="(function(){api.changeDisplay(api.object_json[${nextId}])})()"><span class="large_marker" style="background-image: url('${imageUrl(nextId)}');"></span><i class="material-icons">arrow_forward</i></div>
   <div class="prev" onclick="(function(){api.changeDisplay(api.object_json[${prevId}])})()"><span class="large_marker" style="background-image: url('${imageUrl(prevId)}');"></span><i class="material-icons">arrow_back</i></div>
   <div class="object_sidebar">
@@ -320,8 +321,9 @@ var uiActions = {
         }
       })
   },
-  closeObject : function (){
+  closeObject : function (fullReset=false) {
     document.querySelector("#object").innerHTML = ""
+    if(fullReset) api.uiActions.groupSelected('Home')
     var globalMaxBounds = getPaddedBoundsFromLayer(layerGroups['All'], 0.25)
     var nextMove = map._getBoundsCenterZoom(globalMaxBounds)
     map.flyTo(nextMove.center, nextMove.zoom)
