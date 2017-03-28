@@ -24,8 +24,6 @@ layer.addTo(map)
 
 map.setView([44.95833, -93.27434], 2)
 
-var hash = new L.Hash(map)
-
 function xhr(url, callback) {
   var xhr = new XMLHttpRequest()
   xhr.open('GET', url, true)
