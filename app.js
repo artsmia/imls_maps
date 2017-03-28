@@ -105,6 +105,12 @@ function changeDisplay(art){
   if(_content.findIndex(string => string.indexOf('* * *') > -1)) content = content.split('* * *')[0]
   if(needle == -1) heading += ' [CONTENT NEEDED FOR THIS THREAD?]'
 
+  var relatedObjects = art.relateds.map(function(id) {
+    return `<div class="related">
+        <a href="https://artsmia.org/art/${id}"><img src="${imageUrl(id)}" /></a>
+    </div>`
+  }).join('\n')
+
   document.querySelector("#object").innerHTML = `<div>
   <div class="thread_header" style="background-color: ${api.threadColors[thread]} !important"><h2>${thread}</h2>
   </div>
@@ -121,6 +127,7 @@ function changeDisplay(art){
     <div class="object_content">
       <h2>${heading}</h2>
       <div class="narrative"><p>${content}</p></div>
+      ${relatedObjects}
     </div>
   </div>
   </div>`

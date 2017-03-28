@@ -33,6 +33,7 @@ artworks: map-locations.csv
 		id: .["Primary Object ID"], \
 		coords: (.["Map Coordinates"] | split(", ") | reverse), \
 		threads: (. | to_entries | del(.[7,8,9,10]) | map(select(.value != null)) | map(.key)), \
+		relateds: ([.["Secondary Object ID"], .["Third Object ID"]] | del(.[] | nulls) | del(.[] | select(. == "#ERROR!"))), \
 		content: (. | to_entries | del(.[7,8,9,10]) | map(select(.value != null and .value != true and .value != "1")) | from_entries ) \
 	})[]' \
 	| while read -r json; do \
@@ -51,7 +52,7 @@ artworks: map-locations.csv
 		' <<<$$json); \
 		mergedMeta=$$(jq -s 'add' \
 			<(jq 'del(.content)' <<<$$json) \
-			<(m2j $$file | jq '.[0] | to_entries[0].value | del(.basename, .preview, .coords, .id, .threads, .__content)') \
+			<(m2j $$file | jq '.[0] | to_entries[0].value | del(.basename, .preview, .coords, .id, .threads, .__content, .relateds)') \
 		| json2yaml); \
 		echo -e "$$mergedMeta\n---\n\n$$newContent" > $$file; \
   done;
