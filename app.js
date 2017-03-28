@@ -185,8 +185,9 @@ function buildLayerGroups(json) {
       icon: L.divIcon({html: buildColoredDotMarker(thread)})
     })
     marker.on('click', L.bind(uiActions.groupSelected, null, thread.title));
-    thread.marker = marker
-    layerGroups['Home'].addLayer(marker)
+    thread.anchorMarker = marker
+    layerGroups['anchorPoints'].addLayer(marker)
+    // test out showing all markers on home page, put the anchor points on their own layer
   })
 
   return Array.from(threads)
@@ -199,6 +200,7 @@ function buildLayerGroups(json) {
 var layerGroups = {
   'All': L.layerGroup(),
   'Home': L.layerGroup(),
+  'anchorPoints': L.layerGroup(),
 }
 
 layerGroups['Home'].addTo(map)
@@ -273,6 +275,8 @@ loadMappedArtworks(function(json) {
         Object.values(layer._layers).map(dot => [dot._latlng.lat, dot._latlng.lng]),
         {dashArray: [3, 10], color: api.threadColors[thread.title]}
       ).addTo(layer)
+
+      layerGroups['Home'].addLayer(layer)
     })
   })
 
