@@ -77,6 +77,9 @@ function rightHeaderOpen(){
 }
 
 function changeDisplay(art){
+  if (!isNaN(art)) {
+    art = api.object_json[art]
+  }
   art.marker.setIcon(art.icon);
   leftHeaderOpen();
   api.map.panToOffset(art.marker._latlng, [-200, 0]);
@@ -111,6 +114,21 @@ function changeDisplay(art){
     </div>`
   }).join('\n')
 
+  var additionalThreads = art.threads
+  .filter(t => t !== thread)
+  .map(thread => {
+    var threadInfo = api.activeThreads.find(t => t.title == thread)
+    return threadInfo && `<a onclick="api.changeThreadAndDisplay(${art.id}, '${thread}')" class="additionalThread">
+      <img src="${imageUrl(threadInfo.artIds.find(id => id !== art.meta.id))}" />
+      ${thread}
+    </a>`
+  })
+
+  var showAdditionalThreads = additionalThreads.length > 0 && `<div class="additionalThreads">
+    <h2>See How This relates to other routes</h2>
+    ${additionalThreads}
+  </div>`
+
   document.querySelector("#object").innerHTML = `<div>
   <div class="thread_header" style="background-color: ${api.threadColors[thread]} !important"><h2>${thread}</h2>
   </div>
@@ -118,6 +136,7 @@ function changeDisplay(art){
   <div class="home" onclick="api.uiActions.closeObject(true)"><i class="material-icons">home</i></div>
   <div class="next" onclick="(function(){api.changeDisplay(api.object_json[${nextId}])})()"><span class="large_marker" style="background-image: url('${imageUrl(nextId)}');"></span><i class="material-icons">arrow_forward</i></div>
   <div class="prev" onclick="(function(){api.changeDisplay(api.object_json[${prevId}])})()"><span class="large_marker" style="background-image: url('${imageUrl(prevId)}');"></span><i class="material-icons">arrow_back</i></div>
+  ${showAdditionalThreads}
   <div class="object_sidebar">
     <div class="image_wrapper"><img src="${imageUrl(art.meta.id)}"/>
       <h2>${art.meta.title}, <span class="dated">${art.meta.dated}</span></h2>
@@ -132,6 +151,15 @@ function changeDisplay(art){
     </div>
   </div>
   </div>`
+}
+
+function changeThreadAndDisplay(art, thread) {
+  var threadInfo = api.activeThreads.find(t => t.title == thread)
+  if(!threadInfo) 
+    return alert(`${thread} is currently inactive`)
+
+  api.uiActions.groupSelected(thread)
+  api.changeDisplay(art)
 }
 
 function buildArtDetail(art) {
@@ -366,6 +394,7 @@ window.api = {
   },
   lastActiveThread: false,
   changeDisplay: changeDisplay,
+  changeThreadAndDisplay,
   activeThreads,
 }
 

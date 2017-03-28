@@ -284,6 +284,21 @@ span.dated{
     max-width: 100%;
   }
 }
+
+.additionalThreads {
+  position: absolute;
+  right: 5em;
+  top: 75%;
+  max-width: 50%;
+
+  a {
+    display: inline-block;
+    max-width: 30%;
+  }
+
+  img {
+    max-width: 100%;
+  }
 }
 
 ul.threads {
