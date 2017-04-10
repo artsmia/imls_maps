@@ -320,6 +320,17 @@ loadMappedArtworks(function(json) {
 })
 
 function getPaddedBoundsFromLayer(layer, pad) {
+  if(layer == api.layerGroups["Home"]) {
+    // L.geoJson can't deal with a layer of layers, so get all the individual markers
+    // from the direct children of this layer
+    var previouslyNestedLayers = Object.values(layer._layers).reduce(
+      (allLayers, activeThread) =>
+        allLayers.concat(Object.values(activeThread._layers)),
+      []
+    )
+    layer = L.layerGroup(previouslyNestedLayers)
+  }
+
   return L.geoJson(layer.toGeoJSON())
   .getBounds()
   .pad(pad)
@@ -353,7 +364,7 @@ var uiActions = {
   closeObject : function (fullReset=false) {
     document.querySelector("#object").innerHTML = ""
     if(fullReset) api.uiActions.groupSelected('Home')
-    var globalMaxBounds = getPaddedBoundsFromLayer(layerGroups['All'], 0.25)
+    var globalMaxBounds = getPaddedBoundsFromLayer(layerGroups['Home'], 0.25)
     var nextMove = map._getBoundsCenterZoom(globalMaxBounds)
     map.flyTo(nextMove.center, nextMove.zoom)
     leftHeaderClosed();
