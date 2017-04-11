@@ -1,0 +1,22 @@
+# rebuilding prototype in next.js
+
+handle active thread/artwork state
+  clicking an artwork:
+    changes icon to the image
+    activates that artworks thread and artwork view
+    hides other threads
+    highlights active thread in ThreadList
+
+activate ThreadList to select between threads
+show interface above map
+  header
+  ThreadList
+
+build artwork view
+  make markers clickable
+  change icon to photo after activation
+
+debug polyline being misplaced on first load -- setView to blame?
+draw the line between close geographic neighbors 
+
+clean up old prototype code

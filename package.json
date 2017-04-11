@@ -9,7 +9,8 @@
     "serveJson": "node src/server.js",
     "start": "npm run watch & npm run serve",
     "setup": "make artworks; npm run build",
-    "build": "node src/index.js > objects.json"
+    "build": "node src/index.js > objects.json",
+    "next": "next"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
   "dependencies": {
     "glob-fs": "0.1.6",
     "markdown-to-json-with-content": "0.0.3",
+    "next": "^2.1.0",
     "remark": "5.0.1",
     "remark-html": "5.0.0"
   },

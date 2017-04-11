@@ -8,6 +8,7 @@ title:
 - Quick Facts
 start:
 - 3513
+color: "#007aff"
 ---
 
 Simple yet elegant, “blue and white”-- white porcelain painted with a blue glaze--found admirers in Asia, Africa, the Middle East, Europe, and North and South America.

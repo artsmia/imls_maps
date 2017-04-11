@@ -8,6 +8,7 @@ title:
 - Quick Facts
 start:
 - 867
+color: "#fff000"
 ---
 
 The Silk Road was a network of trade routes connecting Europe, China, and South Asia.

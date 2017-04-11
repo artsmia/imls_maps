@@ -8,6 +8,7 @@ title:
 - Quick Facts
 start:
 - 1341
+color: "#ff3145"
 ---
 
 Indigenous Aztec and Mayan peoples first discovered cochineal, a red dye made from tiny bugs that live on the prickly pear cactus.
