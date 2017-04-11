@@ -1,22 +1,37 @@
 # rebuilding prototype in next.js
 
-handle active thread/artwork state
-  clicking an artwork:
-    changes icon to the image
-    activates that artworks thread and artwork view
-    hides other threads
-    highlights active thread in ThreadList
+'find me' functionality - can this happen yet?
+  at least show gallery info
 
-activate ThreadList to select between threads
-show interface above map
+keep leaflet in sync when map area changes size
+
+'show thread' button full-screens the map and hides the artwork info
+
+design
+  MiaGrotesk
   header
-  ThreadList
 
-build artwork view
-  make markers clickable
-  change icon to photo after activation
+debug polyline being misplaced on first load -- L.flyTo to blame?
+  it doesn't happen when touchpad zooming
+optimize polyline - draw between close geographic neighbors 
+animate layer transitions - https://github.com/naturalatlas/leaflet-transitionedicon
+set maxBounds on map
 
-debug polyline being misplaced on first load -- setView to blame?
-draw the line between close geographic neighbors 
+bug with arts in multiple threads
+  `art.coords.reverse` called multiple times results in reversed latlng
+  probably they should not be duplicated, but just one marker?
+    could it be 'a chameleon'?
+      two different colors until one thread is activated
+      then it assumes the color of the active thread?
 
-clean up old prototype code
+break out pages/routes
+  index shows map
+  threads/:id - a single thread
+  threads/:id/:artworkId - an artwork within a thread                \
+                               (these two are a basically dupes…) <= |
+  art/:id - art with a default thread or art indexing all threads?   /
+  check on server rendering
+    map won't show, so what's the placeholder?
+    getInitialProps for each page
+
+remove old prototype code

@@ -2,11 +2,14 @@ import React from 'react'
 
 import Map from '../components/map'
 import Threads from '../components/threads'
+import Artwork from '../components/artwork'
 
 export default class extends React.Component {
   constructor () {
     super()
-    this.state = {map: null}
+    this.state = {
+      map: null,
+    }
   }
 
   static async getInitialProps ({req}) {
@@ -19,10 +22,20 @@ export default class extends React.Component {
       ...this.state,
     }
 
+    var mapWidth = this.state.activeArtwork ? '55vw' : '71vw'
+
     return (
       <div>
-        <Map {...propsToPass} />
+        <Map {...propsToPass} mapWidth={mapWidth} />
         {this.state.map && <Threads {...propsToPass} />}
+        {this.state.activeArtwork && <Artwork {...propsToPass} />}
+        <span
+          style={{position: 'absolute', bottom: '1rem', left: '1rem', zIndex: 500, fontSize: '4em'}}
+          className="home"
+          onClick={() => this.setGlobalState({activeArtwork: null, activeThread: null})}
+        >
+          🏠 ⌂
+        </span>
       </div>
     )
   }
@@ -38,9 +51,6 @@ export default class extends React.Component {
       {...this.state, ...state}
     )
     this.setState && this.setState(state)
-  }
-
-  componentDidMount () {
-    console.info('index.js mounted')
+    window.state = this.state
   }
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 let L
 import paddedBoundsFromLayer from '../util/map/padded-bounds-from-layer'
+import imageUrl from '../util/image-url'
 
 export default class extends React.Component {
   render () {
@@ -31,15 +32,21 @@ export default class extends React.Component {
     super()
   }
 
-  componentDidMount () {
+  componentWillMount() {
     L = require('leaflet')
-    const {map} = this.props
     const layerGroups = this.threadsToLayerGroupsWithPolyline()
+    this.setState({layerGroups})
+  }
+
+  componentDidMount () {
+    const {map} = this.props
+    const {layerGroups} = this.state
     layerGroups.map(g => g.addTo(map))
-    var nextMove = map._getBoundsCenterZoom(
-      paddedBoundsFromLayer(layerGroups, 0.25, L)
-    )
-    map.flyTo(nextMove.center, nextMove.zoom)
+    centerPaddedBounds(layerGroups, map)
+  }
+
+  componentWillUpdate (nextProps, nextState) {
+    this.updateActiveMapLayers(nextProps, nextState)
   }
 
   threadsToLayerGroups (callback) {
@@ -50,6 +57,7 @@ export default class extends React.Component {
         .map(art => artToMarker(art, thread, this.artworkClicked.bind(this, art, thread)))
       )
       callback && callback(g, thread)
+      thread.layerGroup = g
       return g
     })
   }
@@ -66,12 +74,40 @@ export default class extends React.Component {
   }
 
   artworkClicked (art, thread) {
-    console.info('artwork clicked', art, thread)
+    this.props.setGlobalState({activeArtwork: art, activeThread: thread})
   }
-}
 
-function imageUrl(id) {
-  return "http://"+id%7+".api.artsmia.org/"+id+".jpg"
+  updateActiveMapLayers (props, state) {
+    const {map, activeArtwork, activeThread, activeThreads} = props
+
+    if(activeThread) {
+      activeThreads.forEach(thread => {
+        const group = thread.layerGroup
+        if(activeThread === thread) {
+          map.hasLayer(group) || map.addLayer(group)
+          centerPaddedBounds(group, map)
+        } else {
+          map.removeLayer(group)
+        }
+      })
+    } else {
+      activeThreads.forEach(thread => {
+        const group = thread.layerGroup
+        map.hasLayer(group) || map.addLayer(group)
+      })
+    }
+
+    if(activeArtwork) {
+      activeArtwork.marker.setIcon(activeArtwork.imageIcon)
+      map.panTo(activeArtwork.marker._latlng)
+    }
+
+    if(!activeArtwork && !activeThread && this.state) {
+      const {layerGroups} = this.state
+      const {map} = this.props
+      centerPaddedBounds(layerGroups, map, L)
+    }
+  }
 }
 
 function artToMarker(art, thread, onClick) {
@@ -87,8 +123,16 @@ function artToMarker(art, thread, onClick) {
 
   const m = L.marker(art.coords.reverse(), {
     title: art.meta.title,
-    icon: dotIcon
+    icon: imageIcon
   })
   m.on('click', onClick)
+  art.marker = m
   return m
+}
+
+function centerPaddedBounds(layers, map) {
+  var nextMove = map._getBoundsCenterZoom(
+    paddedBoundsFromLayer(layers, 0.1, L)
+  )
+  map.flyTo(nextMove.center, nextMove.zoom)
 }

@@ -3,10 +3,9 @@ let L
 
 export default class extends React.Component {
   render () {
-    return <div id="map">
+    return <div id="map" style={{width: this.props.mapWidth}}>
       <style jsx>{`
         div#map {
-          width: 100%;
           height: 100vh;
         }
       `}</style>
@@ -31,7 +30,6 @@ export default class extends React.Component {
 
     map.setView([44.95833, -93.27434], 3)
     this.setState({showMap: true, map})
-    console.info('map mounted')
     this.props.setGlobalState({map})
   }
 }
