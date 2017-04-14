@@ -10,7 +10,10 @@
     "start": "npm run watch & npm run serve",
     "setup": "make artworks; npm run build",
     "build": "node src/index.js > objects.json",
-    "next": "next"
+    "next": "next",
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
   },
   "repository": {
     "type": "git",

@@ -30,6 +30,15 @@ objectIds.map(key => {
   })
 })
 
+Object.values(allThreads).map(thread => {
+  if(thread.order) {
+    const threadOrder = thread.order.split(" ")
+    thread.artworks = thread.artworks.sort((a, b) => {
+      return threadOrder.indexOf('' + a.id) - threadOrder.indexOf('' + b.id)
+    })
+  }
+})
+
 import ThreadList from './thread-list'
 import ThreadMarkers from './thread-markers'
 

@@ -66,8 +66,9 @@ export default class extends React.Component {
   threadsToLayerGroupsWithPolyline () {
     const values = Object.values
     return this.threadsToLayerGroups((group, thread) => {
+      const loopedLayers = values(group._layers).concat(values(group._layers)[0])
       const line = L.polyline(
-        values(group._layers).map(dot => values(dot._latlng)),
+        loopedLayers.map(dot => values(dot._latlng)),
         {dashArray: [3, 10], color: thread.color}
       )
       group.addLayer(line)
