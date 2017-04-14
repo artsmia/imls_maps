@@ -5,8 +5,6 @@
 
 keep leaflet in sync when map area changes size
 
-'show thread' button full-screens the map and hides the artwork info
-
 design
   MiaGrotesk
   header

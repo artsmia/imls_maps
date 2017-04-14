@@ -4,11 +4,11 @@ import imageUrl from '../util/image-url'
 
 export default class extends React.Component {
   render () {
-    const {activeArtwork: art} = this.props
+    const {activeArtwork: art, activeThread: thread} = this.props
 
     return <section id="artwork">
       <div className="right">
-        <header><h1>{art.meta.title}</h1></header>
+        <header><h1>{thread.title}</h1></header>
 
         {this.quickFacts()}
         {this.mainContent()}
@@ -37,7 +37,7 @@ export default class extends React.Component {
             className="showThread"
             onClick={() => this.props.setGlobalState({activeArtwork: null, mapFullscreen: true})}
           >
-            ↺
+            ↺ see route
           </span>
         </div>
       </div>
@@ -70,6 +70,9 @@ export default class extends React.Component {
           width: 100%;
         }
 
+        .pagination {
+          margin-top: 3em;
+        }
         .pagination > div {
           width: 5em;
           height: 5em;

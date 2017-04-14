@@ -30,11 +30,15 @@ export default class extends React.Component {
         {this.state.map && <Threads {...propsToPass} />}
         {this.state.activeArtwork && <Artwork {...propsToPass} />}
         <span
-          style={{position: 'absolute', bottom: '1rem', left: '1rem', zIndex: 500, fontSize: '4em'}}
+          style={{position: 'absolute', bottom: '1rem', left: '1rem', zIndex: 50000000000, fontSize: '4em'}}
           className="home"
-          onClick={() => this.setGlobalState({activeArtwork: null, activeThread: null})}
+          onClick={() => this.setState({
+            activeArtwork: null,
+            activeThread: null,
+            mapFullscreen: false
+          })}
         >
-          🏠 ⌂
+          🏠 home
         </span>
       </div>
     )

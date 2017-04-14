@@ -74,7 +74,11 @@ export default class extends React.Component {
   }
 
   artworkClicked (art, thread) {
-    this.props.setGlobalState({activeArtwork: art, activeThread: thread})
+    this.props.setGlobalState({
+      activeArtwork: art,
+      activeThread: thread,
+      mapFullscreen: false
+    })
   }
 
   updateActiveMapLayers (props, state) {
@@ -121,7 +125,7 @@ function artToMarker(art, thread, onClick) {
   art.imageIcon = imageIcon
   art.dotIcon = dotIcon
 
-  const m = L.marker(art.coords.reverse(), {
+  const m = L.marker(art.coords.slice().reverse(), {
     title: art.meta.title,
     icon: imageIcon
   })
