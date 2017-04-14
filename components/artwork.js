@@ -194,7 +194,7 @@ export default class extends React.Component {
         onClick={() => update({activeArtwork: art, activeThread: thread})}
         key={'addlThread-'+index}
       >
-        <img src={imageUrl(thread.artworks[0].id)} />
+        <img src={imageUrl(thread.image)} />
         <p>{thread.title}</p>
       </div>
     })

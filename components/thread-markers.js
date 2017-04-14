@@ -51,6 +51,7 @@ export default class extends React.Component {
 
   threadsToLayerGroups (callback) {
     let {threads} = this.props
+
     return threads.map(thread => {
       let g = L.layerGroup(
         thread.artworks
