@@ -103,11 +103,10 @@ export default class extends React.Component {
           left: 0.65em;
         }
 
-
         .seeRoute span {
           cursor: pointer;
-          font-size: 3em !important;
-          padding: 1em 0.25em;
+          font-size: 2em !important;
+          padding: 1em;
         }
 
         .seeRoute span:hover, .seeRoute span:active {

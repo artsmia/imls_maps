@@ -37,7 +37,7 @@ export default class extends React.Component {
         {this.state.map && <Threads {...propsToPass} />}
         {this.state.activeArtwork && <Artwork {...propsToPass} />}
         <div
-          style={{position: 'fixed', bottom: '1rem', left: '1rem', zIndex: 50000000000, fontSize: '3em'}}
+          style={{position: 'fixed', bottom: '1rem', left: '1rem', zIndex: 50000000000, fontSize: '2em'}}
           className="home"
           onClick={() => this.setState({
             activeArtwork: null,
