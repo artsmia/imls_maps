@@ -81,12 +81,14 @@ export default class extends React.Component {
           background-repeat: no-repeat;
           background-size: cover;
           background-position: center;
+          color: transparent;
         }
         .pagination > div:before {
           content: "\\2190";
           font-size: 3em;
           position: relative;
           top: -1em;
+          color: #232323;
         }
         .pagination > div {
           float: left;
@@ -152,21 +154,25 @@ export default class extends React.Component {
       (activeIndex-1)%thread.artworks.length
     const nextArt = thread.artworks[nextIndex]
     const prevArt = thread.artworks[prevIndex]
+    const nextLabel = "next artwork →"
+    const prevLabel = "← previous artwork"
 
     return <div className="pagination">
       <div
         className="prev"
         onClick={() => update({activeArtwork: prevArt})}
         style={{backgroundImage: `url(${imageUrl(prevArt.id)})`}}
+        title={prevLabel}
       >
-        &larr;
+        {prevLabel}
       </div>
       <div
         className="next"
         onClick={() => update({activeArtwork: nextArt})}
         style={{backgroundImage: `url(${imageUrl(nextArt.id)})`}}
+        title={nextLabel}
       >
-        &rarr;
+        {nextLabel}
       </div>
     </div>
   }
