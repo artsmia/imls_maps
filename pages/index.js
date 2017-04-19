@@ -20,7 +20,7 @@ export default class extends React.Component {
   render () {
     const headerHeight = this.state.activeThread || this.state.activeArtwork ?
       '0vh' :
-      '13vh'
+      '23vh'
 
     let propsToPass = {
       setGlobalState: this.setGlobalState.bind(this),
