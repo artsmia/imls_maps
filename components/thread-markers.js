@@ -69,8 +69,13 @@ export default class extends React.Component {
       const loopedLayers = values(group._layers).concat(values(group._layers)[0])
       const line = L.polyline(
         loopedLayers.map(dot => values(dot._latlng)),
-        {dashArray: [3, 10], color: thread.color}
+        {dashArray: [7, 10], color: thread.color}
       )
+      const lineOutlineBlack = L.polyline(
+        loopedLayers.map(dot => values(dot._latlng)),
+        {dashArray: [7, 10], color: '#232323', strokeWidth: '1'}
+      )
+      group.addLayer(lineOutlineBlack)
       group.addLayer(line)
     })
   }
@@ -137,8 +142,9 @@ function artToMarker(art, thread, onClick) {
 }
 
 function centerPaddedBounds(layers, map) {
-  var nextMove = map._getBoundsCenterZoom(
-    paddedBoundsFromLayer(layers, 0.1, L)
-  )
-  map.flyTo(nextMove.center, nextMove.zoom)
+  const nextBounds = paddedBoundsFromLayer(layers, 0.1, L)
+  if(nextBounds) {
+    var nextMove = map._getBoundsCenterZoom(nextBounds)
+    map.flyTo(nextMove.center, nextMove.zoom)
+  }
 }
