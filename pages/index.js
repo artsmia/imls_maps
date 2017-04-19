@@ -28,7 +28,7 @@ export default class extends React.Component {
       headerHeight,
     }
 
-    var mapWidth = this.state.activeArtwork ? '55vw' : '71vw'
+    var mapWidth = this.state.activeArtwork ? 'calc(100vw - 39rem)' : '71vw'
 
     return (
       <div>
@@ -37,7 +37,7 @@ export default class extends React.Component {
         {this.state.map && <Threads {...propsToPass} />}
         {this.state.activeArtwork && <Artwork {...propsToPass} />}
         <div
-          style={{position: 'absolute', bottom: '1rem', left: '1rem', zIndex: 50000000000, fontSize: '3em'}}
+          style={{position: 'fixed', bottom: '1rem', left: '1rem', zIndex: 50000000000, fontSize: '3em'}}
           className="home"
           onClick={() => this.setState({
             activeArtwork: null,
@@ -63,5 +63,13 @@ export default class extends React.Component {
     )
     this.setState && this.setState(state)
     window.state = this.state
+  }
+
+  componentWillUpdate (nextProps, nextState) {
+    if(this.state.activeArtwork && nextState.activeArtwork == null ||
+       this.state.activeArtwork == null && nextState.activeArtwork ||
+       this.state.activeThread == null && nextState.activeThread) {
+      setTimeout(() => this.state.map.invalidateSize(), 0)
+    }
   }
 }

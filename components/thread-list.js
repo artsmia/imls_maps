@@ -30,12 +30,15 @@ export default (props) => {
       }
       li {
         list-style: none;
-        padding: 2.5rem 3em;
         font-size: 2em;
         border: 1px solid black;
         border-width: 1px 0 1px 0;
         border-left: 1rem solid transparent;
         cursor: pointer;
+      }
+      li span {
+        display: inline-block;
+        padding: 2.5rem 4vw;
       }
       ${threadBorderColorStyles}
     `}</style>

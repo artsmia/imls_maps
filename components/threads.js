@@ -55,6 +55,7 @@ export default class extends React.Component {
           position: absolute;
           top: 7vh;
           left: 71vw;
+          width: 29vw;
         }
       `}</style>
     </div>

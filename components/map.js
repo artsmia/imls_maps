@@ -13,6 +13,7 @@ export default class extends React.Component {
       <style jsx>{`
         div#map {
           height: 100vh;
+          position: fixed;
         }
       `}</style>
     </div>

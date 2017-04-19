@@ -32,7 +32,7 @@ export default class extends React.Component {
         </figure>
 
         {this.threadNavigation()}
-        <div style={{position: 'absolute', bottom: '1em'}} className="seeRoute">
+        <div style={{position: 'fixed', bottom: '1em'}} className="seeRoute">
           <span
             className="showThread"
             onClick={() => this.props.setGlobalState({mapFullscreen: true})}
@@ -46,8 +46,8 @@ export default class extends React.Component {
         #artwork {
           position: absolute;
           top: 0;
-          left: 55vw;
-          width: 45vw;
+          left: calc(100vw - 39rem);
+          width: 39rem;
           height: 100%;
           background: white;
         }
@@ -105,7 +105,7 @@ export default class extends React.Component {
         .seeRoute span {
           cursor: pointer;
           font-size: 3em !important;
-          padding: 1em;
+          padding: 1em 0.25em;
         }
 
         .seeRoute span:hover, .seeRoute span:active {
@@ -114,6 +114,13 @@ export default class extends React.Component {
 
         figure {
           min-height: 60vh;
+        }
+
+        figcaption p {
+          margin-bottom: 0
+        }
+        figcaption p + p {
+          margin: 0
         }
       `}</style>
     </section>
