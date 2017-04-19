@@ -217,17 +217,17 @@ export default class extends React.Component {
     .filter(t => t && t !== thread)
     .map((thread, index) => {
       return <div
-        style={{cursor: 'pointer', maxWidth: '30%'}}
+        style={{cursor: 'pointer', maxWidth: '43%'}}
         onClick={() => update({activeArtwork: art, activeThread: thread})}
         key={'addlThread-'+index}
       >
-        <img src={imageUrl(thread.image)} />
-        <p>{thread.title}</p>
+        <img src={imageUrl(thread.image)} style={{border: '1px solid #232323'}} />
+        <p style={{marginTop: '-.5em'}}>{thread.title}</p>
       </div>
     })
 
     return additionalThreads.length > 0 && <div>
-      <p>See how this related to other routes</p>
+      <h3 style={{margin: '2.5em 0 0 0'}}>See how this is related to other routes</h3>
       {additionalThreads}
     </div>
   }
