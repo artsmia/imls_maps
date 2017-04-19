@@ -178,11 +178,29 @@ export default class extends React.Component {
 
   quickFacts() {
     const {activeThread: thread} = this.props
-    const randomFact = thread.facts[Math.floor(Math.random()*thread.facts.length)]
+    const index = this.state && this.state.quickFactIndex || 0
+    const activeFact = thread.facts[index]
+    const dotStyle = {backgroundColor: '#eee', borderRadius: '1em', display: 'inline-block', width: '0.5em', height: '0.5em', margin: '0 0.25em'}
+    const factSelectors = thread.facts
+      .map((fact, index) => {
+        console.info(fact, index, activeFact)
+        return fact == activeFact ?
+          <span style={{...dotStyle, backgroundColor: '#232323'}} /> :
+          <span
+            style={dotStyle}
+            onClick={this.changeQuickFact.bind(this, index)}
+          />
+      })
 
-    return <p>
-      {randomFact}
-    </p>
+    return <div>
+      <h3 style={{display: 'inline-block', paddingRight: '0.5em', marginBottom: 0}}>About this Route</h3> 
+      {factSelectors}
+      <p style={{marginBottom: 0}}>{activeFact}</p>
+    </div>
+  }
+
+  changeQuickFact(index) {
+    this.setState({quickFactIndex: index})
   }
 
   mainContent() {
