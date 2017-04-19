@@ -47,6 +47,11 @@ export default class extends React.Component {
       position: 'topright',
       pseudoFullscreen: true,
     }).addTo(map)
+
+    map.on('fullscreenchange', () => {
+      console.info('map on fullscreenchange')
+      this.props.setGlobalState({mapFullscreen: map.isFullscreen()})
+    })
   }
 
   componentWillUpdate(nextProps, nextState) {

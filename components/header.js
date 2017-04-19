@@ -6,7 +6,7 @@ export default (props) => {
 
     <style>{`
       body {
-        font-family: "MiaGrotesk-Light", sans-serif;
+        font-family: MiaGrotesk-Light, sans-serif;
         line-height: 2rem;
         font-weight: 400;
         color: #232323;
