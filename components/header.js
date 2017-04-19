@@ -2,7 +2,7 @@ import Head from 'next/head'
 
 export default (props) => {
   return <header style={{height: props.headerHeight}}>
-    <h1>Explore Mia's Global Collection Through World History</h1>
+    <h1>Explore Mia's Global Collection through World History</h1>
     <p>Select a topic below to begin</p>
 
     <style>{`

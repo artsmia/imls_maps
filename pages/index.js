@@ -30,14 +30,29 @@ export default class extends React.Component {
 
     var mapWidth = this.state.activeArtwork ? 'calc(100vw - 39rem)' : '71vw'
 
+    const showHomeButton = this.state.activeArtwork || this.state.activeThread
+    const homeButtonStyles = {
+      position: 'fixed',
+      bottom: '1rem',
+      left: '-1.5em',
+      zIndex: 50000000000,
+      fontSize: '2em',
+    }
+    const homeIconStyles = {
+      fontSize: '2em',
+      position: 'relative',
+      top: '-0.25em',
+      left: '1.25em',
+    }
+
     return (
       <div>
         <Header {...propsToPass} />
         <Map {...propsToPass} mapWidth={mapWidth} />
         {this.state.map && <Threads {...propsToPass} />}
         {this.state.activeArtwork && <Artwork {...propsToPass} />}
-        <div
-          style={{position: 'fixed', bottom: '1rem', left: '1rem', zIndex: 50000000000, fontSize: '2em'}}
+        {showHomeButton && <div
+          style={homeButtonStyles}
           className="home"
           onClick={() => this.setState({
             activeArtwork: null,
@@ -45,8 +60,8 @@ export default class extends React.Component {
             mapFullscreen: false
           })}
         >
-          <span className="material-icons" style={{fontSize: '2em'}}>home</span> see all
-        </div>
+          <span className="material-icons" style={homeIconStyles}>home</span> see all
+        </div>}
       </div>
     )
   }

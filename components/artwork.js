@@ -37,7 +37,7 @@ export default class extends React.Component {
             className="showThread"
             onClick={() => this.props.setGlobalState({mapFullscreen: true})}
           >
-            ↺ see route
+            <i style={{position: 'relative', top: 2, fontStyle: 'normal'}}>↺</i> see route
           </span>
         </div>
       </div>
