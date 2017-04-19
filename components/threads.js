@@ -46,14 +46,14 @@ export default class extends React.Component {
   render () {
     const {artMeta} = this.props
     const propsToPass = {...this.props, threads: activeThreads}
-    return <div id="threads">
+    return <div id="threads" style={{top: this.props.headerHeight}}>
       <ThreadList {...propsToPass} />
       {artMeta && <ThreadMarkers {...propsToPass} objects={allObjects} />}
 
       <style>{`
         #threads {
           position: absolute;
-          top: 0;
+          top: 7vh;
           left: 71vw;
         }
       `}</style>

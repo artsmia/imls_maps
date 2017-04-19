@@ -32,10 +32,10 @@ export default class extends React.Component {
         </figure>
 
         {this.threadNavigation()}
-        <div style={{position: 'absolute', bottom: '1em'}} className="home">
+        <div style={{position: 'absolute', bottom: '1em'}} className="seeRoute">
           <span
             className="showThread"
-            onClick={() => this.props.setGlobalState({activeArtwork: null, mapFullscreen: true})}
+            onClick={() => this.props.setGlobalState({mapFullscreen: true})}
           >
             ↺ see route
           </span>
@@ -71,16 +71,22 @@ export default class extends React.Component {
         }
 
         .pagination {
-          margin-top: 3em;
+          margin-top: 5em;
         }
         .pagination > div {
           width: 5em;
           height: 5em;
           border-radius: 3em;
-          display: inline-block; 
+          display: inline-block;
           background-repeat: no-repeat;
           background-size: cover;
           background-position: center;
+        }
+        .pagination > div:before {
+          content: "\\2190";
+          font-size: 3em;
+          position: relative;
+          top: -1em;
         }
         .pagination > div {
           float: left;
@@ -90,15 +96,24 @@ export default class extends React.Component {
           float: right;
           margin: 0 2em 0 0;
         }
+        .pagination > div + div:before {
+          content: "\\2192";
+          left: 0.65em;
+        }
 
-        .home span {
+
+        .seeRoute span {
           cursor: pointer;
-          font-size:200%;
+          font-size: 3em !important;
           padding: 1em;
         }
 
-        .home span:hover, .home span:active {
+        .seeRoute span:hover, .seeRoute span:active {
           background-color: rgba(100, 200, 300, 0.2);
+        }
+
+        figure {
+          min-height: 60vh;
         }
       `}</style>
     </section>

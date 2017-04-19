@@ -3,7 +3,13 @@ let L
 
 export default class extends React.Component {
   render () {
-    return <div id="map" style={{width: this.props.mapWidth}}>
+    const {mapWidth, headerHeight} = this.props
+    const mapStyle = {
+      width: mapWidth,
+      height: `${100 - parseInt(headerHeight)}vh`,
+    }
+
+    return <div id="map" style={mapStyle}>
       <style jsx>{`
         div#map {
           height: 100vh;

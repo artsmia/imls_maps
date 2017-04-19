@@ -15,6 +15,8 @@ export default class MyDocument extends Document {
           <style>{`body { margin: 0 }`}</style>
           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0-beta.1/leaflet.css" />
           <link rel="stylesheet" href="/static/leaflet.fullscreen.css" />
+          <link rel="stylesheet" href="https://mia-grotesk.s3.amazonaws.com/index.css" />
+          <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
           <script src="https://mapzen.com/tangram/0.8/tangram.min.js"></script>
         </Head>
         <body>

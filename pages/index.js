@@ -3,6 +3,7 @@ import React from 'react'
 import Map from '../components/map'
 import Threads from '../components/threads'
 import Artwork from '../components/artwork'
+import Header from '../components/header'
 
 export default class extends React.Component {
   constructor () {
@@ -17,20 +18,26 @@ export default class extends React.Component {
   }
 
   render () {
+    const headerHeight = this.state.activeThread || this.state.activeArtwork ?
+      '0vh' :
+      '13vh'
+
     let propsToPass = {
       setGlobalState: this.setGlobalState.bind(this),
       ...this.state,
+      headerHeight,
     }
 
     var mapWidth = this.state.activeArtwork ? '55vw' : '71vw'
 
     return (
       <div>
+        <Header {...propsToPass} />
         <Map {...propsToPass} mapWidth={mapWidth} />
         {this.state.map && <Threads {...propsToPass} />}
         {this.state.activeArtwork && <Artwork {...propsToPass} />}
-        <span
-          style={{position: 'absolute', bottom: '1rem', left: '1rem', zIndex: 50000000000, fontSize: '4em'}}
+        <div
+          style={{position: 'absolute', bottom: '1rem', left: '1rem', zIndex: 50000000000, fontSize: '3em'}}
           className="home"
           onClick={() => this.setState({
             activeArtwork: null,
@@ -38,8 +45,8 @@ export default class extends React.Component {
             mapFullscreen: false
           })}
         >
-          🏠 home
-        </span>
+          <span className="material-icons" style={{fontSize: '2em'}}>home</span> see all
+        </div>
       </div>
     )
   }
