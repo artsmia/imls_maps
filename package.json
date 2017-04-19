@@ -27,8 +27,12 @@
   "homepage": "https://github.com/artsmia/imls_maps#readme",
   "dependencies": {
     "glob-fs": "0.1.6",
+    "leaflet": "1.0.3",
+    "leaflet-fullscreen": "1.0.2",
     "markdown-to-json-with-content": "0.0.3",
     "next": "^2.1.0",
+    "react": "15.5.4",
+    "react-dom": "15.5.4",
     "remark": "5.0.1",
     "remark-html": "5.0.0"
   },
