@@ -3,6 +3,14 @@ import React from 'react'
 import imageUrl from '../util/image-url'
 
 export default class extends React.Component {
+  constructor () {
+    super()
+    this.state = {
+      clicks: 0,
+      quickFactIndex: -1,
+    }
+  }
+
   render () {
     const {activeArtwork: art, activeThread: thread} = this.props
 
@@ -143,7 +151,7 @@ export default class extends React.Component {
     const {
       activeThread: thread,
       activeArtwork: art,
-      setGlobalState: update
+      setGlobalState,
     } = this.props
     
     const activeIndex = thread.artworks.indexOf(art)
@@ -156,10 +164,16 @@ export default class extends React.Component {
     const nextLabel = "next artwork →"
     const prevLabel = "← previous artwork"
 
+    const updateFn = art => {
+      const nextClicks = this.state.clicks + 1
+      setGlobalState({activeArtwork: art})
+      this.setState({clicks: nextClicks})
+    }
+
     return <div className="pagination">
       <div
         className="prev"
-        onClick={() => update({activeArtwork: prevArt})}
+        onClick={updateFn.bind(this, prevArt)}
         style={{backgroundImage: `url(${imageUrl(prevArt.id)})`}}
         title={prevLabel}
       >
@@ -167,7 +181,7 @@ export default class extends React.Component {
       </div>
       <div
         className="next"
-        onClick={() => update({activeArtwork: nextArt})}
+        onClick={updateFn.bind(this, nextArt)}
         style={{backgroundImage: `url(${imageUrl(nextArt.id)})`}}
         title={nextLabel}
       >
@@ -177,20 +191,24 @@ export default class extends React.Component {
   }
 
   quickFacts() {
-    const {activeThread: thread} = this.props
-    const index = this.state && this.state.quickFactIndex || 0
+    const {activeThread: thread, activeArtwork: art} = this.props
+    const artIndex = thread.artworks.indexOf(art)
+
+    const advanceAutomatically = this.state && !this.state.advancedManually || true
+    const index = this.state && this.state.quickFactIndex > -1
+      ? this.state.quickFactIndex
+      : advanceAutomatically && this.state.clicks % thread.facts.length
     const activeFact = thread.facts[index]
+
     const dotStyle = {backgroundColor: '#eee', borderRadius: '1em', display: 'inline-block', width: '0.5em', height: '0.5em', margin: '0 0.25em'}
-    const factSelectors = thread.facts
-      .map((fact, index) => {
-        console.info(fact, index, activeFact)
-        return fact == activeFact ?
-          <span style={{...dotStyle, backgroundColor: '#232323'}} /> :
-          <span
+    const factSelectors = thread.facts.map((fact, index) => {
+      return fact == activeFact
+        ? <span style={{...dotStyle, backgroundColor: '#232323'}} />
+        : <span
             style={dotStyle}
             onClick={this.changeQuickFact.bind(this, index)}
           />
-      })
+    })
 
     return <div>
       <h3 style={{display: 'inline-block', paddingRight: '0.5em', marginBottom: 0}}>About this Route</h3> 
@@ -200,7 +218,10 @@ export default class extends React.Component {
   }
 
   changeQuickFact(index) {
-    this.setState({quickFactIndex: index})
+    this.setState({
+      quickFactIndex: index,
+      advancedManually: true,
+    })
   }
 
   mainContent() {
@@ -249,5 +270,4 @@ export default class extends React.Component {
       {additionalThreads}
     </div>
   }
-
 }
