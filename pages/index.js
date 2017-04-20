@@ -10,6 +10,7 @@ export default class extends React.Component {
     super()
     this.state = {
       map: null,
+      showIconLabels: true,
     }
   }
 
@@ -31,18 +32,22 @@ export default class extends React.Component {
     var mapWidth = this.state.activeArtwork ? 'calc(100vw - 39rem)' : '71vw'
 
     const showHomeButton = this.state.activeArtwork || this.state.activeThread
+    const {showIconLabels} = this.state
     const homeButtonStyles = {
       position: 'fixed',
-      bottom: '1rem',
-      left: '-1.5em',
+      bottom: 0,
+      marginLeft: showIconLabels ? '-.75em' : '.5em',
       zIndex: 50000000000,
-      fontSize: '2em',
+      fontSize: '2rem',
+      padding: '1em 0.5em 0.5em 0',
     }
     const homeIconStyles = {
-      fontSize: '2em',
-      position: 'relative',
-      top: '-0.25em',
-      left: '1.25em',
+      fontSize: '3rem',
+      ...(showIconLabels ? {
+        position: 'relative',
+        top: '-0.5em',
+        left: '4rem',
+      } : {})
     }
 
     return (
@@ -53,15 +58,18 @@ export default class extends React.Component {
         {this.state.activeArtwork && <Artwork {...propsToPass} />}
         {showHomeButton && <div
           style={homeButtonStyles}
-          className="home"
+          className="home iconButton"
           onClick={() => this.setState({
             activeArtwork: null,
             activeThread: null,
             mapFullscreen: false
           })}
         >
-          <span className="material-icons" style={homeIconStyles}>home</span> see all
+          <span className="material-icons" style={homeIconStyles}>home</span>
+          {showIconLabels && 'see all'}
         </div>}
+
+        {this.specialControls()}
       </div>
     )
   }
@@ -86,5 +94,16 @@ export default class extends React.Component {
        this.state.activeThread == null && nextState.activeThread) {
       setTimeout(() => this.state.map.invalidateSize(), 0)
     }
+  }
+
+  specialControls () {
+    const {showIconLabels} = this.state
+
+    return <div>
+      <button
+        style={{position: 'absolute', bottom: '1em', right: '1em'}}
+        onClick={() => this.setState({showIconLabels: !showIconLabels})}
+      >{showIconLabels ? 'Hide' : 'Show'} Labels</button>
+    </div>
   }
 }

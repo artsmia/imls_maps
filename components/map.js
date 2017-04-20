@@ -36,15 +36,21 @@ export default class extends React.Component {
 
     var tangramLayer = Tangram.leafletLayer({
       scene: 'static/scene.yaml',
-      attribution: '<a href="https://mapzen.com/tangram" target="_blank">Tangram</a> | &copy; OSM contributors | <a href="https://mapzen.com/" target="_blank">Mapzen</a>'
+      attribution: '<a href="https://mapzen.com/tangram" target="_blank">Tangram</a> | &copy; OSM contributors'
     })
     const mapboxLayer = L.tileLayer(
       'https://api.mapbox.com/styles/v1/kjell/cj1pezubs00142rmr8owg43op/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoia2plbGwiLCJhIjoicm96TVFucyJ9.AsAmWG_TPyhDhJLEC7hKTw',
-      {detectRetina: true}
+      {
+        attribution: 'Mapbox | &copy; OSM contributors',
+        detectRetina: true
+      }
     )
     const mapboxQuietLayer = L.tileLayer(
       'https://api.mapbox.com/styles/v1/kjell/cj1pnkzsy000v2rr67vs71p1y/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoia2plbGwiLCJhIjoicm96TVFucyJ9.AsAmWG_TPyhDhJLEC7hKTw',
-      {detectRetina: true}
+      {
+        attribution: 'Mapbox | &copy; OSM contributors',
+        detectRetina: true
+      }
     )
     const mapboxQuietGL = L.mapboxGL({
       style: 'mapbox://styles/kjell/cj1pnkzsy000v2rr67vs71p1y',

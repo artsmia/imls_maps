@@ -40,12 +40,14 @@ export default class extends React.Component {
         </figure>
 
         {this.threadNavigation()}
-        <div style={{position: 'fixed', bottom: '1em'}} className="seeRoute">
+        <div style={{position: 'fixed', bottom: 0, padding: '1em'}} className="seeRoute iconButton">
           <span
             className="showThread"
+            style={{padding: '1em 0'}}
             onClick={() => this.props.setGlobalState({mapFullscreen: true})}
           >
-            <i style={{position: 'relative', top: 2, fontStyle: 'normal'}}>↺</i> see route
+            <i style={{position: 'relative', top: 2, fontStyle: 'normal'}}>↺</i>
+            {this.props.showIconLabels && ' see route'}
           </span>
         </div>
       </div>
@@ -115,10 +117,6 @@ export default class extends React.Component {
           cursor: pointer;
           font-size: 2em !important;
           padding: 1em;
-        }
-
-        .seeRoute span:hover, .seeRoute span:active {
-          background-color: rgba(100, 200, 300, 0.2);
         }
 
         figure {
@@ -200,7 +198,14 @@ export default class extends React.Component {
       : advanceAutomatically && this.state.clicks % thread.facts.length
     const activeFact = thread.facts[index]
 
-    const dotStyle = {backgroundColor: '#eee', borderRadius: '1em', display: 'inline-block', width: '0.5em', height: '0.5em', margin: '0 0.25em'}
+    const dotStyle = {
+      backgroundColor: '#eee',
+      borderRadius: '1em',
+      display: 'inline-block',
+      width: '0.5em',
+      height: '0.5em',
+      margin: '0 0.25em'
+    }
     const factSelectors = thread.facts.map((fact, index) => {
       return fact == activeFact
         ? <span style={{...dotStyle, backgroundColor: '#232323'}} />
