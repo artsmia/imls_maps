@@ -29,6 +29,7 @@
     "glob-fs": "0.1.6",
     "leaflet": "1.0.3",
     "leaflet-fullscreen": "1.0.2",
+    "mapbox-gl-leaflet": "0.0.2",
     "markdown-to-json-with-content": "0.0.3",
     "next": "^2.1.0",
     "react": "15.5.4",

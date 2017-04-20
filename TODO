@@ -31,5 +31,8 @@ break out pages/routes
   check on server rendering
     map won't show, so what's the placeholder?
     getInitialProps for each page
+  https://github.com/fridays/next-routes
+
+https://github.com/jxnblk/cxs
 
 remove old prototype code

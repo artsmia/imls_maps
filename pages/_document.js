@@ -18,6 +18,8 @@ export default class MyDocument extends Document {
           <link rel="stylesheet" href="https://mia-grotesk.s3.amazonaws.com/index.css" />
           <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
           <script src="https://mapzen.com/tangram/0.8/tangram.min.js"></script>
+          <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.14.3/mapbox-gl.css' rel='stylesheet' />
+          <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.14.3/mapbox-gl.js'></script>
         </Head>
         <body>
           <Main />
