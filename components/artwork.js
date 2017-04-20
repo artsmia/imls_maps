@@ -15,21 +15,21 @@ export default class extends React.Component {
     const {activeArtwork: art, activeThread: thread} = this.props
 
     return <section id="artwork">
-      <div className="right">
-        <header><h1>{thread.title}</h1></header>
+      <div className="right" style={{paddingTop: '1em'}}>
+        <header style={{backgroundColor: thread.color, padding: '1em'}}><h1 style={{margin: 0}}>{thread.title}</h1></header>
 
         {this.quickFacts()}
         {this.mainContent()}
 
-        {this.relatedArtworks()}
         {this.addlThreads()}
+        {this.relatedArtworks()}
       </div>
 
       <div className="left">
         <figure>
           <img src={imageUrl(art.id)} />
           <figcaption>
-            <p><strong>{art.meta.title}</strong>, {art.meta.dated}</p>
+            <p><strong>{art.meta.title.replace(/<\/?I>/g, '')}</strong>, {art.meta.dated}</p>
             <p>
               {art.meta.artist && art.meta.artist.replace('Artist: ', '') ||
                 art.meta.culture ||
@@ -56,8 +56,8 @@ export default class extends React.Component {
         #artwork {
           position: absolute;
           top: 0;
-          left: calc(100vw - 39rem);
-          width: 39rem;
+          left: calc(100vw - 51rem);
+          width: 51rem;
           height: 100%;
           background: white;
         }
@@ -135,10 +135,16 @@ export default class extends React.Component {
 
   relatedArtworks () {
     const {activeArtwork: art} = this.props
+    if(art.relateds.length == 0) return <span />
 
     return <div className={`relateds`}>
+      <h3 style={{margin: '2.5em 0 0 0'}}>Related Artworks</h3>
       {art.relateds.map(id => {
-        <a href={`https://artsmia.org/art/${id}`}>
+        return <a
+          href={`#`}
+          key={id}
+          style={{cursor: 'pointer', maxWidth: '43%', display: 'block'}}
+        >
           <img src={imageUrl(id)} />
         </a>
       })}
@@ -199,7 +205,7 @@ export default class extends React.Component {
     const activeFact = thread.facts[index]
 
     const dotStyle = {
-      backgroundColor: '#eee',
+      backgroundColor: '#aaa',
       borderRadius: '1em',
       display: 'inline-block',
       width: '0.5em',
@@ -215,16 +221,18 @@ export default class extends React.Component {
           />
     })
 
-    return <div>
-      <h3 style={{display: 'inline-block', paddingRight: '0.5em', marginBottom: 0}}>About this Route</h3> 
+    return <div style={{backgroundColor: '#eee', padding: '1em'}}>
+      <h3 style={{display: 'inline-block', paddingRight: '0.5em', marginBottom: 0, marginTop: 0}}>About this Route</h3> 
       {factSelectors}
-      <p style={{marginBottom: 0}}>{activeFact}</p>
+      <p style={{marginBottom: 0}} onTouchEnd={this.changeQuickFact.bind(this, index+1)}>{activeFact}</p>
     </div>
   }
 
   changeQuickFact(index) {
+    const {activeThread: thread} = this.props
+
     this.setState({
-      quickFactIndex: index,
+      quickFactIndex: index % thread.facts.length,
       advancedManually: true,
     })
   }

@@ -110,7 +110,9 @@ export default class extends React.Component {
 
     if(activeArtwork) {
       activeArtwork.marker.setIcon(activeArtwork.imageIcon)
-      map.panTo(activeArtwork.marker._latlng)
+      // map.panTo(activeArtwork.marker._latlng)
+
+      map.flyTo(activeArtwork.marker._latlng, 8)
     }
 
     if(!activeArtwork && !activeThread && this.state) {

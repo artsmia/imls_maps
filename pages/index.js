@@ -29,7 +29,7 @@ export default class extends React.Component {
       headerHeight,
     }
 
-    var mapWidth = this.state.activeArtwork ? 'calc(100vw - 39rem)' : '71vw'
+    var mapWidth = this.state.activeArtwork ? 'calc(100vw - 51rem)' : '71vw'
 
     const showHomeButton = this.state.activeArtwork || this.state.activeThread
     const {showIconLabels} = this.state
