@@ -11,6 +11,7 @@ export default class extends React.Component {
     this.state = {
       map: null,
       showIconLabels: true,
+      alwaysAdvanceQuickFacts: false,
     }
   }
 
@@ -99,11 +100,15 @@ export default class extends React.Component {
   specialControls () {
     const {showIconLabels} = this.state
 
-    return <div>
+    const {showIconLabels, alwaysAdvanceQuickFacts} = this.state
+
+    return <div style={{position: 'absolute', bottom: '1em', right: '1em'}}>
       <button
-        style={{position: 'absolute', bottom: '1em', right: '1em'}}
         onClick={() => this.setState({showIconLabels: !showIconLabels})}
       >{showIconLabels ? 'Hide' : 'Show'} Labels</button>
+      <button
+        onClick={() => this.setState({alwaysAdvanceQuickFacts: !alwaysAdvanceQuickFacts})}
+      >{alwaysAdvanceQuickFacts ? '' : 'Don\'t'} auto-advance quick facts</button>
     </div>
   }
 }

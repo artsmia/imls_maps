@@ -32,11 +32,12 @@ export default class extends React.Component {
     if(L.mapboxGL == undefined) require('mapbox-gl-leaflet')
 
     var map = L.map('map', {zoomControl: false, minZoom: 2})
+    map.attributionControl.setPrefix('')
     L.control.zoom({position: 'topright'}).addTo(map)
 
     var tangramLayer = Tangram.leafletLayer({
       scene: 'static/scene.yaml',
-      attribution: '<a href="https://mapzen.com/tangram" target="_blank">Tangram</a> | &copy; OSM contributors'
+      attribution: 'Tangram | &copy; OSM contributors'
     })
     const mapboxLayer = L.tileLayer(
       'https://api.mapbox.com/styles/v1/kjell/cj1pezubs00142rmr8owg43op/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoia2plbGwiLCJhIjoicm96TVFucyJ9.AsAmWG_TPyhDhJLEC7hKTw',

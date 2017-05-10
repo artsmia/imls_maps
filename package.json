@@ -7,13 +7,11 @@
     "serve": "http-server --cors -p 3456",
     "watch": "watchify app.js -o bundle.js -dv",
     "serveJson": "node src/server.js",
-    "start": "npm run watch & npm run serve",
+    "start": "next start",
     "setup": "make artworks; npm run build",
-    "build": "node src/index.js > objects.json",
-    "next": "next",
-    "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "next": "next",
+    "dev": "next"
   },
   "repository": {
     "type": "git",

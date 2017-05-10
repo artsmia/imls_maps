@@ -14,11 +14,19 @@ export default class extends React.Component {
   render () {
     const {activeArtwork: art, activeThread: thread} = this.props
 
-    return <section id="artwork">
-      <div className="right" style={{paddingTop: '1em'}}>
-        <header style={{backgroundColor: thread.color, padding: '1em'}}><h1 style={{margin: 0}}>{thread.title}</h1></header>
+    const galleryLocation = art.meta.room.replace('G', '')
+    const onView = art.meta.room !== 'Not on View'
 
-        {this.quickFacts()}
+    return <section id="artwork">
+      <header style={{ backgroundColor: thread.color }}>
+        <h1 style={{ margin: 0, padding: '1rem' }}>{thread.title}</h1>
+
+        <div style={{backgroundColor: '#eee', padding: '1rem', position: 'relative', minHeight: '9em'}}>
+          {this.quickFacts()}
+          {this.threadNavigation()}
+        </div>
+      </header>
+      <div className="right" style={{}}>
         {this.mainContent()}
 
         {this.addlThreads()}
@@ -37,9 +45,14 @@ export default class extends React.Component {
             </p>
             <p>{art.meta.medium}</p>
           </figcaption>
+
+          <div className="location" style={{marginBottom: '3em'}}>
+            <p>{onView ? `Located in Gallery ${galleryLocation}` : 'Not on View'}</p>
+            {onView && <img src={`https://artsmia.github.io/map/galleries/${galleryLocation}.png`}
+              style={{maxWidth: '15em'}} />}
+          </div>
         </figure>
 
-        {this.threadNavigation()}
         <div style={{position: 'fixed', bottom: 0, padding: '1em'}} className="seeRoute iconButton">
           <span
             className="showThread"
@@ -47,7 +60,7 @@ export default class extends React.Component {
             onClick={() => this.props.setGlobalState({mapFullscreen: true})}
           >
             <i style={{position: 'relative', top: 2, fontStyle: 'normal'}}>↺</i>
-            {this.props.showIconLabels && ' see route'}
+            {this.props.showIconLabels && ' back to map'}
           </span>
         </div>
       </div>
@@ -81,7 +94,10 @@ export default class extends React.Component {
         }
 
         .pagination {
-          margin-top: 5em;
+          position: absolute;
+          width: 43%;
+          left: 57%;
+          top: 4em;
         }
         .pagination > div {
           width: 5em;
@@ -100,15 +116,22 @@ export default class extends React.Component {
           top: -1em;
           color: #232323;
         }
-        .pagination > div {
+        .pagination > div:nth-child(1) {
           float: left;
           margin-left: 2em;
         }
-        .pagination > div + div {
-          float: right;
-          margin: 0 2em 0 0;
+        .pagination > div:nth-child(2) {
+          margin-left: 2em;
+          border-radius: 0;
         }
-        .pagination > div + div:before {
+        .pagination > div:nth-child(2):before {
+          content: ""
+        }
+        .pagination > div:nth-child(3) {
+          float: right;
+          margin-right: 2em;
+        }
+        .pagination > div:nth-child(3):before {
           content: "\\2192";
           left: 0.65em;
         }
@@ -121,13 +144,14 @@ export default class extends React.Component {
 
         figure {
           min-height: 60vh;
+          margin: 1rem;
         }
 
-        figcaption p {
-          margin-bottom: 0
+        figcaption {
+          line-height: 1.5em;
         }
-        figcaption p + p {
-          margin: 0
+        figcaption p {
+          margin: 0;
         }
       `}</style>
     </section>
@@ -138,7 +162,7 @@ export default class extends React.Component {
     if(art.relateds.length == 0) return <span />
 
     return <div className={`relateds`}>
-      <h3 style={{margin: '2.5em 0 0 0'}}>Related Artworks</h3>
+      <h3 style={{margin: '2.5em 0 0 0'}}>Related:</h3>
       {art.relateds.map(id => {
         return <a
           href={`#`}
@@ -183,6 +207,9 @@ export default class extends React.Component {
       >
         {prevLabel}
       </div>
+      <div className="current"
+        style={{backgroundImage: `url(${imageUrl(art.id)})`}}
+      >(this artwork)</div>
       <div
         className="next"
         onClick={updateFn.bind(this, nextArt)}
@@ -198,8 +225,8 @@ export default class extends React.Component {
     const {activeThread: thread, activeArtwork: art} = this.props
     const artIndex = thread.artworks.indexOf(art)
 
-    const advanceAutomatically = this.state && !this.state.advancedManually || true
-    const index = this.state && this.state.quickFactIndex > -1
+    const advanceAutomatically = this.state && (this.props.alwaysAdvanceQuickFacts || !this.state.advancedManually) || true
+    const index = this.state && this.state.quickFactIndex > -1 && !this.props.alwaysAdvanceQuickFacts
       ? this.state.quickFactIndex
       : advanceAutomatically && this.state.clicks % thread.facts.length
     const activeFact = thread.facts[index]
@@ -220,11 +247,14 @@ export default class extends React.Component {
             onClick={this.changeQuickFact.bind(this, index)}
           />
     })
+    const nextFact = this.changeQuickFact.bind(this, index+1)
 
-    return <div style={{backgroundColor: '#eee', padding: '1em'}}>
+    return <div style={{backgroundColor: '#eee', width: '57%'}}>
       <h3 style={{display: 'inline-block', paddingRight: '0.5em', marginBottom: 0, marginTop: 0}}>About this Route</h3> 
-      {factSelectors}
-      <p style={{marginBottom: 0}} onTouchEnd={this.changeQuickFact.bind(this, index+1)}>{activeFact}</p>
+      <p style={{marginBottom: 0}} onTouchEnd={nextFact}>
+        {activeFact} 
+        {' '}<a style={{color: 'red'}} onClick={nextFact}>See next &rarr;</a>
+      </p>
     </div>
   }
 
@@ -279,7 +309,7 @@ export default class extends React.Component {
     })
 
     return additionalThreads.length > 0 && <div>
-      <h3 style={{margin: '2.5em 0 0 0'}}>See how this is related to other routes</h3>
+      <h3 style={{margin: '2.5em 0 0 0'}}>Transfer Routes</h3>
       {additionalThreads}
     </div>
   }
