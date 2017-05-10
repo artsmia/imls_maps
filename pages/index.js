@@ -98,8 +98,6 @@ export default class extends React.Component {
   }
 
   specialControls () {
-    const {showIconLabels} = this.state
-
     const {showIconLabels, alwaysAdvanceQuickFacts} = this.state
 
     return <div style={{position: 'absolute', bottom: '1em', right: '1em'}}>
