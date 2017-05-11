@@ -17,6 +17,22 @@ export default class extends React.Component {
     const galleryLocation = art.meta.room.replace('G', '')
     const onView = art.meta.room !== 'Not on View'
 
+    const seeRouteButton = (
+      <div
+        style={{ position: 'fixed', bottom: 0, padding: '1em' }}
+        className="seeRoute iconButton"
+      >
+        <span
+          className="showThread"
+          style={{ padding: '1em 0' }}
+          onClick={() => this.props.setGlobalState({ mapFullscreen: true })}
+        >
+          <i style={{ position: 'relative', top: 2, fontStyle: 'normal' }}>↺</i>
+          {this.props.showIconLabels && ' back to map'}
+        </span>
+      </div>
+    )
+
     return <section id="artwork">
       <header style={{ backgroundColor: thread.color }}>
         <h1 style={{ margin: 0, padding: '1rem' }}>{thread.title}</h1>
@@ -53,16 +69,7 @@ export default class extends React.Component {
           </div>
         </figure>
 
-        <div style={{position: 'fixed', bottom: 0, padding: '1em'}} className="seeRoute iconButton">
-          <span
-            className="showThread"
-            style={{padding: '1em 0'}}
-            onClick={() => this.props.setGlobalState({mapFullscreen: true})}
-          >
-            <i style={{position: 'relative', top: 2, fontStyle: 'normal'}}>↺</i>
-            {this.props.showIconLabels && ' back to map'}
-          </span>
-        </div>
+        {false && seeRouteButton}
       </div>
 
       <style>{`
