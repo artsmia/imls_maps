@@ -51,10 +51,12 @@ export default class extends React.Component {
       } : {})
     }
 
+    const debug = !!this.props.url.query.debug
+
     return (
       <div>
         <Header {...propsToPass} />
-        <Map {...propsToPass} mapWidth={mapWidth} />
+        <Map {...propsToPass} mapWidth={mapWidth} debug={debug} />
         {this.state.map && <Threads {...propsToPass} />}
         {this.state.activeArtwork && <Artwork {...propsToPass} />}
         {showHomeButton && <div
@@ -98,6 +100,9 @@ export default class extends React.Component {
   }
 
   specialControls () {
+    const debug = !!this.props.url.query.debug
+
+    if(!debug) return
     const {showIconLabels, alwaysAdvanceQuickFacts} = this.state
 
     return <div style={{position: 'absolute', bottom: '1em', right: '1em'}}>

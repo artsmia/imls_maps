@@ -67,9 +67,11 @@ export default class extends React.Component {
     defaultLayer.addTo(map)
 
     const backgroundLayers = L.layerGroup([mapboxLayer, tangramLayer])
-    const backgroundLayerChooser = L.control.layers(allLayers)
-    .setPosition('bottomright')
-    .addTo(map)
+    if(this.props.debug) {
+      const backgroundLayerChooser = L.control.layers(allLayers)
+      .setPosition('bottomright')
+      .addTo(map)
+    }
 
     map.setView([44.95833, -93.27434], 3)
 
