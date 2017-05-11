@@ -67,7 +67,7 @@ export default class extends React.Component {
           })}
         >
           <span className="material-icons" style={homeIconStyles}>home</span>
-          {showIconLabels && 'see all'}
+          {showIconLabels && 'home'}
         </div>}
 
         {this.specialControls()}
