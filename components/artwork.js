@@ -258,6 +258,7 @@ export default class extends React.Component {
 
     return <div style={{backgroundColor: '#eee', width: '57%'}}>
       <h3 style={{display: 'inline-block', paddingRight: '0.5em', marginBottom: 0, marginTop: 0}}>About this Route</h3> 
+      {factSelectors}
       <p style={{marginBottom: 0}} onTouchEnd={nextFact}>
         {activeFact} 
         {' '}<a style={{color: 'red'}} onClick={nextFact}>See next &rarr;</a>
