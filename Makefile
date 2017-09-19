@@ -24,17 +24,18 @@ redis:
 # npm install markdown-to-json
 artworks: map-locations.csv
 	@tail -n+2 map-locations.csv \
-  | csvgrep -c2,3,4,5,6,7,8 --regex '^$$' -i \
-	| csvgrep -c17,18,19 --regex '^$$' -i \
-	| csvgrep -c11 --regex '^$$' -i \
-	| csvcut -c2,3,4,5,6,7,8,11,17,18,19 \
+  | csvgrep -c2,3,4,5,6,7,8,9 --regex '^$$' -i \
+	| csvgrep -c18,19,20 --regex '^$$' -i \
+	| csvgrep -c12 --regex '^$$' -i \
+	| csvcut -c2,3,4,5,6,7,8,9,12,18,19,20 \
 	| csvjson \
+	| tee map-locations.json \
 	| jq -c -r 'map({ \
 		id: .["Primary Object ID"], \
 		coords: (.["Map Coordinates"] | split(", ") | reverse), \
-		threads: (. | to_entries | del(.[7,8,9,10]) | map(select(.value != null)) | map(.key)), \
+		threads: (. | to_entries | del(.[8,9,10,11]) | map(select(.value != null)) | map(.key)), \
 		relateds: ([.["Secondary Object ID"], .["Third Object ID"]] | del(.[] | nulls) | del(.[] | select(. == "#ERROR!"))), \
-		content: (. | to_entries | del(.[7,8,9,10]) | map(select(.value != null and .value != true and .value != "1")) | from_entries ) \
+		content: (. | to_entries | del(.[8,9,10,11]) | map(select(.value != null and .value != true and .value != "1" and .value != 1)) | from_entries ) \
 	})[]' \
 	| tee map-locations.json \
 	| while read -r json; do \
