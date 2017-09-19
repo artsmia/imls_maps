@@ -14,6 +14,7 @@ let activeThreads = [
   'silk-road',
   'red-dye-from-mexico',
   'blue-white',
+  'asian-design-in-europe',
 ].map(t => allThreads[t]).filter(t => !!t)
 
 let allObjects = require('../objects.json')
