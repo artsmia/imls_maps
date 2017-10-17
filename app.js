@@ -7,9 +7,13 @@ Object.keys(allThreads).map(key => {
   thread.title = thread.thread[0]
 })
 var activeThreads = [
+  'buddhism',
   'silk-road',
   'red-dye-from-mexico',
   'blue-white',
+  'asian-design-in-europe',
+  'silver',
+  'china-trade',
 ].map(t => allThreads[t]).filter(t => !!t)
 
 var map = L.map('map', {zoomControl: false, minZoom: 2})
@@ -309,7 +313,7 @@ loadMappedArtworks(function(json) {
     activeThreads.map(function(thread) {
       var layer = api.layerGroups[thread.title]
       L.polyline(
-        Object.values(layer._layers).map(dot => [dot._latlng.lat, dot._latlng.lng]),
+        Object.values(layer._layers).filter(({_latlng}) => _latlng).map(dot => [dot._latlng.lat, dot._latlng.lng]),
         {dashArray: [3, 10], color: api.threadColors[thread.title]}
       ).addTo(layer)
 

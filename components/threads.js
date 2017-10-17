@@ -11,10 +11,13 @@ Object.keys(allThreads).map(key => {
   thread.artworks = []
 })
 let activeThreads = [
+  'buddhism',
   'silk-road',
   'red-dye-from-mexico',
   'blue-white',
   'asian-design-in-europe',
+  'silver',
+  'china-trade',
 ].map(t => allThreads[t]).filter(t => !!t)
 
 let allObjects = require('../objects.json')

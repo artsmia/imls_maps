@@ -1,5 +1,11 @@
 SHELL := bash
 
+update:
+	dir="backup/$$(date +%Y-%m-%d-%H%M)"; \
+	mkdir $$dir; \
+	mv map-locations.{csv,json} objects.json threads.json $$dir
+	make artworks objects.json threads.json
+
 # Pull objects from a custom google doc built by the Maps team
 url = https://docs.google.com/spreadsheets/d/16_696FhwbifLh7jGycKBEwQkdIGgzZZ2VzqilXzriv0/export?format=csv
 map-locations.csv:

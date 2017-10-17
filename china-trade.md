@@ -8,6 +8,8 @@ title:
 - Quick Facts
 start:
 - 122483
+order: 122483 122487 14019 19404 1944 270 3076 3740 3741 4239 4418 63154 8362
+color: 'orange'
 ---
 
 Overseas trade between Europe and The China Trade Around 1600, Holland and England began to dominate trade with the “East Indies” - collectively Asia, India, and … Many other European nations had also established trade connections with the Far East by the mid-1700s
