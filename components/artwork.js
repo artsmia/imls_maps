@@ -78,7 +78,7 @@ export default class extends React.Component {
           top: 0;
           left: calc(100vw - 51rem);
           width: 51rem;
-          height: 100%;
+          height: 135vh;
           background: white;
         }
 

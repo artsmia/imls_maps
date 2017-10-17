@@ -15,7 +15,7 @@ let activeThreads = [
   'silk-road',
   'red-dye-from-mexico',
   'blue-white',
-  'asian-design-in-europe',
+  'asian-design-and-influence',
   'silver',
   'china-trade',
 ].map(t => allThreads[t]).filter(t => !!t)

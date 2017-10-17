@@ -1,6 +1,6 @@
 ---
 thread:
-- Asian Design in Europe
+- Asian Design and Influence
 coords:
 - 49.456014
 - 10.031008

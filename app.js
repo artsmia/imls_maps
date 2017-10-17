@@ -3,7 +3,9 @@ var remarkHtml = require('remark-html')
 var allThreads = require('./threads.json')
 Object.keys(allThreads).map(key => {
   var thread = allThreads[key]
-  allThreads[key].facts = thread.__content.split('\n').filter(fact => fact !== "")
+  allThreads[key].facts = thread.__content
+    .split('\n')
+    .filter(fact => fact !== '')
   thread.title = thread.thread[0]
 })
 var activeThreads = [
@@ -11,7 +13,7 @@ var activeThreads = [
   'silk-road',
   'red-dye-from-mexico',
   'blue-white',
-  'asian-design-in-europe',
+  'asian-design-and-influence',
   'silver',
   'china-trade',
 ].map(t => allThreads[t]).filter(t => !!t)
