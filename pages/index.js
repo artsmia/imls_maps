@@ -12,6 +12,7 @@ export default class extends React.Component {
       map: null,
       showIconLabels: true,
       alwaysAdvanceQuickFacts: false,
+      showSplash: true,
     }
   }
 
@@ -20,7 +21,7 @@ export default class extends React.Component {
   }
 
   render () {
-    const headerHeight = this.state.activeThread || this.state.activeArtwork ?
+    const headerHeight = this.state.activeThread || this.state.activeArtwork || this.state.showSplash ?
       '0vh' :
       '23vh'
 
@@ -53,8 +54,26 @@ export default class extends React.Component {
 
     const debug = !!this.props.url.query.debug
 
+    const splashStyles = {
+      width: '100vw',
+      height: '100vh',
+      backgroundColor: 'rgba(25, 25, 25, 0.7)',
+      position: 'fixed',
+      zIndex: '1000',
+      color: 'white',
+      textAlign: 'center',
+      paddingTop: '15%',
+      fontSize: '234%',
+      lineHeight: '2.3em',
+    }
+    const splash = <div style={splashStyles} onClick={() => this.setState({showSplash: false})}>
+      <h1>Explore Mia's Global Collection through World History</h1>
+      <p>Please touch screen to begin</p>
+    </div>
+
     return (
       <div>
+        {this.state.showSplash && splash}
         <Header {...propsToPass} />
         <Map {...propsToPass} mapWidth={mapWidth} debug={debug} />
         {this.state.map && <Threads {...propsToPass} />}
