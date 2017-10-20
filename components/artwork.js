@@ -36,11 +36,6 @@ export default class extends React.Component {
     return <section id="artwork">
       <header style={{ backgroundColor: thread.color }}>
         <h1 style={{ margin: 0, padding: '1rem' }}>{thread.title}</h1>
-
-        <div style={{backgroundColor: '#eee', padding: '1rem', position: 'relative', minHeight: '9em'}}>
-          {this.quickFacts()}
-          {this.threadNavigation()}
-        </div>
       </header>
       <div className="right" style={{}}>
         {this.mainContent()}
@@ -72,6 +67,12 @@ export default class extends React.Component {
         {false && seeRouteButton}
       </div>
 
+      <footer>
+        <div style={{backgroundColor: '#eee', padding: '1rem', position: 'relative', minHeight: '9em'}}>
+          {this.threadNavigation()}
+        </div>
+      </footer>
+
       <style>{`
         #artwork {
           position: absolute;
@@ -100,10 +101,16 @@ export default class extends React.Component {
           width: 100%;
         }
 
+        footer {
+          position: fixed;
+          bottom: 0;
+          width: 100%;
+        }
+
         .pagination {
           position: absolute;
-          width: 43%;
-          left: 57%;
+          width: 23.4em;
+          left: 23%;
           top: 4em;
         }
         .pagination > div {
@@ -226,53 +233,6 @@ export default class extends React.Component {
         {nextLabel}
       </div>
     </div>
-  }
-
-  quickFacts() {
-    const {activeThread: thread, activeArtwork: art} = this.props
-    const artIndex = thread.artworks.indexOf(art)
-
-    const advanceAutomatically = this.state && (this.props.alwaysAdvanceQuickFacts || !this.state.advancedManually) || true
-    const index = this.state && this.state.quickFactIndex > -1 && !this.props.alwaysAdvanceQuickFacts
-      ? this.state.quickFactIndex
-      : advanceAutomatically && this.state.clicks % thread.facts.length
-    const activeFact = thread.facts[index]
-
-    const dotStyle = {
-      backgroundColor: '#aaa',
-      borderRadius: '1em',
-      display: 'inline-block',
-      width: '0.5em',
-      height: '0.5em',
-      margin: '0 0.25em'
-    }
-    const factSelectors = thread.facts.map((fact, index) => {
-      return fact == activeFact
-        ? <span style={{...dotStyle, backgroundColor: '#232323'}} />
-        : <span
-            style={dotStyle}
-            onClick={this.changeQuickFact.bind(this, index)}
-          />
-    })
-    const nextFact = this.changeQuickFact.bind(this, index+1)
-
-    return <div style={{backgroundColor: '#eee', width: '57%'}}>
-      <h3 style={{display: 'inline-block', paddingRight: '0.5em', marginBottom: 0, marginTop: 0}}>About this Route</h3> 
-      {factSelectors}
-      <p style={{marginBottom: 0}} onTouchEnd={nextFact}>
-        {activeFact} 
-        {' '}<a style={{color: 'red'}} onClick={nextFact}>See next &rarr;</a>
-      </p>
-    </div>
-  }
-
-  changeQuickFact(index) {
-    const {activeThread: thread} = this.props
-
-    this.setState({
-      quickFactIndex: index % thread.facts.length,
-      advancedManually: true,
-    })
   }
 
   mainContent() {
