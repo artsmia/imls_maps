@@ -4,8 +4,9 @@ import paddedBoundsFromLayer from '../util/map/padded-bounds-from-layer'
 import imageUrl from '../util/image-url'
 
 export default class extends React.Component {
-  render () {
-    return <style>{`
+  render() {
+    return (
+      <style>{`
       .leaflet-div-icon {
         background: none !important;
         border: none !important;
@@ -26,36 +27,38 @@ export default class extends React.Component {
         background-position: center;
       }
     `}</style>
+    )
   }
 
-  constructor () {
+  constructor() {
     super()
   }
 
   componentWillMount() {
     L = require('leaflet')
     const layerGroups = this.threadsToLayerGroupsWithPolyline()
-    this.setState({layerGroups})
+    this.setState({ layerGroups })
   }
 
-  componentDidMount () {
-    const {map} = this.props
-    const {layerGroups} = this.state
+  componentDidMount() {
+    const { map } = this.props
+    const { layerGroups } = this.state
     layerGroups.map(g => g.addTo(map))
     centerPaddedBounds(layerGroups, map)
   }
 
-  componentWillUpdate (nextProps, nextState) {
+  componentWillUpdate(nextProps, nextState) {
     this.updateActiveMapLayers(nextProps, nextState)
   }
 
-  threadsToLayerGroups (callback) {
-    let {threads} = this.props
+  threadsToLayerGroups(callback) {
+    let { threads } = this.props
 
     return threads.map(thread => {
       let g = L.layerGroup(
-        thread.artworks
-        .map(art => artToMarker(art, thread, this.artworkClicked.bind(this, art, thread)))
+        thread.artworks.map(art =>
+          artToMarker(art, thread, this.artworkClicked.bind(this, art, thread))
+        )
       )
       callback && callback(g, thread)
       thread.layerGroup = g
@@ -63,41 +66,46 @@ export default class extends React.Component {
     })
   }
 
-  threadsToLayerGroupsWithPolyline () {
+  threadsToLayerGroupsWithPolyline() {
     const values = Object.values
     return this.threadsToLayerGroups((group, thread) => {
-      const loopedLayers = values(group._layers).concat(values(group._layers)[0])
-      const latLngs = loopedLayers.filter(dot => dot && dot._latlng).map(dot => values(dot._latlng))
+      const loopedLayers = values(group._layers).concat(
+        values(group._layers)[0]
+      )
+      const latLngs = loopedLayers
+        .filter(dot => dot && dot._latlng)
+        .map(dot => values(dot._latlng))
 
       console.info(loopedLayers, latLngs)
-      const line = L.polyline(
-        latLngs,
-        {dashArray: [7, 10], color: thread.color}
-      )
-      const lineOutlineBlack = L.polyline(
-        latLngs,
-        {dashArray: [7, 10], color: '#232323', strokeWidth: '1'}
-      )
+      const line = L.polyline(latLngs, {
+        dashArray: [7, 10],
+        color: thread.color,
+      })
+      const lineOutlineBlack = L.polyline(latLngs, {
+        dashArray: [7, 10],
+        color: '#232323',
+        strokeWidth: '1',
+      })
       group.addLayer(lineOutlineBlack)
       group.addLayer(line)
     })
   }
 
-  artworkClicked (art, thread) {
+  artworkClicked(art, thread) {
     this.props.setGlobalState({
       activeArtwork: art,
       activeThread: thread,
-      mapFullscreen: false
+      mapFullscreen: false,
     })
   }
 
-  updateActiveMapLayers (props, state) {
-    const {map, activeArtwork, activeThread, activeThreads} = props
+  updateActiveMapLayers(props, state) {
+    const { map, activeArtwork, activeThread, activeThreads } = props
 
-    if(activeThread) {
+    if (activeThread) {
       activeThreads.forEach(thread => {
         const group = thread.layerGroup
-        if(activeThread === thread) {
+        if (activeThread === thread) {
           map.hasLayer(group) || map.addLayer(group)
           centerPaddedBounds(group, map)
         } else {
@@ -111,16 +119,16 @@ export default class extends React.Component {
       })
     }
 
-    if(activeArtwork) {
+    if (activeArtwork) {
       activeArtwork.marker.setIcon(activeArtwork.imageIcon)
       // map.panTo(activeArtwork.marker._latlng)
 
       map.flyTo(activeArtwork.marker._latlng, 8)
     }
 
-    if(!activeArtwork && !activeThread && this.state) {
-      const {layerGroups} = this.state
-      const {map} = this.props
+    if (!activeArtwork && !activeThread && this.state) {
+      const { layerGroups } = this.state
+      const { map } = this.props
       centerPaddedBounds(layerGroups, map, L)
     }
   }
@@ -128,10 +136,13 @@ export default class extends React.Component {
 
 function artToMarker(art, thread, onClick) {
   const imageIcon = L.divIcon({
-    html: `<span class="imageMarker" style="background-image: url(${imageUrl(art.id)})"></span>`
+    html: `<span class="imageMarker" style="background-image: url(${imageUrl(
+      art.id
+    )})"></span>`,
   })
   const dotIcon = L.divIcon({
-    html: `<span style='background-color: ${thread.color || 'purple'};'></span>`
+    html: `<span style='background-color: ${thread.color ||
+      'purple'};'></span>`,
   })
 
   art.imageIcon = imageIcon
@@ -139,7 +150,7 @@ function artToMarker(art, thread, onClick) {
 
   const m = L.marker(art.coords.slice().reverse(), {
     title: art.meta.title,
-    icon: imageIcon
+    icon: imageIcon,
   })
   m.on('click', onClick)
   art.marker = m
@@ -148,7 +159,7 @@ function artToMarker(art, thread, onClick) {
 
 function centerPaddedBounds(layers, map) {
   const nextBounds = paddedBoundsFromLayer(layers, 0.1, L)
-  if(nextBounds) {
+  if (nextBounds) {
     var nextMove = map._getBoundsCenterZoom(nextBounds)
     map.flyTo(nextMove.center, nextMove.zoom)
   }

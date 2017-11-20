@@ -96,6 +96,7 @@ class QuickFacts extends React.Component {
       <p style={{marginBottom: 0}} onTouchEnd={nextFact}>
         {activeFact} 
       </p>
+      <p><strong>Select an artwork on the map to begin</strong></p>
     </div>
   }
 

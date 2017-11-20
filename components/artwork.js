@@ -68,7 +68,7 @@ export default class extends React.Component {
       </div>
 
       <footer>
-        <div style={{backgroundColor: '#eee', padding: '1rem', position: 'relative', minHeight: '9em'}}>
+        <div style={{backgroundColor: '#eee', padding: '1rem', position: 'relative', minHeight: '5em'}}>
           {this.threadNavigation()}
         </div>
       </footer>
@@ -110,8 +110,7 @@ export default class extends React.Component {
         .pagination {
           position: absolute;
           width: 23.4em;
-          left: 23%;
-          top: 4em;
+          left: 14%;
         }
         .pagination > div {
           width: 5em;
@@ -127,7 +126,8 @@ export default class extends React.Component {
           content: "\\2190";
           font-size: 3em;
           position: relative;
-          top: -1em;
+          top: 0.5em;
+          left: -1em;
           color: #232323;
         }
         .pagination > div:nth-child(1) {
@@ -147,7 +147,7 @@ export default class extends React.Component {
         }
         .pagination > div:nth-child(3):before {
           content: "\\2192";
-          left: 0.65em;
+          left: 2em;
         }
 
         .seeRoute span {
@@ -209,6 +209,7 @@ export default class extends React.Component {
     const updateFn = art => {
       const nextClicks = this.state.clicks + 1
       setGlobalState({activeArtwork: art})
+      window.scrollTo(0, 0)
       this.setState({clicks: nextClicks})
     }
 
@@ -271,12 +272,12 @@ export default class extends React.Component {
         onClick={() => update({activeArtwork: art, activeThread: thread})}
         key={'addlThread-'+index}
       >
-        <img src={imageUrl(thread.image)} style={{border: '1px solid #232323'}} />
+        <img src={imageUrl(thread.image || thread.artworks[0].id)} style={{border: '1px solid #232323'}} />
         <p style={{marginTop: '-.5em'}}>{thread.title}</p>
       </div>
     })
 
-    return additionalThreads.length > 0 && <div>
+    return additionalThreads.length > 0 && <div style={{paddingBottom: '7rem'}}>
       <h3 style={{margin: '2.5em 0 0 0'}}>Transfer Routes</h3>
       {additionalThreads}
     </div>

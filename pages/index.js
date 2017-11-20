@@ -116,6 +116,8 @@ export default class extends React.Component {
        this.state.activeThread == null && nextState.activeThread) {
       setTimeout(() => this.state.map.invalidateSize(), 0)
     }
+
+    if(this.state.activeArtwork !== nextState.activeArtwork) window.scrollTo(0, 0)
   }
 
   specialControls () {

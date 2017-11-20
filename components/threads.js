@@ -48,10 +48,11 @@ import ThreadMarkers from './thread-markers'
 
 export default class extends React.Component {
   render () {
-    const {artMeta} = this.props
+    const {artMeta, activeArtwork} = this.props
     const propsToPass = {...this.props, threads: activeThreads}
+
     return <div id="threads" style={{top: this.props.headerHeight}}>
-      <ThreadList {...propsToPass} />
+      {activeArtwork ? <span /> : <ThreadList {...propsToPass} />}
       {artMeta && <ThreadMarkers {...propsToPass} objects={allObjects} />}
 
       <style>{`

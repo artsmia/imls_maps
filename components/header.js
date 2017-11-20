@@ -1,7 +1,15 @@
 import Head from 'next/head'
 
 export default (props) => {
-  return <header style={{height: props.headerHeight}}>
+  const hide = props.headerHeight === '0vh'
+  const style = {
+    position: hide ? 'inherit' : 'fixed',
+    zIndex: hide ? 0 : 10000,
+    height: props.headerHeight
+  }
+  console.info({style, hide})
+
+  return <header style={style}>
     <h1>Explore Mia's Global Collection through World History</h1>
     <p>Select a topic below to begin</p>
 

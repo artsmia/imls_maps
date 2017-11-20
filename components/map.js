@@ -7,7 +7,9 @@ export default class extends React.Component {
     const mapStyle = {
       width: mapWidth,
       height: `${100 - parseInt(headerHeight)}vh`,
+      marginTop: `${headerHeight}`,
     }
+    console.info({mapStyle})
 
     return <div id="map" style={mapStyle}>
       <style jsx>{`
