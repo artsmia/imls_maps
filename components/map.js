@@ -37,10 +37,10 @@ export default class extends React.Component {
     map.attributionControl.setPrefix('')
     L.control.zoom({position: 'topright'}).addTo(map)
 
-    var tangramLayer = Tangram.leafletLayer({
-      scene: 'static/scene.yaml',
-      attribution: 'Tangram | &copy; OSM contributors'
-    })
+    // var tangramLayer = Tangram.leafletLayer({
+    //   scene: 'static/scene.yaml',
+    //   attribution: 'Tangram | &copy; OSM contributors'
+    // })
     const mapboxLayer = L.tileLayer(
       'https://api.mapbox.com/styles/v1/kjell/cj1pezubs00142rmr8owg43op/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoia2plbGwiLCJhIjoicm96TVFucyJ9.AsAmWG_TPyhDhJLEC7hKTw',
       {
@@ -49,26 +49,33 @@ export default class extends React.Component {
       }
     )
     const mapboxQuietLayer = L.tileLayer(
-      'https://api.mapbox.com/styles/v1/kjell/cj1pnkzsy000v2rr67vs71p1y/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoia2plbGwiLCJhIjoicm96TVFucyJ9.AsAmWG_TPyhDhJLEC7hKTw',
+      'https://api.mapbox.com/styles/v1/kjell/cjdtov9am4gr72so44i194ga8/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoia2plbGwiLCJhIjoicm96TVFucyJ9.AsAmWG_TPyhDhJLEC7hKTw',
       {
         attribution: 'Mapbox | &copy; OSM contributors',
         detectRetina: true
       }
     )
+    // TODO use GL map and figure out why the new map style isn't appearing
     const mapboxQuietGL = L.mapboxGL({
-      style: 'mapbox://styles/kjell/cj1pnkzsy000v2rr67vs71p1y',
+      style: 'mapbox://styles/kjell/cjdtov9am4gr72so44i194ga8',
+      accessToken: 'pk.eyJ1Ijoia2plbGwiLCJhIjoicm96TVFucyJ9.AsAmWG_TPyhDhJLEC7hKTw',
+    })
+    const mapboxBright = L.mapboxGL({
+      style: 'mapbox://styles/mapbox/bright-v8',
       accessToken: 'pk.eyJ1Ijoia2plbGwiLCJhIjoicm96TVFucyJ9.AsAmWG_TPyhDhJLEC7hKTw',
     })
     const allLayers = {
-      mapboxOutdoorsQuiet: mapboxQuietLayer,
-      mapboxOutdoors: mapboxLayer,
-      mapboxQuietGL: mapboxQuietGL,
-      tangramDefault: tangramLayer,
+      // mapboxOutdoorsQuiet: mapboxQuietLayer,
+      // mapboxOutdoors: mapboxLayer,
+      mapboxQuietLayer,
+      mapboxQuietGL,
+      mapboxBright,
+      // tangramDefault: tangramLayer,
     }
     const defaultLayer = mapboxQuietLayer
     defaultLayer.addTo(map)
 
-    const backgroundLayers = L.layerGroup([mapboxLayer, tangramLayer])
+    // const backgroundLayers = L.layerGroup([mapboxLayer])
     if(this.props.debug) {
       const backgroundLayerChooser = L.control.layers(allLayers)
       .setPosition('bottomright')

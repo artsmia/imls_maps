@@ -76,7 +76,9 @@ export default class extends React.Component {
         .filter(dot => dot && dot._latlng)
         .map(dot => values(dot._latlng))
 
-      console.info(loopedLayers, latLngs)
+      // Don't show lines between artwork badges if we're passing that in the URL
+      if (window.location.search.match(/noLines/)) return
+
       const line = L.polyline(latLngs, {
         dashArray: [7, 10],
         color: thread.color,
@@ -123,7 +125,7 @@ export default class extends React.Component {
       activeArtwork.marker.setIcon(activeArtwork.imageIcon)
       // map.panTo(activeArtwork.marker._latlng)
 
-      map.flyTo(activeArtwork.marker._latlng, 8)
+      map.flyTo(activeArtwork.marker._latlng, 7)
     }
 
     if (!activeArtwork && !activeThread && this.state) {
