@@ -29,9 +29,9 @@
     "leaflet-fullscreen": "1.0.2",
     "mapbox-gl-leaflet": "0.0.2",
     "markdown-to-json-with-content": "0.0.3",
-    "next": "^2.1.0",
-    "react": "15.5.4",
-    "react-dom": "15.5.4",
+    "next": "^5.0.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "remark": "5.0.1",
     "remark-html": "5.0.0"
   },
