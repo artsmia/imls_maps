@@ -34,7 +34,7 @@ export default class extends React.Component {
     )
 
     return <section id="artwork">
-      <header style={{ backgroundColor: thread.color }}>
+      <header style={{ backgroundColor: thread.color }} onClick={() => this.props.setGlobalState({activeArtwork: null})}>
         <h1 style={{ margin: 0, padding: '1rem' }}>{thread.title}</h1>
       </header>
       <div className="right" style={{}}>
