@@ -1,3 +1,4 @@
+// return "http://"+id%7+".api.artsmia.org/"+id+".jpg"
 export default function imageUrl(id) {
-  return "http://"+id%7+".api.artsmia.org/"+id+".jpg"
+  return "/static/artwork-image-crops/"+id+".jpg"
 }

@@ -4,3 +4,5 @@ objects.json
 /npm-debug.log
 bundle.js
 sass/main.css*
+
+static/artwork-image-crops
