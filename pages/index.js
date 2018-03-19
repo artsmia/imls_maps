@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 
 import Map from '../components/map'
 import Threads from '../components/threads'
@@ -69,6 +70,7 @@ export default class extends React.Component {
     const splash = <div style={splashStyles} onClick={() => this.setState({showSplash: false})}>
       <h1>Explore Mia's Global Collection through World History</h1>
       <p>Please touch screen to begin</p>
+      <p><Link href="/about">About</Link></p> 
     </div>
 
     return (
