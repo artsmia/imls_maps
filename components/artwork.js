@@ -48,7 +48,8 @@ export default class extends React.Component {
         <figure>
           <img src={imageUrl(art.id)} />
           <figcaption>
-            <p><strong>{art.meta.title.replace(/<\/?I>/g, '')}</strong>, {art.meta.dated}</p>
+            <h4 style={{margin: 0}}>{art.meta.title.replace(/<\/?I>/g, '')}</h4>
+            <p>{art.meta.dated}</p>
             <p>
               {art.meta.artist && art.meta.artist.replace('Artist: ', '') ||
                 art.meta.culture ||
