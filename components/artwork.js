@@ -272,8 +272,7 @@ export default class extends React.Component {
         onClick={() => update({activeArtwork: art, activeThread: thread})}
         key={'addlThread-'+index}
       >
-        <img src={imageUrl(thread.image || thread.artworks[0].id)} style={{border: '1px solid #232323'}} />
-        <p style={{marginTop: '-.5em'}}>{thread.title}</p>
+        <p style={{borderLeft: `solid ${thread.color}`, borderWidth: '0 0 0 1em', paddingLeft: '0.5em'}}>{thread.title}</p>
       </div>
     })
 
