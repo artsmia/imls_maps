@@ -139,7 +139,7 @@ export default class extends React.Component {
 function artToMarker(art, thread, onClick) {
   const imageIcon = L.divIcon({
     html: `<span class="imageMarker" style="background-image: url(${imageUrl(
-      art.id
+      art.id, true
     )})"></span>`,
   })
   const dotIcon = L.divIcon({

@@ -184,7 +184,7 @@ export default class extends React.Component {
           key={id}
           style={{cursor: 'pointer', maxWidth: '43%', display: 'block'}}
         >
-          <img src={imageUrl(id)} />
+          <img src={imageUrl(id, true)} />
         </a>
       })}
     </div>
@@ -218,18 +218,18 @@ export default class extends React.Component {
       <div
         className="prev"
         onClick={updateFn.bind(this, prevArt)}
-        style={{backgroundImage: `url(${imageUrl(prevArt.id)})`}}
+        style={{backgroundImage: `url(${imageUrl(prevArt.id, true)})`}}
         title={prevLabel}
       >
         {prevLabel}
       </div>
       <div className="current"
-        style={{backgroundImage: `url(${imageUrl(art.id)})`}}
+        style={{backgroundImage: `url(${imageUrl(art.id, true)})`}}
       >(this artwork)</div>
       <div
         className="next"
         onClick={updateFn.bind(this, nextArt)}
-        style={{backgroundImage: `url(${imageUrl(nextArt.id)})`}}
+        style={{backgroundImage: `url(${imageUrl(nextArt.id, true)})`}}
         title={nextLabel}
       >
         {nextLabel}
