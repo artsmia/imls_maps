@@ -21,10 +21,10 @@ export default class ThreadList extends React.Component {
           {thread.title}
         </span>
 
-        return <li className={`thread-${index}`} key={thread.title}>
+        return <li className={`thread-${index}`} key={thread.title} style={{opacity: !props.activeThread || threadIsActive ? '1' : '0.5'}}>
           {threadIsActive ?
-            <div>
-              <strong>{threadElem}</strong>
+            <div style={{backgroundColor: 'black'}}>
+              <strong style={{color: 'white'}}>{threadElem}</strong>
               <QuickFacts thread={thread} />
             </div> :
             threadElem
@@ -48,7 +48,7 @@ export default class ThreadList extends React.Component {
         }
         li span {
           display: inline-block;
-          padding: 2.5rem 4vw;
+          padding: 2.5rem 1.75vw;
         }
         ${threadBorderColorStyles}
       `}</style>
@@ -90,13 +90,15 @@ class QuickFacts extends React.Component {
     const nextFact = this.changeQuickFact.bind(this, index+1)
 
     return <div style={{backgroundColor: '#eee', padding: '0.5em'}}>
-      <h3 style={{display: 'inline-block', paddingRight: '0.5em', marginBottom: 0, marginTop: 0}}></h3> 
-      {factSelectors}
-      <a style={{color: 'red', marginLeft: '1em'}} onClick={nextFact}>See next &rarr;</a>
-      <p style={{marginBottom: 0}} onTouchEnd={nextFact}>
+      <h4 style={{display: 'inline-block', paddingRight: '0.5em', marginBottom: 0, marginTop: 0}}>Quick Facts</h4> 
+      <p style={{marginBottom: 0, fontFamily: 'MiaGrotesk-Light'}} onTouchEnd={nextFact}>
         {activeFact} 
       </p>
-      <p><strong>Select an artwork on the map to begin</strong></p>
+      <div style={{paddingTop: '0.5em'}}>
+        {factSelectors}
+        <a style={{color: 'red', marginLeft: '1em'}} onClick={nextFact}>See next &rarr;</a>
+      </div>
+      <p>Select an artwork on the map to begin.</p>
     </div>
   }
 

@@ -250,9 +250,15 @@ export default class extends React.Component {
     if(_content.findIndex(string => string.indexOf('* * *') > -1)) content = content.split('* * *')[0]
     if(needle == -1) heading += ' [CONTENT NEEDED?]'
 
+    const fontSize = content.length > 500 ? '1.3em' : content.length > 400 ? '1.5em' : '1.7em'
+    // adapt font size according to how much content there is, so the words take up approx
+    // the same about of page real estate with maximum readability.
+    // TODO should the line spacing change with text size?
+    console.info('resize font according to content length', content.length, {fontSize})
+
     return <div>
-      <h2>{heading}</h2>
-      <div>{content}</div>
+      <h2 style={{fontSize: '1.7em', marginBottom: '5px'}}>{heading}</h2>
+      <div style={{fontSize}}>{content}</div>
     </div>
   }
    
