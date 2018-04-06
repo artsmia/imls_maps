@@ -150,7 +150,14 @@ function artToMarker(art, thread, onClick) {
   art.imageIcon = imageIcon
   art.dotIcon = dotIcon
 
-  const m = L.marker(art.coords.slice().reverse(), {
+  // handle spreadsheet to markdown to json conversion gone wrong - 
+  // the lat and long sometimes get concatted into a comma separated string
+  // instead of percolating as [lat, lng]
+  let coords = art.coords.length === 1
+    ? art.coords[0].split(',')
+    : art.coords.slice().reverse()
+
+  const m = L.marker(coords, {
     title: art.meta.title,
     icon: imageIcon,
   })

@@ -7,6 +7,13 @@ update:
 	make artworks objects.json threads.json
 
 # Pull objects from a custom google doc built by the Maps team
+#
+# TODO this doesn't actually work. The doc includes a custom formula that converts
+# the accession number entered by the maps team into an object ID that's needed here.
+# This formula is not included in the publishable `.csv` output by google docs.
+#
+# The sheet needs to be manually downloaded as CSV and renamed to map-locations.csv
+# (File > Download as > .csv, current sheet)
 url = https://docs.google.com/spreadsheets/d/16_696FhwbifLh7jGycKBEwQkdIGgzZZ2VzqilXzriv0/export?format=csv
 map-locations.csv:
 	curl --silent -o map-locations.csv $(url)
@@ -33,15 +40,17 @@ artworks: map-locations.csv
   | csvgrep -c2,3,4,5,6,7,8,9 --regex '^$$' -i \
 	| csvgrep -c18,19,20 --regex '^$$' -i \
 	| csvgrep -c12 --regex '^$$' -i \
-	| csvcut -c2,3,4,5,6,7,8,9,12,18,19,20 \
+	| csvcut -c2,3,4,5,6,7,8,9,12,18,19,20-24 \
 	| csvjson \
 	| tee map-locations.json \
 	| jq -c -r 'map({ \
 		id: .["Primary Object ID"], \
 		coords: (.["Map Coordinates"] | split(", ") | reverse), \
-		threads: (. | to_entries | del(.[8,9,10,11]) | map(select(.value != null)) | map(.key)), \
+		threads: (. | to_entries | del(.[8,9,10,11,12,13,14,15]) | map(select(.value != null)) | map(.key)), \
 		relateds: ([.["Secondary Object ID"], .["Third Object ID"]] | del(.[] | nulls) | del(.[] | select(. == "#ERROR!"))), \
-		content: (. | to_entries | del(.[8,9,10,11]) | map(select(.value != null and .value != true and .value != "1" and .value != 1)) | from_entries ) \
+		content: (. | to_entries | del(.[8,9,10,11,12,13,14,15]) | map(select(.value != null and .value != true and .value != "1" and .value != 1)) | from_entries ), \
+		displayDate: .["Listed Date"], \
+		sortDate: .["Date for Sorting"] \
 	})[]' \
 	| tee map-locations.json \
 	| while read -r json; do \
