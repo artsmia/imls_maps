@@ -46,7 +46,7 @@ export default class extends React.Component {
 
       <div className="left">
         <figure>
-          <img src={imageUrl(art.id)} />
+          <img src={imageUrl(art.id)} onClick={() => this.props.setGlobalState({fullscreenImage: art.id})} />
           <figcaption>
             <h4 style={{margin: 0}}>{art.meta.title.replace(/<\/?I>/g, '')}</h4>
             <p>{art.meta.dated}</p>

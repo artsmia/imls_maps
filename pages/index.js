@@ -5,6 +5,7 @@ import Map from '../components/map'
 import Threads from '../components/threads'
 import Artwork from '../components/artwork'
 import Header from '../components/header'
+import ImageZoom from '../components/image-zoom'
 
 export default class extends React.Component {
   constructor () {
@@ -14,6 +15,7 @@ export default class extends React.Component {
       showIconLabels: true,
       alwaysAdvanceQuickFacts: false,
       showSplash: true,
+      fullscreenImage: null
     }
   }
 
@@ -34,7 +36,7 @@ export default class extends React.Component {
 
     var mapWidth = this.state.activeArtwork ? 'calc(100vw - 51rem)' : '71vw'
 
-    const showHomeButton = this.state.activeArtwork || this.state.activeThread
+    const showHomeButton = !this.state.fullscreenImage && (this.state.activeArtwork || this.state.activeThread)
     const {showIconLabels} = this.state
     const homeButtonStyles = {
       position: 'fixed',
@@ -80,13 +82,15 @@ export default class extends React.Component {
         <Map {...propsToPass} mapWidth={mapWidth} debug={debug} />
         {this.state.map && <Threads {...propsToPass} />}
         {this.state.activeArtwork && <Artwork {...propsToPass} />}
+        {this.state.activeArtwork && this.state.fullscreenImage && <ImageZoom id={this.state.fullscreenImage} {...propsToPass} />}
         {showHomeButton && <div
           style={homeButtonStyles}
           className="home iconButton"
           onClick={() => this.setState({
             activeArtwork: null,
             activeThread: null,
-            mapFullscreen: false
+            mapFullscreen: false,
+            fullscreenImage: null,
           })}
         >
           <span className="material-icons" style={homeIconStyles}>home</span>
