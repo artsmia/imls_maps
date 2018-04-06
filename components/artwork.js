@@ -183,8 +183,9 @@ export default class extends React.Component {
           href={`#`}
           key={id}
           style={{cursor: 'pointer', maxWidth: '43%', display: 'block'}}
+          onClick={() => this.props.setGlobalState({fullscreenImage: id})} 
         >
-          <img src={imageUrl(id, true)} />
+          <img src={imageUrl(id)} />
         </a>
       })}
     </div>

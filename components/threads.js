@@ -27,11 +27,14 @@ objectIds.map(key => {
   let object = allObjects[key]
   object.threads.map(threadName => {
     var associatedThread = Object.values(allThreads).find(t => t.thread[0] == threadName)
+
     if(associatedThread) {
       // associatedThread.artworkIds.push(object.id)
       associatedThread.artworks.push(object)
     }
   })
+
+  objectIds = objectIds.concat(object.relateds)
 })
 
 Object.values(allThreads).map(thread => {
@@ -83,7 +86,7 @@ export default class extends React.Component {
     .then(artMeta => {
       var artworks = artMeta.hits.hits.forEach(function(artworkMeta) {
         var id = artworkMeta._id
-        allObjects[id].meta = artworkMeta._source
+        if(allObjects[id]) allObjects[id].meta = artworkMeta._source
       })
       callback && callback(artMeta)
     })
