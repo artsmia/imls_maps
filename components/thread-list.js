@@ -81,10 +81,11 @@ class QuickFacts extends React.Component {
 
     const factSelectors = thread.facts.map((fact, index) => {
       return fact == activeFact
-        ? <span style={{...dotStyle, backgroundColor: '#232323'}} />
+        ? <span style={{...dotStyle, backgroundColor: '#232323'}} key={index} />
         : <span
             style={dotStyle}
             onClick={this.changeQuickFact.bind(this, index)}
+            key={index}
           />
     })
     const nextFact = this.changeQuickFact.bind(this, index+1)
