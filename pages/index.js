@@ -6,6 +6,7 @@ import Threads from '../components/threads'
 import Artwork from '../components/artwork'
 import Header from '../components/header'
 import ImageZoom from '../components/image-zoom'
+import About from '../components/about'
 
 export default class extends React.Component {
   constructor () {
@@ -37,6 +38,7 @@ export default class extends React.Component {
     var mapWidth = this.state.activeArtwork ? 'calc(100vw - 51rem)' : '71vw'
 
     const showHomeButton = !this.state.fullscreenImage && (this.state.activeArtwork || this.state.activeThread)
+    const showAboutButton = !this.state.fullscreenImage && !showHomeButton
     const {showIconLabels} = this.state
     const homeButtonStyles = {
       position: 'fixed',
@@ -47,7 +49,7 @@ export default class extends React.Component {
       padding: '1em 0.5em 0.5em 0',
     }
     const homeIconStyles = {
-      fontSize: '3rem',
+      fontSize: '2.7rem',
       ...(showIconLabels ? {
         position: 'relative',
         top: '-0.5em',
@@ -72,8 +74,20 @@ export default class extends React.Component {
     const splash = <div style={splashStyles} onClick={() => this.setState({showSplash: false})}>
       <h1>Explore Mia's Global Collection through World History</h1>
       <p>Please touch screen to begin</p>
-      <p><Link href="/about">About</Link></p> 
     </div>
+
+    const showAboutPopupStyles = {
+      border: '1px solid rgba(1, 1, 1, 0.5)',
+      width: '80vw',
+      height: '100vh',
+      position: 'fixed',
+      top: 0,
+      right: 0,
+      zIndex: 1000000,
+      borderWidth: '10vh 10vw 26vh 10vw',
+      fontSize: '2em',
+    }
+    // TODO bottom border fix now that we made image smaller
 
     return (
       <div>
@@ -95,6 +109,18 @@ export default class extends React.Component {
         >
           <span className="material-icons" style={homeIconStyles}>home</span>
           {showIconLabels && 'home'}
+        </div>}
+        {showAboutButton && <div style={homeButtonStyles} className="home iconButton" onClick={() => this.setState({showAbout: true})}>
+          
+            <span className="material-icons" style={homeIconStyles}>info</span>
+            {showIconLabels && 'about'}
+          </div>
+          }
+
+        {this.state.showAbout && <div style={showAboutPopupStyles} onClick={() => this.setState({showAbout: false})}>
+          <div style={{background: 'white', margin: 0, padding: '1em 1em 0'}} onClick={(e) => e.stopPropagation()}>
+            <About />
+          </div>
         </div>}
 
         {this.specialControls()}

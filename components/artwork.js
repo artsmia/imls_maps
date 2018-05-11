@@ -34,7 +34,7 @@ export default class extends React.Component {
     )
 
     return <section id="artwork">
-      <header style={{ backgroundColor: thread.color }} onClick={() => this.props.setGlobalState({activeArtwork: null})}>
+      <header style={{ backgroundColor: '#232323', color: 'white', borderLeft: `1em solid ${thread.color}`}} onClick={() => this.props.setGlobalState({activeArtwork: null})}>
         <h1 style={{ margin: 0, padding: '1rem' }}>{thread.title}</h1>
       </header>
       <div className="right" style={{}}>
@@ -53,8 +53,9 @@ export default class extends React.Component {
             <p>
               {art.meta.artist && art.meta.artist.replace('Artist: ', '') ||
                 art.meta.culture ||
-                art.meta.country && `Unknown, ${art.meta.country}`}
+                art.meta.country && `Unknown`}
             </p>
+            {art.meta.country && <p>Made in {art.meta.country}</p>}
             <p>{art.meta.medium}</p>
           </figcaption>
 
@@ -178,15 +179,21 @@ export default class extends React.Component {
 
     return <div className={`relateds`}>
       <h3 style={{margin: '2.5em 0 0 0'}}>Related:</h3>
-      {art.relateds.map(id => {
-        return <a
-          href={`#`}
-          key={id}
-          style={{cursor: 'pointer', maxWidth: '43%', display: 'block'}}
-          onClick={() => this.props.setGlobalState({fullscreenImage: id})} 
-        >
-          <img src={imageUrl(id)} />
-        </a>
+      {art.relateds.map((id, index) => {
+        const caption = index === 0 ? art.relatedCaption : art.relatedCaption2
+        console.info('caption', {caption, art})
+
+        return <figure style={{display: 'flex'}}>
+          <a
+            href={`#`}
+            key={id}
+            onClick={() => this.props.setGlobalState({fullscreenImage: id})} 
+            style={{cursor: 'pointer', flex: '2 0 0', marginRight: '10px'}}
+          >
+            <img src={imageUrl(id)} />
+          </a>
+          <figcaption style={{flex: '1 0 0'}}>{caption}</figcaption>
+        </figure>
       })}
     </div>
   }
@@ -276,11 +283,11 @@ export default class extends React.Component {
     .filter(t => t && t !== thread)
     .map((thread, index) => {
       return <div
-        style={{cursor: 'pointer', maxWidth: '43%'}}
+        style={{cursor: 'pointer', maxWidth: '55%'}}
         onClick={() => update({activeArtwork: art, activeThread: thread})}
         key={'addlThread-'+index}
       >
-        <p style={{borderLeft: `solid ${thread.color}`, borderWidth: '0 0 0 1em', paddingLeft: '0.5em'}}>{thread.title}</p>
+        <p style={{borderLeft: `1em solid ${thread.color}`, paddingLeft: '0.5em'}}>{thread.title}</p>
       </div>
     })
 

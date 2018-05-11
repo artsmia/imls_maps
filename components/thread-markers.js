@@ -16,6 +16,7 @@ export default class extends React.Component {
         height: 1.3em;
         display: block;
         border-radius: 1em;
+        border: 3px solid gold;
       }
       .leaflet-div-icon span.imageMarker {
         width: 5em;
@@ -140,7 +141,7 @@ function artToMarker(art, thread, onClick) {
   const imageIcon = L.divIcon({
     html: `<span class="imageMarker" style="background-image: url(${imageUrl(
       art.id, true
-    )})"></span>`,
+    )}); border-color: ${thread.color};"></span>`,
   })
   const dotIcon = L.divIcon({
     html: `<span style='background-color: ${thread.color ||

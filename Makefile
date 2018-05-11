@@ -40,7 +40,7 @@ artworks: map-locations.csv
   | csvgrep -c2,3,4,5,6,7,8,9 --regex '^$$' -i \
 	| csvgrep -c18,19,20 --regex '^$$' -i \
 	| csvgrep -c12 --regex '^$$' -i \
-	| csvcut -c2,3,4,5,6,7,8,9,12,18,19,20-24 \
+	| csvcut -c2,3,4,5,6,7,8,9,12,15,18,19,20-24 \
 	| csvjson \
 	| tee map-locations.json \
 	| jq -c -r 'map({ \
@@ -48,6 +48,8 @@ artworks: map-locations.csv
 		coords: (.["Map Coordinates"] | split(", ") | reverse), \
 		threads: (. | to_entries | del(.[8,9,10,11,12,13,14,15]) | map(select(.value != null)) | map(.key)), \
 		relateds: ([.["Secondary Object ID"], .["Third Object ID"]] | del(.[] | nulls) | del(.[] | select(. == "#ERROR!"))), \
+		relatedCaption: .["Captions"], \
+		relatedCaption2: .["Captions #2"], \
 		content: (. | to_entries | del(.[8,9,10,11,12,13,14,15]) | map(select(.value != null and .value != true and .value != "1" and .value != 1)) | from_entries ), \
 		displayDate: .["Listed Date"], \
 		sortDate: .["Date for Sorting"] \

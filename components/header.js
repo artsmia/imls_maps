@@ -11,7 +11,7 @@ export default (props) => {
 
   return <header style={style}>
     <h1>Explore Mia's Global Collection through World History</h1>
-    <p>Select a topic below to begin</p>
+    <p>Touch a topic below to begin</p>
 
     <style>{`
       body {
@@ -48,6 +48,7 @@ export default (props) => {
         width: 22%;
         float: right;
         font-size: 2em;
+        margin-top: 3em;
       }
       p:before {
         content: "\\2193";
@@ -60,4 +61,3 @@ export default (props) => {
     `}</style>
   </header>
 }
-

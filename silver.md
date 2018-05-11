@@ -9,7 +9,7 @@ title:
 start:
 - 4418
 order: 121307 131 19404 18757 19404 3076 3740 4418 4558 63154 8362
-color: 'silver'
+color: '#44d1e0'
 ---
 
 Vast amounts of silver flowed from the Americas to China from around 1500 to 1800. It was exchanged for Chinese silk, tea, porcelain, and gold.

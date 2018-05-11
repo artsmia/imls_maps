@@ -26,11 +26,14 @@ var objectIds = Object.keys(allObjects)
 objectIds.map(key => {
   let object = allObjects[key]
   object.threads.map(threadName => {
-    var associatedThread = Object.values(allThreads).find(t => t.thread[0] == threadName)
+    const fixedName = threadName.replace('&', 'and').replace('dye', 'Dye')
+    var associatedThread = Object.values(allThreads).find(t => t.thread[0] == fixedName)
 
     if(associatedThread) {
       // associatedThread.artworkIds.push(object.id)
       associatedThread.artworks.push(object)
+    } else { 
+      console.error('Problem with thread names!!!')
     }
   })
 
@@ -41,7 +44,7 @@ Object.values(allThreads).map(thread => {
   if(thread.order) {
     const threadOrder = thread.order.split(" ")
     thread.artworks = thread.artworks.sort((a, b) => {
-      return threadOrder.indexOf('' + a.id) - threadOrder.indexOf('' + b.id)
+      return a.sortDate - b.sortDate
     })
   }
 })

@@ -1,6 +1,6 @@
 ---
 thread:
-- Red dye from Mexico
+- Red Dye from Mexico
 coords:
 - 17.007972
 - -96.562172
@@ -8,7 +8,7 @@ title:
 - Quick Facts
 start:
 - 1341
-color: "#ff3145"
+color: "#ff2e2e"
 order: 1784 1341 4418 3282 14270
 image: 1784
 ---
