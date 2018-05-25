@@ -79,15 +79,14 @@ export default class extends React.Component {
     const showAboutPopupStyles = {
       border: '1px solid rgba(1, 1, 1, 0.5)',
       width: '80vw',
-      height: '100vh',
+      // height: '100vh',
       position: 'fixed',
       top: 0,
       right: 0,
       zIndex: 1000000,
-      borderWidth: '10vh 10vw 26vh 10vw',
+      borderWidth: '6vh 10vw 26vh 10vw',
       fontSize: '2em',
     }
-    // TODO bottom border fix now that we made image smaller
 
     return (
       <div>
@@ -118,7 +117,7 @@ export default class extends React.Component {
           }
 
         {this.state.showAbout && <div style={showAboutPopupStyles} onClick={() => this.setState({showAbout: false})}>
-          <div style={{background: 'white', margin: 0, padding: '1em 1em 0'}} onClick={(e) => e.stopPropagation()}>
+          <div style={{background: 'white', margin: 0, padding: '1em'}} onClick={(e) => e.stopPropagation()}>
             <About />
           </div>
         </div>}
