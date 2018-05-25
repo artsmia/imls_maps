@@ -25,7 +25,7 @@ export default class ThreadList extends React.Component {
           {threadIsActive ?
             <div style={{backgroundColor: 'black'}}>
               <strong style={{color: 'white'}}>{threadElem}</strong>
-              <QuickFacts thread={thread} />
+              <QuickFacts thread={thread} setGlobalState={props.setGlobalState} />
             </div> :
             threadElem
           }
@@ -102,6 +102,8 @@ class QuickFacts extends React.Component {
         borderWidth: '10vh 10vw 26vh 10vw',
     } : {}
 
+    const activateFirstArtwork = () => this.props.setGlobalState({activeArtwork: thread.artworks[0]})
+
     return <div style={{backgroundColor: 'white', padding: '0.5em'}}>
       <h4 style={{display: 'inline-block', paddingRight: '0.5em', marginBottom: 0, marginTop: 0}}>Quick Facts</h4> 
       <p style={{marginBottom: 0, fontFamily: 'MiaGrotesk-Light'}} onTouchEnd={nextFact}>
@@ -111,7 +113,7 @@ class QuickFacts extends React.Component {
         {factSelectors}
         <a style={{color: 'red', marginLeft: '1em'}} onClick={nextFact}>See next &rarr;</a>
       </div>
-      <p>Select an artwork on the map to begin.</p>
+      <p onClick={activateFirstArtwork}>Select an artwork on the map to begin.</p>
 
       {showVideo && <div style={videoWrapperStyles} onClick={this.stopVideo.bind(this)}>
         {this.state.videoPlaying && <div><span style={{
