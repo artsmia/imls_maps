@@ -31,7 +31,5 @@ export default () => <Fragment>
     Services.
   </p>
 
-  <a href="https://imls.gov">
-    <img src="/static/imls-logo.svg" style={{ maxWidth: '21em' }} />
-  </a>
+  <img src="/static/imls-logo.svg" style={{ maxWidth: '21em' }} />
 </Fragment>
