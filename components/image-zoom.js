@@ -21,36 +21,35 @@ export default class extends React.Component {
     const artMeta = this.state.artMeta
     const { id, image, image_width, image_height, image_copyright } = artMeta
 
-    if (L.museumTileLayer == undefined) require('../museumTileLayer')
+    if (L.tileLayer.iiif == undefined) require('leaflet-iiif')
 
     let map = L.map(this.state.id, { zoomControl: false, zoomSnap: 0 })
     new L.Control.Zoom({ position: 'bottomleft' }).addTo(map)
     map.attributionControl.setPrefix('')
     map.setView([0, 0], 0)
 
-    fetch(`https://tiles.dx.artsmia.org/${id}.json`)
-      .then(res => res.json())
-      .then(tileJson => {
-        this.tiles = L.museumTileLayer(
-          'https://{s}.tiles.dx.artsmia.org/{id}/{z}/{x}/{y}.jpg',
-          {
-            attribution: image_copyright
-              ? decodeURIComponent(image_copyright)
-              : '',
-            id: id,
-            width: image_width,
-            height: image_height,
-            tileSize: tileJson.tileSize || 256,
-            fill: true,
-          }
-        )
+    this.tiles = L.tileLayer.iiif(
+      `https://iiif.dx.artsmia.org/${id}.jpg/info.json`,
+      {
+        id: id,
+        fitBounds: true,
+        setMaxBounds: true,
+        // tileSize: 512,
+        attribution: image_copyright ? decodeURIComponent(image_copyright) : '',
+      }
+    )
 
-        this.tiles.addTo(map)
-        window.tiles = this.tiles
-        const z1 = this.tiles.options.minZoom + 0.5
-        map.setView([0, 0], z1)
-        map.setZoom(z1)
-      })
+    this.tiles.addTo(map)
+    this.tiles.on('load', event => {
+      if (this.map.getMinZoom() > 0) return
+      // don't let the zoomed image get tiny
+      const minZoom = this.map.getZoom() - 0.1
+      console.info('set minZoom', minZoom)
+      this.map.setMinZoom(minZoom)
+      // TODO - reset minZoom when window is resized
+      // …and when fullscreen changes?
+    })
+    window.tiles = this.tiles
 
     this.map = window.map = map
   }

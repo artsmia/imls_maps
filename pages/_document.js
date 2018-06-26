@@ -19,13 +19,14 @@ export default class MyDocument extends Document {
               background-color: rgba(100, 200, 300, 0.2);
             }
           `}</style>
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.0-beta.1/leaflet.css" />
           <link rel="stylesheet" href="/static/leaflet.fullscreen.css" />
           <link rel="stylesheet" href="https://mia-grotesk.s3.amazonaws.com/index.css" />
           <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
           <script src="https://mapzen.com/tangram/0.8/tangram.min.js"></script>
           <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.14.3/mapbox-gl.css' rel='stylesheet' />
           <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.14.3/mapbox-gl.js'></script>
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+          <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
         </Head>
         <body>
           <Main />

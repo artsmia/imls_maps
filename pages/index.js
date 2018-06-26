@@ -16,7 +16,7 @@ export default class extends React.Component {
       showIconLabels: true,
       alwaysAdvanceQuickFacts: false,
       showSplash: true,
-      fullscreenImage: null
+      fullscreenImage: null,
     }
   }
 
