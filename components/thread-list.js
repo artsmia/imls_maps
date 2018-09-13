@@ -90,7 +90,18 @@ class QuickFacts extends React.Component {
     })
     const nextFact = this.changeQuickFact.bind(this, index+1)
 
-    const showVideo = thread.title === 'Buddhism' && 'https://cdn.dx.artsmia.org/videos/imls_maps/buddhism_final.mp4'
+    const baseUrl = 'https://cdn.dx.artsmia.org/videos/imls_maps/'
+    const videoFile = 
+      thread.title === 'Buddhism' && 'buddhism_final_8.8.mp4' ||
+      thread.title === 'Asian Design and Influence' && 'asianDesign_final_8.8.mp4' ||
+      thread.title === 'Blue and White Ceramics' && 'blueWhite_final_8.8.mp4' ||
+      thread.title === 'The China Trade' && 'maritime_final_8.8.mp4' ||
+      thread.title === 'Red Dye from Mexico' && 'cochineal_final_8.8.mp4' ||
+      thread.title === 'The Silk Road' && 'silk_final_8.8.mp4' ||
+      thread.title === 'The Silver Trade' && 'silver_final_8.8.mp4'
+      || false
+    const showVideo = videoFile && `${baseUrl}${videoFile}` 
+
     const videoWrapperStyles = this.state.videoPlaying ? {
         border: '1px solid rgba(1, 1, 1, 0.5)',
         width: '80vw',
