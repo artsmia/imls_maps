@@ -16,6 +16,7 @@ export default class extends React.Component {
         height: 1.3em;
         display: block;
         border-radius: 1em;
+        border: 3px solid gold;
       }
       .leaflet-div-icon span.imageMarker {
         width: 5em;
@@ -76,7 +77,9 @@ export default class extends React.Component {
         .filter(dot => dot && dot._latlng)
         .map(dot => values(dot._latlng))
 
-      console.info(loopedLayers, latLngs)
+      // Don't show lines between artwork badges if we're passing that in the URL
+      if (window.location.search.match(/noLines/)) return
+
       const line = L.polyline(latLngs, {
         dashArray: [7, 10],
         color: thread.color,
@@ -123,7 +126,7 @@ export default class extends React.Component {
       activeArtwork.marker.setIcon(activeArtwork.imageIcon)
       // map.panTo(activeArtwork.marker._latlng)
 
-      map.flyTo(activeArtwork.marker._latlng, 8)
+      map.flyTo(activeArtwork.marker._latlng, 7)
     }
 
     if (!activeArtwork && !activeThread && this.state) {
@@ -137,8 +140,8 @@ export default class extends React.Component {
 function artToMarker(art, thread, onClick) {
   const imageIcon = L.divIcon({
     html: `<span class="imageMarker" style="background-image: url(${imageUrl(
-      art.id
-    )})"></span>`,
+      art.id, true
+    )}); border-color: ${thread.color};"></span>`,
   })
   const dotIcon = L.divIcon({
     html: `<span style='background-color: ${thread.color ||
@@ -148,7 +151,14 @@ function artToMarker(art, thread, onClick) {
   art.imageIcon = imageIcon
   art.dotIcon = dotIcon
 
-  const m = L.marker(art.coords.slice().reverse(), {
+  // handle spreadsheet to markdown to json conversion gone wrong - 
+  // the lat and long sometimes get concatted into a comma separated string
+  // instead of percolating as [lat, lng]
+  let coords = art.coords.length === 1
+    ? art.coords[0].split(',')
+    : art.coords.slice().reverse()
+
+  const m = L.marker(coords, {
     title: art.meta.title,
     icon: imageIcon,
   })

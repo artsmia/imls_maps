@@ -402,8 +402,8 @@ window.api = {
   uiActions: uiActions,
   threadColors: {
     'The Silk Road': "#ffff00",
-    'Red dye from Mexico':  "#ff3145",
-    'Blue & White Ceramics':  "#007aff",
+    'Red Dye from Mexico':  "#ff3145",
+    'Blue and White Ceramics':  "#007aff",
     'Buddhism': "#00ff01",
     'The Triangle Trade': "#00ffff",
     'China Trade': "#ffb400",
@@ -422,4 +422,3 @@ L.Map.prototype.panToOffset = function (latlng, offset, options) {
   var point = this.containerPointToLatLng([x, y])
   return this.setView(point, this._zoom, { pan: options })
 }
-

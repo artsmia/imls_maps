@@ -8,7 +8,7 @@ title:
 - Quick Facts
 start:
 - 31820
-color: "#456321"
+color: "#17b700"
 ---
 
 “Chinoiserie” is the European interpretation and imitation of Chinese and other East Asian artistic traditions. 

@@ -9,7 +9,7 @@ title:
 start:
 - 122483
 order: 122483 122487 14019 19404 1944 270 3076 3740 3741 4239 4418 63154 8362
-color: 'orange'
+color: '#ff8517'
 ---
 
 Around 1600, Holland and England began to dominate trade with India, Southeast Asia, and China. By the mid-1700s, many other European nations had also established trade connections with that region.
