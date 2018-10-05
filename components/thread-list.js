@@ -135,12 +135,15 @@ class QuickFacts extends React.Component {
         }}>&times;</span>
         <span style={{
           position: 'absolute',
-          bottom: '-15vh',
+          bottom: '-14vh',
           right: 0,
-          width: '5px',
-          height: '5px',
-          backgroundColor: 'white',
+          width: '33px',
+          height: '33px',
+          backgroundColor: 'rgba(255, 255, 255, 0)',
           zIndex: 10000,
+        }} onClick={(event) => {
+          event.preventDefault()
+          event.stopPropagation()
         }}></span>
         </div>}
         <video
