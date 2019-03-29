@@ -153,7 +153,11 @@ class QuickFacts extends React.Component {
           src={showVideo}
           poster={`${showVideo}.jpg`}
           preload="true"
-          onClick={(e) => e.target.play()}
+          onClick={(e) => {
+            e.target.play()
+            e.preventDefault()
+            e.stopPropagation()
+          }}
           onPlay={() => this.setState({videoPlaying: true})}
           onEnded={() => this.setState({videoPlaying: false})}
         />
