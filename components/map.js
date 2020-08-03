@@ -1,5 +1,10 @@
 import React from 'react'
+import getConfig from 'next/config'
 let L
+
+const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
+const {mapboxToken} = publicRuntimeConfig
+console.log({mapboxToken, env: process.env, publicRuntimeConfig});
 
 export default class extends React.Component {
   render () {
@@ -41,15 +46,16 @@ export default class extends React.Component {
     //   scene: 'static/scene.yaml',
     //   attribution: 'Tangram | &copy; OSM contributors'
     // })
+    // debugger
     const mapboxLayer = L.tileLayer(
-      'https://api.mapbox.com/styles/v1/kjell/cj1pezubs00142rmr8owg43op/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoia2plbGwiLCJhIjoicm96TVFucyJ9.AsAmWG_TPyhDhJLEC7hKTw',
+      `https://api.mapbox.com/styles/v1/kjell/cj1pezubs00142rmr8owg43op/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`,
       {
         attribution: 'Mapbox | &copy; OSM contributors',
         detectRetina: true
       }
     )
     const mapboxQuietLayer = L.tileLayer(
-      'https://api.mapbox.com/styles/v1/kjell/cjdtov9am4gr72so44i194ga8/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoia2plbGwiLCJhIjoicm96TVFucyJ9.AsAmWG_TPyhDhJLEC7hKTw',
+      `https://api.mapbox.com/styles/v1/kjell/cjdtov9am4gr72so44i194ga8/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`,
       {
         attribution: 'Mapbox | &copy; OSM contributors',
         detectRetina: true
@@ -58,11 +64,11 @@ export default class extends React.Component {
     // TODO use GL map and figure out why the new map style isn't appearing
     const mapboxQuietGL = L.mapboxGL({
       style: 'mapbox://styles/kjell/cjdtov9am4gr72so44i194ga8',
-      accessToken: 'pk.eyJ1Ijoia2plbGwiLCJhIjoicm96TVFucyJ9.AsAmWG_TPyhDhJLEC7hKTw',
+      accessToken: `${mapboxToken}`,
     })
     const mapboxBright = L.mapboxGL({
       style: 'mapbox://styles/mapbox/bright-v8',
-      accessToken: 'pk.eyJ1Ijoia2plbGwiLCJhIjoicm96TVFucyJ9.AsAmWG_TPyhDhJLEC7hKTw',
+      accessToken: `${mapboxToken}`,
     })
     const allLayers = {
       // mapboxOutdoorsQuiet: mapboxQuietLayer,
