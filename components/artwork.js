@@ -1,8 +1,9 @@
 import React from 'react'
+import { withRouter } from 'next/router'
 
 import imageUrl from '../util/image-url'
 
-export default class extends React.Component {
+class Artwork extends React.Component {
   constructor () {
     super()
     this.state = {
@@ -34,7 +35,7 @@ export default class extends React.Component {
     )
 
     return <section id="artwork">
-      <header style={{ backgroundColor: '#232323', color: 'white', borderLeft: `1em solid ${thread.color}`}} onClick={() => this.props.setGlobalState({activeArtwork: null})}>
+      <header style={{ backgroundColor: '#232323', color: 'white', borderLeft: `1em solid ${thread.color}`}} onClick={() => this.update({activeArtwork: null})}>
         <h1 style={{ margin: 0, padding: '1rem' }}>{thread.title}</h1>
       </header>
       <div className="right" style={{}}>
@@ -202,7 +203,6 @@ export default class extends React.Component {
     const {
       activeThread: thread,
       activeArtwork: art,
-      setGlobalState,
     } = this.props
     
     const activeIndex = thread.artworks.indexOf(art)
@@ -217,7 +217,7 @@ export default class extends React.Component {
 
     const updateFn = art => {
       const nextClicks = this.state.clicks + 1
-      setGlobalState({activeArtwork: art})
+      this.update({activeArtwork: art})
       window.scrollTo(0, 0)
       this.setState({clicks: nextClicks})
     }
@@ -275,7 +275,6 @@ export default class extends React.Component {
       activeArtwork: art,
       activeThread: thread,
       activeThreads: threads,
-      setGlobalState: update,
     } = this.props
 
     const additionalThreads = art.threads
@@ -284,7 +283,7 @@ export default class extends React.Component {
     .map((thread, index) => {
       return <div
         style={{cursor: 'pointer', maxWidth: '55%'}}
-        onClick={() => update({activeArtwork: art, activeThread: thread})}
+        onClick={() => this.update({activeArtwork: art, activeThread: thread})}
         key={'addlThread-'+index}
       >
         <p style={{borderLeft: `1em solid ${thread.color}`, paddingLeft: '0.5em'}}>{thread.title}</p>
@@ -296,4 +295,17 @@ export default class extends React.Component {
       {additionalThreads}
     </div>
   }
+
+  update(newProps) {
+    const { setGlobalState, router, activeThread, activeArtwork } = this.props
+    const threadSlug = activeThread.basename
+    const nextArtId = newProps.activeArtwork?.id
+
+    setGlobalState(newProps)
+    nextArtId
+      ? router.replace('/thread/[slug]/[artId]', `/thread/${threadSlug}/${nextArtId}`)
+      : router.replace('/thread/[slug]', `/thread/${threadSlug}`)
+  }
 }
+
+export default withRouter(Artwork)
