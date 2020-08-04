@@ -51,7 +51,7 @@ export default (props) => {
         margin-top: 3em;
       }
       p:before {
-        content: "\\2193";
+        content: ${`'\u2193'`};
         position: relative;
         left: -5rem;
         top: 3rem;
