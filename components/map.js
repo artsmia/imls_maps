@@ -4,7 +4,6 @@ let L
 
 const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
 const {mapboxToken} = publicRuntimeConfig
-console.log({mapboxToken, env: process.env, publicRuntimeConfig});
 
 export default class extends React.Component {
   render () {
@@ -14,7 +13,6 @@ export default class extends React.Component {
       height: `${100 - parseInt(headerHeight)}vh`,
       marginTop: `${headerHeight}`,
     }
-    console.info({mapStyle})
 
     return <div id="map" style={mapStyle}>
       <style jsx>{`

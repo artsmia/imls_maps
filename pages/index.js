@@ -131,7 +131,7 @@ export default class extends React.Component {
     // be sure to `.bind` this when passing it to subcomponents,
     // or `.setState` won't be defined
     // …also global state is bad or something. Learn redux
-    console.info(
+    false && console.info(
       'updating global state with ',
       state,
       'it will look something like ',

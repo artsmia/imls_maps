@@ -7,7 +7,6 @@ export default (props) => {
     zIndex: hide ? 0 : 10000,
     height: props.headerHeight
   }
-  console.info({style, hide})
 
   return <header style={style}>
     <h1>Explore Mia's Global Collection through World History</h1>
