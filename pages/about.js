@@ -6,16 +6,7 @@ import Link from 'next/link'
 import Header from '../components/header'
 import About from '../components/about'
 
-export default class extends React.Component {
-  constructor() {
-    super()
-    this.state = {}
-  }
-
-  static async getInitialProps({ req }) {
-    return {}
-  }
-
+class About extends React.Component {
   render() {
     return (
       <div
@@ -41,3 +32,5 @@ body{
     )
   }
 }
+
+export default About

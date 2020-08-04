@@ -2,7 +2,7 @@
 
 import Head from 'next/head'
 
-export default (props) => {
+const Header = (props) => {
   const hide = props.headerHeight === '0vh'
   const style = {
     position: hide ? 'inherit' : 'fixed',
@@ -64,3 +64,5 @@ export default (props) => {
     </header>
   )
 }
+
+export default Header

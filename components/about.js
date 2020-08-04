@@ -2,7 +2,7 @@
 
 import React, { Fragment } from 'react'
 
-export default () => (
+const AboutComp = () => (
   <Fragment>
     <h1>About</h1>
 
@@ -36,3 +36,5 @@ export default () => (
     <img src="/static/imls-logo.svg" style={{ maxWidth: '21em' }} />
   </Fragment>
 )
+
+export default AboutComp
