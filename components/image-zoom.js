@@ -7,9 +7,9 @@ export default class extends React.Component {
   constructor(props) {
     super(props)
 
-    const artMeta = this.props.artMeta.hits.hits.find(
-      (meta) => parseInt(meta._id) === parseInt(this.props.id)
-    )._source
+    const artMeta = this.props.artMeta.find(
+      (meta) => parseInt(meta.id) === parseInt(this.props.id)
+    )
 
     this.state = {
       artMeta,
