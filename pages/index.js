@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'next/router'
 import Link from 'next/link'
 
 import Map from '../components/map'
@@ -9,7 +10,9 @@ import ImageZoom from '../components/image-zoom'
 import About from '../components/about'
 import { artworkMeta, activeThreads } from '../data'
 
-export default class extends React.Component {
+let showSplashScreenOnFirstLoad = true
+
+class Index extends React.Component {
   constructor (props) {
     super(props)
 
@@ -17,7 +20,7 @@ export default class extends React.Component {
       map: null,
       showIconLabels: true,
       alwaysAdvanceQuickFacts: false,
-      showSplash: true,
+      showSplash: showSplashScreenOnFirstLoad,
       fullscreenImage: null,
       artMeta: artworkMeta,
       activeThreads,
@@ -72,7 +75,7 @@ export default class extends React.Component {
       fontSize: '234%',
       lineHeight: '2.3em',
     }
-    const splash = <div style={splashStyles} onClick={() => this.setState({showSplash: false})}>
+    const splash = <div style={splashStyles} onClick={this.handleHideSplashScreen.bind(this)}>
       <h1>Explore Mia's Global Collection through World History</h1>
       <p>Please touch screen to begin</p>
     </div>
@@ -100,12 +103,7 @@ export default class extends React.Component {
         {showHomeButton && <div
           style={homeButtonStyles}
           className="home iconButton"
-          onClick={() => this.setState({
-            activeArtwork: null,
-            activeThread: null,
-            mapFullscreen: false,
-            fullscreenImage: null,
-          })}
+          onClick={this.handleHomeButton.bind(this)}
         >
           <span className="material-icons" style={homeIconStyles}>home</span>
           {showIconLabels && 'home'}
@@ -142,6 +140,21 @@ export default class extends React.Component {
     window.state = this.state
   }
 
+  handleHomeButton() {
+    this.setState({
+      activeArtwork: null,
+      activeThread: null,
+      mapFullscreen: false,
+      fullscreenImage: null,
+    })
+    this.props.router.push('/')
+  }
+
+  handleHideSplashScreen() {
+    showSplashScreenOnFirstLoad = false
+    this.setState({showSplash: false})
+  }
+
   componentWillUpdate (nextProps, nextState) {
     if(this.state.activeArtwork && nextState.activeArtwork == null ||
        this.state.activeArtwork == null && nextState.activeArtwork ||
@@ -172,3 +185,5 @@ export default class extends React.Component {
     </div>
   }
 }
+
+export default withRouter(Index)
