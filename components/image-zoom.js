@@ -8,7 +8,7 @@ export default class extends React.Component {
     super(props)
 
     const artMeta = this.props.artMeta.hits.hits.find(
-      meta => parseInt(meta._id) === parseInt(this.props.id)
+      (meta) => parseInt(meta._id) === parseInt(this.props.id)
     )._source
 
     this.state = {
@@ -40,7 +40,7 @@ export default class extends React.Component {
     )
 
     this.tiles.addTo(map)
-    this.tiles.on('load', event => {
+    this.tiles.on('load', (event) => {
       if (this.map.getMinZoom() > 0) return
       // don't let the zoomed image get tiny
       const minZoom = this.map.getZoom() - 0.1

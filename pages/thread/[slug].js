@@ -1,3 +1,5 @@
+/** @format */
+
 import React from 'react'
 import { useRouter } from 'next/router'
 
@@ -5,18 +7,16 @@ import * as data from '../../data'
 
 import Index from '../index'
 
-function ThreadBySlug (props) {
+function ThreadBySlug(props) {
   const router = useRouter()
   const { slug } = router.query
-  const thread = data.activeThreads.find(thread => thread.basename === slug)
+  const thread = data.activeThreads.find((thread) => thread.basename === slug)
 
-  return thread 
-    ? <Index
-      {...props} 
-      activeThread={thread}
-      showSplash={false}
-    />
-    : <p>Loading…</p>
+  return thread ? (
+    <Index {...props} activeThread={thread} showSplash={false} />
+  ) : (
+    <p>Loading…</p>
+  )
 }
 
 export default ThreadBySlug
@@ -32,4 +32,3 @@ export default ThreadBySlug
 // export function getStaticPaths(context) {
 //   debugger
 // }
-

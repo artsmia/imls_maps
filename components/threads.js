@@ -1,3 +1,5 @@
+/** @format */
+
 import React from 'react'
 import 'isomorphic-fetch'
 
@@ -7,15 +9,16 @@ import ThreadList from './thread-list'
 import ThreadMarkers from './thread-markers'
 
 export default class extends React.Component {
-  render () {
-    const {artMeta, activeArtwork} = this.props
-    const propsToPass = {...this.props, threads: activeThreads}
+  render() {
+    const { artMeta, activeArtwork } = this.props
+    const propsToPass = { ...this.props, threads: activeThreads }
 
-    return <div id="threads" style={{top: this.props.headerHeight}}>
-      {activeArtwork ? <span /> : <ThreadList {...propsToPass} />}
-      {artMeta && <ThreadMarkers {...propsToPass} objects={allObjects} />}
+    return (
+      <div id="threads" style={{ top: this.props.headerHeight }}>
+        {activeArtwork ? <span /> : <ThreadList {...propsToPass} />}
+        {artMeta && <ThreadMarkers {...propsToPass} objects={allObjects} />}
 
-      <style>{`
+        <style>{`
         #threads {
           position: absolute;
           top: 7vh;
@@ -23,6 +26,7 @@ export default class extends React.Component {
           width: 29vw;
         }
       `}</style>
-    </div>
+      </div>
+    )
   }
 }

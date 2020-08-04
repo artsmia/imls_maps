@@ -31,6 +31,7 @@
     "mapbox-gl-leaflet": "0.0.2",
     "markdown-to-json-with-content": "0.0.3",
     "next": "^9.5.1",
+    "prettier": "^2.0.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "remark": "5.0.1",

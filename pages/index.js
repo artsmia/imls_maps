@@ -1,3 +1,5 @@
+/** @format
+ */
 import React from 'react'
 import { withRouter } from 'next/router'
 import Link from 'next/link'
@@ -13,7 +15,7 @@ import { artworkMeta, activeThreads } from '../data'
 let showSplashScreenOnFirstLoad = true
 
 class Index extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -24,14 +26,17 @@ class Index extends React.Component {
       fullscreenImage: null,
       artMeta: artworkMeta,
       activeThreads,
-      ...props
+      ...props,
     }
   }
 
-  render () {
-    const headerHeight = this.state.activeThread || this.state.activeArtwork || this.state.showSplash ?
-      '0vh' :
-      '23vh'
+  render() {
+    const headerHeight =
+      this.state.activeThread ||
+      this.state.activeArtwork ||
+      this.state.showSplash
+        ? '0vh'
+        : '23vh'
 
     let propsToPass = {
       setGlobalState: this.setGlobalState.bind(this),
@@ -41,9 +46,11 @@ class Index extends React.Component {
 
     var mapWidth = this.state.activeArtwork ? 'calc(100vw - 51rem)' : '71vw'
 
-    const showHomeButton = !this.state.fullscreenImage && (this.state.activeArtwork || this.state.activeThread)
+    const showHomeButton =
+      !this.state.fullscreenImage &&
+      (this.state.activeArtwork || this.state.activeThread)
     const showAboutButton = !this.state.fullscreenImage && !showHomeButton
-    const {showIconLabels} = this.state
+    const { showIconLabels } = this.state
     const homeButtonStyles = {
       position: 'fixed',
       bottom: 0,
@@ -54,11 +61,13 @@ class Index extends React.Component {
     }
     const homeIconStyles = {
       fontSize: '2.7rem',
-      ...(showIconLabels ? {
-        position: 'relative',
-        top: '-0.5em',
-        left: '4rem',
-      } : {})
+      ...(showIconLabels
+        ? {
+            position: 'relative',
+            top: '-0.5em',
+            left: '4rem',
+          }
+        : {}),
     }
 
     const debug = !!this.props.url.query.debug
@@ -75,10 +84,15 @@ class Index extends React.Component {
       fontSize: '234%',
       lineHeight: '2.3em',
     }
-    const splash = <div style={splashStyles} onClick={this.handleHideSplashScreen.bind(this)}>
-      <h1>Explore Mia's Global Collection through World History</h1>
-      <p>Please touch screen to begin</p>
-    </div>
+    const splash = (
+      <div
+        style={splashStyles}
+        onClick={this.handleHideSplashScreen.bind(this)}
+      >
+        <h1>Explore Mia's Global Collection through World History</h1>
+        <p>Please touch screen to begin</p>
+      </div>
+    )
 
     const showAboutPopupStyles = {
       border: '1px solid rgba(1, 1, 1, 0.5)',
@@ -99,43 +113,64 @@ class Index extends React.Component {
         <Map {...propsToPass} mapWidth={mapWidth} debug={debug} />
         {this.state.map && <Threads {...propsToPass} />}
         {this.state.activeArtwork && <Artwork {...propsToPass} />}
-        {this.state.activeArtwork && this.state.fullscreenImage && <ImageZoom id={this.state.fullscreenImage} {...propsToPass} />}
-        {showHomeButton && <div
-          style={homeButtonStyles}
-          className="home iconButton"
-          onClick={this.handleHomeButton.bind(this)}
-        >
-          <span className="material-icons" style={homeIconStyles}>home</span>
-          {showIconLabels && 'home'}
-        </div>}
-        {showAboutButton && <div style={homeButtonStyles} className="home iconButton" onClick={() => this.setState({showAbout: true})}>
-          
-            <span className="material-icons" style={homeIconStyles}>info</span>
+        {this.state.activeArtwork && this.state.fullscreenImage && (
+          <ImageZoom id={this.state.fullscreenImage} {...propsToPass} />
+        )}
+        {showHomeButton && (
+          <div
+            style={homeButtonStyles}
+            className="home iconButton"
+            onClick={this.handleHomeButton.bind(this)}
+          >
+            <span className="material-icons" style={homeIconStyles}>
+              home
+            </span>
+            {showIconLabels && 'home'}
+          </div>
+        )}
+        {showAboutButton && (
+          <div
+            style={homeButtonStyles}
+            className="home iconButton"
+            onClick={() => this.setState({ showAbout: true })}
+          >
+            <span className="material-icons" style={homeIconStyles}>
+              info
+            </span>
             {showIconLabels && 'about'}
           </div>
-          }
+        )}
 
-        {this.state.showAbout && <div style={showAboutPopupStyles} onClick={() => this.setState({showAbout: false})}>
-          <div style={{background: 'white', margin: 0, padding: '1em'}} onClick={(e) => e.stopPropagation()}>
-            <About />
+        {this.state.showAbout && (
+          <div
+            style={showAboutPopupStyles}
+            onClick={() => this.setState({ showAbout: false })}
+          >
+            <div
+              style={{ background: 'white', margin: 0, padding: '1em' }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <About />
+            </div>
           </div>
-        </div>}
+        )}
 
         {this.specialControls()}
       </div>
     )
   }
 
-  setGlobalState (state) {
+  setGlobalState(state) {
     // be sure to `.bind` this when passing it to subcomponents,
     // or `.setState` won't be defined
     // …also global state is bad or something. Learn redux
-    false && console.info(
-      'updating global state with ',
-      state,
-      'it will look something like ',
-      {...this.state, ...state}
-    )
+    false &&
+      console.info(
+        'updating global state with ',
+        state,
+        'it will look something like ',
+        { ...this.state, ...state }
+      )
     this.setState && this.setState(state)
     window.state = this.state
   }
@@ -152,13 +187,15 @@ class Index extends React.Component {
 
   handleHideSplashScreen() {
     showSplashScreenOnFirstLoad = false
-    this.setState({showSplash: false})
+    this.setState({ showSplash: false })
   }
 
-  componentWillUpdate (nextProps, nextState) {
-    if(this.state.activeArtwork && nextState.activeArtwork == null ||
-       this.state.activeArtwork == null && nextState.activeArtwork ||
-       this.state.activeThread == null && nextState.activeThread) {
+  componentWillUpdate(nextProps, nextState) {
+    if (
+      (this.state.activeArtwork && nextState.activeArtwork == null) ||
+      (this.state.activeArtwork == null && nextState.activeArtwork) ||
+      (this.state.activeThread == null && nextState.activeThread)
+    ) {
       setTimeout(() => this.state.map.invalidateSize(), 0)
       this.setState({
         activeArtwork: nextState.activeArtwork,
@@ -166,23 +203,32 @@ class Index extends React.Component {
       })
     }
 
-    if(this.state.activeArtwork !== nextState.activeArtwork) window.scrollTo(0, 0)
+    if (this.state.activeArtwork !== nextState.activeArtwork)
+      window.scrollTo(0, 0)
   }
 
-  specialControls () {
+  specialControls() {
     const debug = !!this.props.url.query.debug
 
-    if(!debug) return
-    const {showIconLabels, alwaysAdvanceQuickFacts} = this.state
+    if (!debug) return
+    const { showIconLabels, alwaysAdvanceQuickFacts } = this.state
 
-    return <div style={{position: 'absolute', bottom: '1em', right: '1em'}}>
-      <button
-        onClick={() => this.setState({showIconLabels: !showIconLabels})}
-      >{showIconLabels ? 'Hide' : 'Show'} Labels</button>
-      <button
-        onClick={() => this.setState({alwaysAdvanceQuickFacts: !alwaysAdvanceQuickFacts})}
-      >{alwaysAdvanceQuickFacts ? '' : 'Don\'t'} auto-advance quick facts</button>
-    </div>
+    return (
+      <div style={{ position: 'absolute', bottom: '1em', right: '1em' }}>
+        <button
+          onClick={() => this.setState({ showIconLabels: !showIconLabels })}
+        >
+          {showIconLabels ? 'Hide' : 'Show'} Labels
+        </button>
+        <button
+          onClick={() =>
+            this.setState({ alwaysAdvanceQuickFacts: !alwaysAdvanceQuickFacts })
+          }
+        >
+          {alwaysAdvanceQuickFacts ? '' : "Don't"} auto-advance quick facts
+        </button>
+      </div>
+    )
   }
 }
 

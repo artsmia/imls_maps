@@ -1,3 +1,5 @@
+/** @format */
+
 import Head from 'next/head'
 
 export default (props) => {
@@ -5,14 +7,15 @@ export default (props) => {
   const style = {
     position: hide ? 'inherit' : 'fixed',
     zIndex: hide ? 0 : 10000,
-    height: props.headerHeight
+    height: props.headerHeight,
   }
 
-  return <header style={style}>
-    <h1>Explore Mia's Global Collection through World History</h1>
-    <p>Touch a topic below to begin</p>
+  return (
+    <header style={style}>
+      <h1>Explore Mia's Global Collection through World History</h1>
+      <p>Touch a topic below to begin</p>
 
-    <style>{`
+      <style>{`
       body {
         font-family: MiaGrotesk-Light, sans-serif;
         line-height: 2rem;
@@ -26,37 +29,38 @@ export default (props) => {
         font-family: MiaGrotesk-Bold;
       }
     `}</style>
-    <style jsx>{`
-      header {
-        height: 7vh;
-        width: 100%;
-        background-color: #232323;
-        margin: 0;
-        color: white;
-      }
+      <style jsx>{`
+        header {
+          height: 7vh;
+          width: 100%;
+          background-color: #232323;
+          margin: 0;
+          color: white;
+        }
 
-      h1 {
-        width: 50%;
-        float: left;
-        margin: 3rem 0 0 1em;
-        font-size: 3vw;
-        line-height: 1.2em;
-      }
+        h1 {
+          width: 50%;
+          float: left;
+          margin: 3rem 0 0 1em;
+          font-size: 3vw;
+          line-height: 1.2em;
+        }
 
-      p {
-        width: 22%;
-        float: right;
-        font-size: 2em;
-        margin-top: 3em;
-      }
-      p:before {
-        content: ${`'\u2193'`};
-        position: relative;
-        left: -5rem;
-        top: 3rem;
-        display: block;
-        font-size: 3em;
-      }
-    `}</style>
-  </header>
+        p {
+          width: 22%;
+          float: right;
+          font-size: 2em;
+          margin-top: 3em;
+        }
+        p:before {
+          content: ${`'\u2193'`};
+          position: relative;
+          left: -5rem;
+          top: 3rem;
+          display: block;
+          font-size: 3em;
+        }
+      `}</style>
+    </header>
+  )
 }

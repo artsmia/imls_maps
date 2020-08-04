@@ -1,3 +1,5 @@
+/** @format */
+
 import React from 'react'
 let L
 import paddedBoundsFromLayer from '../util/map/padded-bounds-from-layer'
@@ -40,7 +42,7 @@ export default class extends React.Component {
   componentDidMount() {
     const { map } = this.props
     const { layerGroups } = this.state
-    layerGroups.map(g => g.addTo(map))
+    layerGroups.map((g) => g.addTo(map))
     centerPaddedBounds(layerGroups, map)
 
     this.updateActiveMapLayers(this.props, this.state)
@@ -53,9 +55,9 @@ export default class extends React.Component {
   threadsToLayerGroups(callback) {
     let { threads } = this.props
 
-    return threads.map(thread => {
+    return threads.map((thread) => {
       let g = L.layerGroup(
-        thread.artworks.map(art =>
+        thread.artworks.map((art) =>
           artToMarker(art, thread, this.artworkClicked.bind(this, art, thread))
         )
       )
@@ -72,8 +74,8 @@ export default class extends React.Component {
         values(group._layers)[0]
       )
       const latLngs = loopedLayers
-        .filter(dot => dot && dot._latlng)
-        .map(dot => values(dot._latlng))
+        .filter((dot) => dot && dot._latlng)
+        .map((dot) => values(dot._latlng))
 
       // Don't show lines between artwork badges if we're passing that in the URL
       if (window.location.search.match(/noLines/)) return
@@ -104,7 +106,7 @@ export default class extends React.Component {
     const { map, activeArtwork, activeThread, activeThreads } = props
 
     if (activeThread) {
-      activeThreads.forEach(thread => {
+      activeThreads.forEach((thread) => {
         const group = thread.layerGroup
         if (activeThread === thread) {
           map.hasLayer(group) || map.addLayer(group)
@@ -114,7 +116,7 @@ export default class extends React.Component {
         }
       })
     } else {
-      activeThreads.forEach(thread => {
+      activeThreads.forEach((thread) => {
         const group = thread.layerGroup
         map.hasLayer(group) || map.addLayer(group)
       })
@@ -138,23 +140,26 @@ export default class extends React.Component {
 function artToMarker(art, thread, onClick) {
   const imageIcon = L.divIcon({
     html: `<span class="imageMarker" style="background-image: url(${imageUrl(
-      art.id, true
+      art.id,
+      true
     )}); border-color: ${thread.color};"></span>`,
   })
   const dotIcon = L.divIcon({
-    html: `<span style='background-color: ${thread.color ||
-      'purple'};'></span>`,
+    html: `<span style='background-color: ${
+      thread.color || 'purple'
+    };'></span>`,
   })
 
   art.imageIcon = imageIcon
   art.dotIcon = dotIcon
 
-  // handle spreadsheet to markdown to json conversion gone wrong - 
+  // handle spreadsheet to markdown to json conversion gone wrong -
   // the lat and long sometimes get concatted into a comma separated string
   // instead of percolating as [lat, lng]
-  let coords = art.coords.length === 1
-    ? art.coords[0].split(',')
-    : art.coords.slice().reverse()
+  let coords =
+    art.coords.length === 1
+      ? art.coords[0].split(',')
+      : art.coords.slice().reverse()
 
   const m = L.marker(coords, {
     title: art.meta.title,
