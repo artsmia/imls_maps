@@ -31,10 +31,6 @@ export default class extends React.Component {
     )
   }
 
-  constructor() {
-    super()
-  }
-
   componentWillMount() {
     L = require('leaflet')
     const layerGroups = this.threadsToLayerGroupsWithPolyline()
@@ -46,6 +42,8 @@ export default class extends React.Component {
     const { layerGroups } = this.state
     layerGroups.map(g => g.addTo(map))
     centerPaddedBounds(layerGroups, map)
+
+    this.updateActiveMapLayers(this.props, this.state)
   }
 
   componentWillUpdate(nextProps, nextState) {

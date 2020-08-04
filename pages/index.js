@@ -9,19 +9,17 @@ import ImageZoom from '../components/image-zoom'
 import About from '../components/about'
 
 export default class extends React.Component {
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
+
     this.state = {
       map: null,
       showIconLabels: true,
       alwaysAdvanceQuickFacts: false,
       showSplash: true,
       fullscreenImage: null,
+      ...props
     }
-  }
-
-  static async getInitialProps ({req}) {
-    return {}
   }
 
   render () {
@@ -146,6 +144,10 @@ export default class extends React.Component {
        this.state.activeArtwork == null && nextState.activeArtwork ||
        this.state.activeThread == null && nextState.activeThread) {
       setTimeout(() => this.state.map.invalidateSize(), 0)
+      this.setState({
+        activeArtwork: nextState.activeArtwork,
+        activeThread: nextState.activeThread,
+      })
     }
 
     if(this.state.activeArtwork !== nextState.activeArtwork) window.scrollTo(0, 0)

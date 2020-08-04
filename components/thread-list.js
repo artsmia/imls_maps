@@ -1,31 +1,35 @@
 import React from 'react'
+import { withRouter } from 'next/router'
 
 // TODO onclick changes active thread
-export default class ThreadList extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
+class ThreadList extends React.Component {
   render() {
-    const props = this.props
+    const { activeThread, threads, setGlobalState, router } = this.props
 
-    const activateThread = (thread) => props.setGlobalState({activeThread: thread})
-    const threadBorderColorStyles = props.threads.map((thread, index) => `
+    const activateThread = (thread) => {
+      router.replace('/thread/[slug]', `/thread/${thread.basename}`)
+      setGlobalState({activeThread: thread})
+    }
+
+    const threadBorderColorStyles = threads.map((thread, index) => `
       li.thread-${index} { border-left-color: ${thread.color}; }
     `).join('')
 
     return <ul>
-      {props.threads.map((thread, index) => {
-        const threadIsActive = props.activeThread == thread 
+      {threads.map((thread, index) => {
+        const threadIsActive = activeThread && activeThread.basename == thread.basename 
+        if(threadIsActive) console.info('ThreadList', {
+          thread, threadIsActive, activeThread: activeThread
+        })
         const threadElem = <span onClick={activateThread.bind(this, thread)}>
           {thread.title}
         </span>
 
-        return <li className={`thread-${index}`} key={thread.title} style={{opacity: !props.activeThread || threadIsActive ? '1' : '0.5'}}>
+        return <li className={`thread-${index}`} key={thread.title} style={{opacity: !activeThread || threadIsActive ? '1' : '0.5'}}>
           {threadIsActive ?
             <div style={{backgroundColor: 'black'}}>
               <strong style={{color: 'white'}}>{threadElem}</strong>
-              <QuickFacts thread={thread} setGlobalState={props.setGlobalState} />
+              <QuickFacts thread={thread} setGlobalState={setGlobalState} />
             </div> :
             threadElem
           }
@@ -198,3 +202,5 @@ class QuickFacts extends React.Component {
     })
   }
 }
+
+export default withRouter(ThreadList)
