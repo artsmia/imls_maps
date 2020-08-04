@@ -1,7 +1,7 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 
-import * as data from '../../data/index'
+import * as data from '../../data'
 
 import Index from '../index'
 

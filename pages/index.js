@@ -7,6 +7,7 @@ import Artwork from '../components/artwork'
 import Header from '../components/header'
 import ImageZoom from '../components/image-zoom'
 import About from '../components/about'
+import { artworkMeta, activeThreads } from '../data'
 
 export default class extends React.Component {
   constructor (props) {
@@ -18,6 +19,8 @@ export default class extends React.Component {
       alwaysAdvanceQuickFacts: false,
       showSplash: true,
       fullscreenImage: null,
+      artMeta: artworkMeta,
+      activeThreads,
       ...props
     }
   }

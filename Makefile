@@ -78,10 +78,15 @@ artworks: map-locations.csv
 	remark objects/*.md -o
 
 objects.json:
-	m2j objects/*.md | jq -c '.[]' > objects.json
+	m2j objects/*.md | jq -c '.[]' > data/objects.json
 
 threads.json:
-	m2j *.md | jq -c '.[]' > threads.json
+	m2j *.md | jq -c '.[]' > data/threads.json
+
+artworkMeta.json:
+	curl 'https://search.artsmia.org/ids/123,131,270,395,425,529,556,560,717,867,889,1341,1610,1784,1944,2492,2493,2537,3076,3282,3290,3513,3631,3740,3741,4239,4411,4418,4558,4817,5178,5342,5811,6161,8024,8362,8447,10246,10433,12144,14019,14270,18757,19404,21532,31182,31820,45641,46853,60728,63154,63471,90877,95595,111380,111576,114602,116877,122483,123920,123953,124237,124707,125830,125878,5061,46853,121274,122266,717,1197,15312,4912,18551,10462,,31821,32834,119343,90879,122487' \
+			| jq '.hits.hits | map(._source)' > data/artworkMeta.json
+
 
 build:
 	browserify app.js -o bundle.js --debug

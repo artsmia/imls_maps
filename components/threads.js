@@ -25,23 +25,4 @@ export default class extends React.Component {
       `}</style>
     </div>
   }
-
-  componentWillMount () {
-    this.getArtworkData(artMeta => {
-      this.props.setGlobalState({artMeta, activeThreads})
-    })
-  }
-
-  // TODO merge this into the data module?
-  getArtworkData (callback) {
-    fetch('https://search.artsmia.org/ids/'+objectIds.join(','))
-    .then(res => res.json())
-    .then(artMeta => {
-      var artworks = artMeta.hits.hits.forEach(function(artworkMeta) {
-        var id = artworkMeta._id
-        if(allObjects[id]) allObjects[id].meta = artworkMeta._source
-      })
-      callback && callback(artMeta)
-    })
-  }
 }
